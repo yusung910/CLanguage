@@ -2,11 +2,11 @@
 
 void main()
 {
-	int A;
+	float A;
 
 	printf("정수 A를 입력하여주세요.");
-	scanf("%d", &A);
+	scanf("%f", &A);
 
-	printf("입력하신 정수 A는 %d 입니다.", A);
+	printf("입력하신 정수 A는 %10.2f 입니다.", A);
 	
 }
