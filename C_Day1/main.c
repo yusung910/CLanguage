@@ -9,6 +9,7 @@ void main()
 	int nD = 0;
 	float fE = 0.0f;
 
+
 	unsigned char ch1 = 'G';
 	unsigned char ch2 = 'A';
 	unsigned char ch3 = 'M';
