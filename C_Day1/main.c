@@ -5,10 +5,9 @@ void main()
 	
 	int nA = 0;
 	int nB = 0;
-	int nC = 0;
-	int nD = 0;
+	long nC = 0;
+	long nD = 0;
 	float fE = 0.0f;
-
 
 	unsigned char ch1 = 'G';
 	unsigned char ch2 = 'A';
@@ -16,8 +15,12 @@ void main()
 	unsigned char ch4 = 'E';
 	unsigned char ch5 = '\0';
 
+	//재정의
 	nA = 10;
-	nB = 10;
+	nB = 5;
+
+	printf("재정의된 nA의 값 %d\n", nA);
+	printf("재정의된 nB의 값 %d\n", nB);
 
 	printf("문자열 %c의 ASCII CODE 값 %d\n", ch1, ch1);
 	printf("문자열 %c의 ASCII CODE 값 %d\n", ch2, ch2);
@@ -43,9 +46,9 @@ void main()
 	printf("%d의 10진수 : %d, 16진수 : %x\n", nC, nC, nC);
 	printf("%d의 10진수 : %d, 16진수 : %x\n", nD, nD, nD);
 	printf("%f의 10진수 : %d, 16진수 : %x\n\n", fE, *(unsigned int *)&fE, *(unsigned int *)&fE);
-	printf("소수점 2자리 [%5.2f]\n", fE);	// 필드폭 5, 소수점미만 2
-	printf("소수점 3자리 [%5.3f]\n", fE);	// 필드폭 5, 소수점미만 3
-	printf("소수점 3자리 [%.3f]\n\n", fE);	// 소수점미만 3 ( 고정소수점표기 )	
+	printf("소수점 2자리 [%10.2f]\n", fE);	// 필드폭 10, 소수점미만 2
+	printf("소수점 5자리 [%10.5f]\n", fE);	// 필드폭 10, 소수점미만 5
+	printf("소수점 4자리 [%.4f]\n\n", fE);	// 소수점미만 4 ( 고정소수점표기 )	
 
 	printf("%c의 10진수 : %d, 16진수 : %x\n", ch1, ch1, ch1);
 	printf("%c의 10진수 : %d, 16진수 : %x\n", ch2, ch2, ch2);
