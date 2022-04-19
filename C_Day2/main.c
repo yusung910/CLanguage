@@ -2,10 +2,21 @@
 
 void main()
 {
+    //sizeof();
+    //변수가 갖고 있는 변수의 크기의 값을 알려줌
+
 	//과제 1-1번
 	int iArry[4] = { 0, 1, 8, 2 };
 	float fArry[4] = { 1.12f, 3.12f, 2.241f, 1.112f };
-	char chrArry[4] = { 'G', 'A', 'M', 'E'};
+	char chrArry[] = { 'G', 'A', 'M', 'E'};
+
+    //변수 타입 및 배열 사이즈 출력
+    printf("char sizeof %d\n", sizeof(char));
+    printf("int sizeof %d\n", sizeof(int));
+    printf("float sizeof %d\n", sizeof(float));
+    printf("long sizeof %d\n", sizeof(long));
+    printf("chrArry[] sizeof %d\n", sizeof(chrArry));
+
 
 	printf("과제 1번 결과 출력 : %.2f %.2f %.3f %.3f\n", fArry[0], fArry[1], fArry[2], fArry[3]);
 	printf("과제 1번 결과 출력 : %c %c %c %c\n", chrArry[0], chrArry[1], chrArry[2], chrArry[3]);
@@ -31,7 +42,8 @@ void main()
 	//변수 c와 b를 비교
 	//변수 c는 b 크기 때문에(참) b * ++c - 10 * 2를 실행
 	// -10 * 2
-	// b * ++c
+    // b * ++c
+	// b * (c = c + 1)
 	// 5 * 11
 	// 55 - 20
 	// e = 35
@@ -40,9 +52,11 @@ void main()
 	//정수 10과 변수 c를 비교
 	//10 == 11일치하지 않기 때문에(거짓) c-- * b + 10 * 2 실행
 	//c * b + 10 * 2
+    //c = c - 1
 	//11 * 5 + 10 * 2
-	//55 + 20
+	//f = 55 + 20
 	//f = 75
+    //c = 10
 	f = 10 == c ? b * ++c - 10 * 2 : c-- * b + 10 * 2;
 
 	printf("e= %d\n", e);
