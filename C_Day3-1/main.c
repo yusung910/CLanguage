@@ -34,7 +34,8 @@ void main()
 	{
 		printf("%d 보다 큽니다.\n", inputN);
 	}
-	else if (nRd < inputN) {
+	else if (nRd < inputN)
+	{
 		printf("%d 보다 작습니다.\n", inputN);
 	}
 	else
