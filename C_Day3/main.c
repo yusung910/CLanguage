@@ -7,6 +7,8 @@ void main()
     char chrSign = '\0';
     float flRslt = 0;
 
+
+
     printf("계산식(+,-,*,/)을 입력하여주세요 : ");
     scanf("%f %c %f", &flA, &chrSign, &flB);
     //과제 1-1
