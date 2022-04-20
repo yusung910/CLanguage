@@ -7,7 +7,6 @@ void main()
 {
 	int nRd;
 	int inputN = 0;
-	int inputCnt = 0;
 
 	//// 실행시 마다 다른 수를 발생시키기 위해 시간을 적용
 	//// 프로그램 실행시 최초 한번만 해준다
