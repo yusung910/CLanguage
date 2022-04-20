@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <stdio.h>  // scanf(), printf() 함수
 #include <stdlib.h> // rand() 함수
 #include <conio.h>  // getch() 함수
 #include <time.h>   // time() 함수
