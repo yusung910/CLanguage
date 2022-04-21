@@ -18,7 +18,6 @@ void main(){
 				for (int j = 1; j <= 9; j++) {
 					printf("%d X %d = %d  ", j, i, i*j);
 				}
-
 				printf("\n");
 			}
 			break;
