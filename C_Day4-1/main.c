@@ -50,16 +50,13 @@ void main() {
 				nRd = (rand() % 9) + 1;
 				nCount = 0;
 			}else if(nUserInputKey == 27) {
-				goto END;
+				puts("게임이 종료됩니다.");
+				break;
 			}
 		}else if (nRd > inputN){
 			printf("%d 보다 큽니다.\n", inputN);
 		}else if (nRd < inputN){
 			printf("%d 보다 작습니다.\n", inputN);
 		}
-	}
-
-	END: {
-		puts("게임을 종료합니다.");
 	}
 }
