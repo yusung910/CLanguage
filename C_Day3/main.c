@@ -6,6 +6,7 @@ void main()
     float flB = 0;
     char chrSign = '\0';
     float flRslt = 0;
+	int nSwitch = 0;
 
 	int flagSign = 0;
 
@@ -42,10 +43,11 @@ void main()
     }
 
 	//과제 1-2
+	{
 	switch (chrSign) {
 		case '+':
 			flRslt = flA + flB;
-			printf("계산식 결과는 %.5f입니다.", flRslt);
+			
 			break;
 		case '-':
 			flRslt = flA - flB;
@@ -62,6 +64,10 @@ void main()
 		default:
 			puts("유효하지 않은 계산식입니다.");
 			break;
+	}
+
+	if (nSwitch )
+	printf("계산식 결과는 %.5f입니다.", flRslt);
 	}
 }
 
