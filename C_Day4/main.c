@@ -1,5 +1,39 @@
 #include<stdio.h>
 
-void main()
-{
+void main(){
+
+	//구구단 출력 과제
+	int nUserDat = 0;
+	int nOutNum = 0;
+	while (1) {
+
+		puts("원하시는 메뉴를 입력하세요.");
+		puts("1. 구구단 모두 출력, 2. 원하는 구구단 출력. 3. 종료 : ");
+		scanf("%d", &nUserDat);
+
+		switch (nUserDat) {
+		case 1:
+			//반복문 중첩 실행
+			for (int i = 1; i <= 9; i++) {
+				for (int j = 1; j <= 9; j++) {
+					printf("%d X %d = %d  ", j, i, i*j);
+				}
+
+				printf("\n");
+			}
+			break;
+		case 2:
+			printf("원하시는 구구단 숫자를 입력하여주세요 :");
+			scanf("%d", &nOutNum);
+			for (int a = 1; a <= 9; a++) {
+				printf("%d X %d = %d\n", nOutNum, a, a*nOutNum);
+			}
+			break;
+		case 3:
+			goto END;
+		}
+	}
+
+END:
+	puts("프로그램 종료!");
 }
