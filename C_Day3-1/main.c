@@ -5,8 +5,11 @@
 
 void main()
 {
+	//난수 저장 변수
     int nRd;
+	//사용자가 입력할 값 저장 변수
     int inputN = 0;
+	//게임 진행 횟수 누적 카운트
     int doFlag = 0;
 
     //// 실행시 마다 다른 수를 발생시키기 위해 시간을 적용
@@ -32,7 +35,8 @@ void main()
     printf("숫자를 입력하여 주세요 :");
     scanf("%d", &inputN);
 
-    if (nRd == inputN) {
+    if (nRd == inputN)
+	{
         printf("정답입니다!");
         doFlag = 1;
     }
@@ -45,7 +49,8 @@ void main()
 		printf("%d 보다 작습니다.\n", inputN);
 	}
 
-    if(!doFlag){
+    if(!doFlag)
+	{
 	    printf("마지막 기회입니다, 다시 숫자를 신중히 입력하여 주세요 :");
 	    scanf("%d", &inputN);
 	    if (nRd == inputN)
