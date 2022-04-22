@@ -4,6 +4,7 @@
 #include <time.h>   // time() 함수
 
 void main() {
+	//주석 생성
 	//난수 저장 변수
 	int nRd;
 	//사용자가 입력할 값 저장 변수
