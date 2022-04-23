@@ -41,7 +41,7 @@ void main() {
             nB = rand() % 9;
             nC = rand() % 9;
             printf("\r[%d] [%d] [%d]", nA, nB, nC);
-            _sleep(100);
+            _sleep(10*i);
         }
 
         printf("\n");
