@@ -23,9 +23,9 @@ void main(){
 
 					//구구단 결과 값에 다른 여백 출력
 					if ((i*j) < 10) {
-						printf("%d X %d = %d    ", j, i, i*j);
+						printf("%d X %d = %2d  ", j, i, i*j);
 					}else {
-						printf("%d X %d = %d   ", j, i, i*j);
+						printf("%d X %d = %1d  ", j, i, i*j);
 					}
 					
 				}
