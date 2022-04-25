@@ -17,19 +17,20 @@ void main(){
 
 		switch (nUserDat) {
 		case 1:
-			//반복문 중첩 실행
-			for (int i = 1; i <= 9; i++) {
-				for (int j = 2; j <= 9; j++) {
 
-					//구구단 결과 값에 다른 여백 출력
-					if ((i*j) < 10) {
-						printf("%d X %d = %2d  ", j, i, i*j);
-					}else {
-						printf("%d X %d = %1d  ", j, i, i*j);
+			//반복문 중첩 실행
+			for (int a = 1; a <= 3; a++) {
+				for (int i = 1; i <= 9; i++) {
+					for (int j = a*2; j <= a+3; j++) {
+						//구구단 결과 값에 다른 여백 출력
+						if ((i*j) < 10) {
+							printf("%d X %d = %2d  ", j, i, i*j);
+						}else {
+							printf("%d X %d = %1d  ", j, i, i*j);
+						}
 					}
-					
+					printf("\n");
 				}
-				printf("\n");
 			}
 			break;
 		case 2:

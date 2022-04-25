@@ -21,12 +21,13 @@ void main() {
 	//난수 생성
 	nRd = (rand() % 9) + 1;
 
+
 	puts("1부터 10까지 숫자가 임의의 숫자가 생성됩니다.");
 	puts("생성된 임의의 숫자를 맞춰보세요! 맞출때마다 10점을 획득 할 수 있습니다.");
 	puts("기회는 3번, 입력하신 숫자와 임의의 숫자가 맞지 않을 경우");
 	puts("비교 결과를 알려드립니다.");
-
 	while (1) {
+
 		printf("현재 점수 : %d\n", nScore);
 		printf("숫자를 입력하여 주세요 :");
 		scanf(" %d", &inputN);
@@ -49,6 +50,7 @@ void main() {
 			if (nUserInputKey == 13) {
 				nRd = (rand() % 9) + 1;
 				nCount = 0;
+				system("cls");
 			}else if(nUserInputKey == 27) {
 				puts("게임이 종료됩니다.");
 				break;

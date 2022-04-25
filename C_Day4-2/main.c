@@ -51,12 +51,12 @@ void main() {
             nModifyScore = 10;
         }
         //점수 3개가 다 같으면 50점을 더한다.
-        if (nA == nB && nB == nC && nA == nC) {
-            nModifyScore = 50;
-        }
-
-        if (nA == 7 && nB == 7 && nC == 7) {
-            nModifyScore = 1000;
+		else if (nA == nB && nB == nC && nA == nC) 
+		{
+			if(nA == 7)
+				nModifyScore = 1000;
+			else
+				nModifyScore = 50;
         }
 
         nInitScore = nInitScore + nModifyScore;
