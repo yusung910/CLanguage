@@ -20,7 +20,12 @@ void main(){
 			//반복문 중첩 실행
 			for (int i = 1; i <= 9; i++) {
 				for (int j = 2; j <= 9; j++) {
-					printf("%d X %d = %d  ", j, i, i*j);
+					if ((i*j) < 10) {
+						printf("%d X %d = %d    ", j, i, i*j);
+					}else {
+						printf("%d X %d = %d   ", j, i, i*j);
+					}
+					
 				}
 				printf("\n");
 			}
