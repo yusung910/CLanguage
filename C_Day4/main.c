@@ -20,6 +20,8 @@ void main(){
 			//반복문 중첩 실행
 			for (int i = 1; i <= 9; i++) {
 				for (int j = 2; j <= 9; j++) {
+
+					//구구단 결과 값에 다른 여백 출력
 					if ((i*j) < 10) {
 						printf("%d X %d = %d    ", j, i, i*j);
 					}else {
