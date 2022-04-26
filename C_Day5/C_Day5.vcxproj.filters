@@ -18,5 +18,31 @@
     <ClCompile Include="main.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Max.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Min.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Sum.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="FloatSum.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Max.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Min.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Sum.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="FloatSum.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
