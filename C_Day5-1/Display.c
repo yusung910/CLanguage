@@ -1,6 +1,8 @@
 //구구단 출력
 #include<stdio.h>
+
 extern int nInput;
+
 int Display()
 {
     //결과를 리턴할 변수
