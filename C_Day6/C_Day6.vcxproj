@@ -20,18 +20,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c" />
+    <ClCompile Include="__strcat.c" />
     <ClCompile Include="__strcpy.c" />
     <ClCompile Include="__strcpyEx.c" />
     <ClCompile Include="__strlen.c" />
+    <ClCompile Include="__strrot.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="__strcat.h" />
     <ClInclude Include="__strcpy.h" />
     <ClInclude Include="__strcpyEx.h" />
+    <ClInclude Include="__strcat.h" />
+    <ClInclude Include="__strrot.h" />
     <ClInclude Include="__strlen.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="__strcat.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -110,6 +110,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

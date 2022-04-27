@@ -27,24 +27,28 @@
     <ClCompile Include="__strcpyEx.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="__strcat.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="__strrot.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="__strlen.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="__strcpy.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="__strcpyEx.h">
+    <ClInclude Include="__strrot.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="__strcat.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="__strcat.c">
-      <Filter>소스 파일</Filter>
-    </None>
+    <ClInclude Include="__strcpyEx.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="__strcpy.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="__strlen.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
