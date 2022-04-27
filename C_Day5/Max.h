@@ -1,2 +1,2 @@
 #pragma once
-int max(int a, int b);
+int Max(int a, int b);
