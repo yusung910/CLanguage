@@ -1,7 +1,11 @@
 #include "__strlen.h"
-#include "__strcpy.h"
 
 char* __strrot(char *pStr) {
-    char* test = pStr + 1;
+    int pStrlen = __strlen(pStr);
+
+    char chrFirst = pStr[0];
+    char chrLast = pStr[pStrlen-1];
+    pStr[0] = chrLast;
+    pStr[pStrlen - 1] = chrFirst;
     return pStr;
 }
