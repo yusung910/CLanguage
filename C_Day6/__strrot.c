@@ -1,11 +1,14 @@
 #include "__strlen.h"
 
-char* __strrot(char *pStr) {
-    int pStrlen = __strlen(pStr);
+char* __strrot(char* pStr) {
+	int pStrLen = __strlen(pStr);
+    char chrFrist = pStr[0];
 
-    char chrFirst = pStr[0];
-    char chrLast = pStr[pStrlen-1];
-    pStr[0] = chrLast;
-    pStr[pStrlen - 1] = chrFirst;
+	
+	for (int i = 0; i < pStrLen;i++) {
+		pStr[i] = pStr[i + 1];
+	}
+	
+	pStr[pStrLen - 1] = chrFrist;
     return pStr;
 }

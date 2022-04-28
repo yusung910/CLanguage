@@ -23,17 +23,16 @@ void main()
     char *copyExStr = "";
     printf("strcpyEx: %s\n", __strcpyEx(copyExStr, "ABCDTEST"));
 
-    char catStr1[] = "ABCD";
-    const char catStr2[] = "EFGH";
-    char* catStrArry1 = &catStr1;
-    const char* catStrArry2 = &catStr2;
+    char* catStr1 = "ABCD";
+    const char* catStr2 = "EFGH";
 
     printf("strcat : %s\n", __strcat(catStr1, catStr2)); ;
 
-    
-    char strMsg[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    char* strrot = &strMsg;
-
-    printf("strrot : %s\n", __strrot(strrot));
+	char strArry[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    char* strrot = &strArry;
+	printf("strrot : %s\n", __strrot(strrot));
+	for (int i = 0; i < __strlen(strArry); i++) {
+		printf("strrot : %s\n", __strrot(strrot));
+	}
 }
 
