@@ -30,7 +30,7 @@ void main()
 
 	char strArry[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     char* strrot = &strArry;
-	printf("strrot : %s\n", strArry);
+	printf("strrot : %s\n", __strrot(strrot));
 	for (int i = 0; i < __strlen(strArry); i++) {
 		printf("strrot : %s\n", __strrot(strrot));
 	}
