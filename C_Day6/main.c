@@ -28,7 +28,11 @@ void main()
 
     printf("strcat : %s\n", __strcat(catStr1, catStr2)); ;
 
-    char* strrot = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    printf("strrot : %s\n", __strrot(strrot));
+	char strArry[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    char* strrot = &strArry;
+	printf("strrot : %s\n", strArry);
+	for (int i = 0; i < __strlen(strArry); i++) {
+		printf("strrot : %s\n", __strrot(strrot));
+	}
 }
 

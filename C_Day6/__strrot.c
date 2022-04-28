@@ -1,7 +1,13 @@
 #include "__strlen.h"
-#include "__strcpy.h"
 
 char* __strrot(char *pStr) {
-    char* test = pStr + 1;
+	int pStrLen = __strlen(pStr);
+    char chrFrist = pStr[0];
+	
+	for (int i = 0; i < pStrLen;i++) {
+		pStr[i] = pStr[i + 1];
+	}
+	
+	pStr[pStrLen - 1] = chrFrist;
     return pStr;
 }
