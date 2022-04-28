@@ -1,20 +1,12 @@
+#include "__strlen.h"
 
 char* __strcat(char* pDst, const char* pSrc)
 {
-    char rsltArry[20];
-    int npDst = 0;
-    while (1)
-    {
-        if (*pSrc != '\0')
-        {
-            rsltArry[npDst] = *pSrc;
-            *pSrc++;
-            npDst++;
-        }
-        else
-        {
-            break;
-        }
+    int nPSrcLen = __strlen(pSrc);
+    int nPDstLen = __strlen(pDst);
+    for (int i = 0; i < nPSrcLen; i++) {
+        pDst[nPSrcLen+i]= pSrc[i];
+
     }
 
     return pDst;
