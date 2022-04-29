@@ -1,6 +1,6 @@
 #include "__strlen.h"
 
-char* __strcpyEx(char *pDst, const char *pSrc) {
+char* __strcpyEx(char* pDst, const char* pSrc) {
 
 	int pSrcLen = __strlen(pSrc);
 
