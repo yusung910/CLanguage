@@ -5,7 +5,7 @@ char* __strrot(char* pStr) {
     char chrFrist = pStr[0];
 
 	
-	for (int i = 0; i < pStrLen;i++) {
+	for (int i = 0; i < pStrLen; i++) {
 		pStr[i] = pStr[i + 1];
 	}
 	

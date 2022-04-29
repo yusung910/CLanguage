@@ -11,12 +11,12 @@ void main()
     char inputStr[] = "TEST";
     printf("\'%s\'문자열의 길이는 %d입니다.\n", inputStr, __strlen(inputStr));
 
-    char* copyStr1 = "";
-    const char* copyStr2 = "CopyText";
+	char copyStr1[9] = "\0";
+    char copyStr2[] = "CopyText";
 
     printf("copyStr1 : %s\n", copyStr1);
     printf("copyStr2 : %s\n", copyStr2);
-    __strcpy(&copyStr1, &copyStr2);
+    __strcpy(copyStr1, copyStr2);
     printf("copyStr1 : %s\n", copyStr1);
     printf("copyStr2 : %s\n", copyStr2);
 
