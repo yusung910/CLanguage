@@ -8,9 +8,11 @@
 
 void main()
 {
+	//과제 1번
     char inputStr[] = "TEST";
     printf("\'%s\'문자열의 길이는 %d입니다.\n", inputStr, __strlen(inputStr));
 
+	//과제2번
 	char copyStr1[9] = "\0";
     char copyStr2[] = "CopyText";
 
@@ -19,10 +21,12 @@ void main()
     __strcpy(copyStr1, copyStr2);
     printf("copyStr1 : %s\n", copyStr1);
     printf("copyStr2 : %s\n", copyStr2);
-
+	
+	//과제3번
     char copyExStr[9] = "\0";
     printf("strcpyEx: %s\n", __strcpyEx(copyExStr, "ABCDTEST"));
 
+	//과제4번
     char catStr1[9] = "ABCD";
     char catStr2[] = "EFGH";
 
@@ -31,6 +35,7 @@ void main()
     printf("strcat : %s\n", __strcat(catStr1, catStr2));
     printf("\n");
 
+	//과제5번
 	char strArry[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	printf("strrot : %s\n", strArry);
 	for (int i = 0; i < __strlen(strArry); i++) {
