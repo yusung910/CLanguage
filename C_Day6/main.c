@@ -10,7 +10,7 @@ void main()
 {
 	//과제 1번
     char inputStr[] = "TEST";
-    printf("\'%s\'문자열의 길이는 %d입니다.\n", inputStr, __strlen(inputStr));
+    printf("문자열 \'%s\'의 길이는 %d입니다.\n", inputStr, __strlen(inputStr));
 
 	//과제2번
 	char copyStr1[9] = "\0";
