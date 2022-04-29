@@ -20,7 +20,7 @@ void main()
     printf("copyStr1 : %s\n", copyStr1);
     printf("copyStr2 : %s\n", copyStr2);
 
-    char *copyExStr = "";
+    char copyExStr[9] = "\0";
     printf("strcpyEx: %s\n", __strcpyEx(copyExStr, "ABCDTEST"));
 
     char catStr1[9] = "ABCD";
