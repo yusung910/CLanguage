@@ -28,11 +28,11 @@ void main()
 
     printf("str1 : %s\n", catStr1);
     printf("str2 : %s\n", catStr2);
-    printf("strcat : %s\n", __strcat(&catStr1, &catStr2));
+    printf("strcat : %s\n", __strcat(catStr1, catStr2));
     printf("\n");
 
 	char strArry[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	printf("strrot : %s\n", __strrot(strArry));
+	printf("strrot : %s\n", strArry);
 	for (int i = 0; i < __strlen(strArry); i++) {
 		printf("strrot : %s\n", __strrot(strArry));
 	}
