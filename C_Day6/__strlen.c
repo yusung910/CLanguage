@@ -7,7 +7,6 @@ int __strlen(char* pStr)
     {
         if (pStr[nRetStrlen] != '\0') {
             nRetStrlen += 1;
-            pStr++;
         }else{
             break;
         }
