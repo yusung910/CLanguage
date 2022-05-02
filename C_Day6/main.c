@@ -58,7 +58,7 @@ void main()
 	}
 
 	//문자열 초기화
-	char strBefore[] = "I prepare a toeic Exam";
+	char strBefore[] = "I having study a Toeic for get a job";
 	printf("Strset Before string : \"%s\" \n", strBefore);
 	printf("Strset After string : \"%s\" \n", __strset(strBefore, '\0'));
 
