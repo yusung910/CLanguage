@@ -21,10 +21,12 @@
   <ItemGroup>
     <ClCompile Include="main.c" />
     <ClCompile Include="__strcat.c" />
+    <ClCompile Include="__strchr.c" />
     <ClCompile Include="__strcpy.c" />
     <ClCompile Include="__strcpyEx.c" />
     <ClCompile Include="__strlen.c" />
     <ClCompile Include="__strrot.c" />
+    <ClCompile Include="__strset.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__strcpy.h" />
@@ -32,6 +34,8 @@
     <ClInclude Include="__strcat.h" />
     <ClInclude Include="__strrot.h" />
     <ClInclude Include="__strlen.h" />
+    <ClInclude Include="__strchr.h" />
+    <ClInclude Include="__strset.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

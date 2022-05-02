@@ -5,6 +5,8 @@
 #include "__strcpyEx.h"
 #include "__strcat.h"
 #include "__strrot.h"
+#include "__strchr.h"
+#include "__strset.h"
 
 void main()
 {
@@ -41,5 +43,25 @@ void main()
 	for (int i = 0; i < __strlen(strArry); i++) {
 		printf("strrot : %s\n", __strrot(strArry));
 	}
+
+	//문자열 찾기
+	char strFind[] = "I have learn C Language";
+	char findStr = 'A';
+	int posNum = __strchr(strFind, findStr);
+
+	printf("Base str : \"%s\"\n", strFind);
+
+	if (posNum > 0) {
+		printf("Char \'%c\' posisition is %d\n", findStr, posNum);
+	}else {
+		printf("Char \'%c\' posisition is not found\n", findStr);
+	}
+
+	//문자열 초기화
+	char strBefore[] = "I prepare a toeic Exam";
+	printf("Strset Before string : \"%s\" \n", strBefore);
+	printf("Strset After string : \"%s\" \n", __strset(strBefore, '\0'));
+
+	
 }
 

@@ -33,6 +33,12 @@
     <ClCompile Include="__strrot.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="__strchr.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="__strset.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__strrot.h">
@@ -48,6 +54,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="__strlen.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="__strchr.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="__strset.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

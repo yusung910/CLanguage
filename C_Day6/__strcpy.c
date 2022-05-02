@@ -1,4 +1,5 @@
 #include "__strlen.h"
+#include "__strset.h"
 
 void __strcpy(char* pDst, const char* pSrc)
 {
@@ -13,9 +14,7 @@ void __strcpy(char* pDst, const char* pSrc)
 	//여부에 따라 복사된 문자를 저장할 문자 배열을 초기화 한다.
 	if (pSrcLen < pDstLen) {
 		//복사 대상 배열 초기화
-		for (int j = 0; j < pDstLen; j++) {
-			pDst[j] = '\0';
-		}
+		__strset(pDst, '\0');
 	}
 	
 
