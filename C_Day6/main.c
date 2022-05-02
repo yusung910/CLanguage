@@ -13,7 +13,7 @@ void main()
     printf("문자열 \'%s\'의 길이는 %d입니다.\n", inputStr, __strlen(inputStr));
 
 	//과제2번
-	char copyStr1[9] = "\0";
+	char copyStr1[20] = "ABCDEFGHIJKLM";
     char copyStr2[] = "CopyText";
 
     printf("copyStr1 : %s\n", copyStr1);
