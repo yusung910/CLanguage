@@ -19,7 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\C_Day6\__strlen.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="__crossmemcpy.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\C_Day6\__strlen.h" />
+    <ClInclude Include="__crossmemcpy.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
