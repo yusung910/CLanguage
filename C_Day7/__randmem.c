@@ -2,6 +2,8 @@
 #include <stdlib.h> // rand() 함수
 #include <time.h>   // time() 함수
 
+#include "__randmem.h"
+
 unsigned char* __randmem(int nSize) {
 	//리턴 배열 선언
 	unsigned char* retMem;

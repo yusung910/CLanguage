@@ -1,4 +1,6 @@
 #include <malloc.h>
+
+#include "__crossmemcpy.h"
 #include "__strlen.h"
 
 unsigned char* __crossmemcpy(const unsigned char* pSrc1, const unsigned char* pSrc2, int nSize) {
