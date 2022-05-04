@@ -14,12 +14,13 @@ void main()
     //AZBYCXDWEVFUGTHIJKLMNOPQRSTUVWXYZ
     int nArryLen = __strlen(strList1) + __strlen(strList2);
 
-	unsigned char* rsltArry = __crossmemcpy(&strList1, &strList2, nArryLen);
+	unsigned char* rsltArry = __crossmemcpy(strList1, strList2, nArryLen);
+
+	unsigned char* rndChrArry = NULL;
 
     printf("%s\n", rsltArry);
 
-
-	unsigned char* rndChrArry = __randmem(40);
+	rndChrArry = __randmem(40);
 
 	printf("%s\n", rndChrArry);
 
