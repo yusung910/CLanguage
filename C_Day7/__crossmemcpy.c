@@ -16,7 +16,7 @@ unsigned char* __crossmemcpy(const unsigned char* pSrc1, const unsigned char* pS
     //리턴 배열에 저장되는 번호
     int nDataInputNum = 0;
 
-    pMem = (unsigned char*)malloc(sizeof(char)*nSize);
+    pMem = (unsigned char*)malloc((sizeof(char)*nSize) + (sizeof(char) * 1));
 
     //메모리 할당이 실패 할 경우 예외처리
     if (NULL == pMem)
@@ -42,6 +42,4 @@ unsigned char* __crossmemcpy(const unsigned char* pSrc1, const unsigned char* pS
     pMem[nSize] = '\0';
 
     return pMem;
-
-    free(pMem);
 }
