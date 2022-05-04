@@ -14,17 +14,23 @@ void main()
     //AZBYCXDWEVFUGTHIJKLMNOPQRSTUVWXYZ
     int nArryLen = __strlen(strList1) + __strlen(strList2);
 
-	unsigned char* rsltArry = __crossmemcpy(strList1, strList2, nArryLen);
+	unsigned char* rsltArry;
 
-	unsigned char* rndChrArry = NULL;
+	unsigned char* rndChrArry;
+
+    //과제1번
+    rsltArry = __crossmemcpy(strList1, strList2, nArryLen);
 
     printf("%s\n", rsltArry);
 
-	rndChrArry = __randmem(40);
+    //과제 2번
+    int creatMemSize = 40;
+	rndChrArry = __randmem(creatMemSize);
 
 	printf("%s\n", rndChrArry);
 
-	printf("%d", __scanmem(rndChrArry, 40));
+    //과제3번
+    __scanmem(rndChrArry, creatMemSize);
 
 	free(rsltArry);
 	free(rndChrArry);
