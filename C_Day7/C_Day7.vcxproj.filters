@@ -24,6 +24,9 @@
     <ClCompile Include="..\C_Day6\__strlen.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="__randmem.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__crossmemcpy.h">
@@ -32,5 +35,10 @@
     <ClInclude Include="..\C_Day6\__strlen.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="__randmem.h">
+      <Filter>헤더 파일</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -14,9 +14,15 @@ void main()
 
 	unsigned char* rsltArry = __crossmemcpy(&strList1, &strList2, nArryLen);
 
-    printf("%s", rsltArry);
+    printf("%s\n", rsltArry);
+
+
+	unsigned char* rndChrArry = __randmem(40);
+
+	printf("%s", rndChrArry);
 
 	free(rsltArry);
+	free(rndChrArry);
 
     
 }
