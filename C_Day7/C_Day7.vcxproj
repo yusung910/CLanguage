@@ -23,10 +23,12 @@
     <ClCompile Include="main.c" />
     <ClCompile Include="__crossmemcpy.c" />
     <ClCompile Include="__randmem.c" />
+    <ClCompile Include="__scanmem.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\C_Day6\__strlen.h" />
     <ClInclude Include="__crossmemcpy.h" />
+    <ClInclude Include="__scanmem.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="__randmem.h" />

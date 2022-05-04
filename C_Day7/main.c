@@ -2,6 +2,8 @@
 #include <malloc.h>
 
 #include "__crossmemcpy.h"
+#include "__randmem.h"
+#include "__scanmem.h"
 #include "__strlen.h"
 
 void main()
@@ -19,7 +21,9 @@ void main()
 
 	unsigned char* rndChrArry = __randmem(40);
 
-	printf("%s", rndChrArry);
+	printf("%s\n", rndChrArry);
+
+	printf("%d", __scanmem(rndChrArry, 40));
 
 	free(rsltArry);
 	free(rndChrArry);

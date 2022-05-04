@@ -27,12 +27,18 @@
     <ClCompile Include="__randmem.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="__scanmem.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__crossmemcpy.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="..\C_Day6\__strlen.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="__scanmem.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
