@@ -12,7 +12,7 @@ unsigned char* __randmem(int nSize) {
 	int nRd;
 
 	//리턴 배열을 동적으로 할당.
-	int retSize = (sizeof(char)*nSize);
+	int retSize = (sizeof(char)*nSize) + 1;
 
 	retMem = (unsigned char*)malloc(retSize + sizeof(char));
 
@@ -40,6 +40,7 @@ unsigned char* __randmem(int nSize) {
 		}
 		retMem[i] = (char) nRd;
 	}
+	retMem[retSize-1] = '\n';
 	retMem[retSize] = '\0';
 
 	return retMem;

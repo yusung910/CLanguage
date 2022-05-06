@@ -2,10 +2,6 @@
 #include <stdio.h>
 #include "__scanmem.h"
 
-#define TRUE 1
-#define FALSE 0
-#define BOOL int
-
 BOOL __scanmem(unsigned char* pMem, int nSize) {
     //변경 문자열 목록
     char chngChrList[3][5] = { "GAME", "PIKA" };
@@ -36,7 +32,7 @@ BOOL __scanmem(unsigned char* pMem, int nSize) {
     }
 
     if (chngFlag) {
-        printf("change success : %s\n", pMem);
+        printf("change success : %s", pMem);
     }
     else {
         puts("change fail!");

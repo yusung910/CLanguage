@@ -27,7 +27,7 @@ void main()
     int creatMemSize = 40;
 	rndChrArry = __randmem(creatMemSize);
 
-	printf("%s\n", rndChrArry);
+	printf("%s", rndChrArry);
 
     //°úÁ¦3¹ø
     __scanmem(rndChrArry, creatMemSize);
