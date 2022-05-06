@@ -24,7 +24,7 @@ void main()
     printf("%s\n\n", rsltArry);
 
     //°úÁ¦ 2¹ø
-    int creatMemSize = 40;
+    int creatMemSize = 20;
 	rndChrArry = __randmem(creatMemSize);
 
 	printf("%s\n", rndChrArry);

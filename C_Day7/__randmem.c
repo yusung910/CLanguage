@@ -11,11 +11,14 @@ unsigned char* __randmem(int nSize) {
 	//난수 저장 변수 선언
 	int nRd;
 
-	//리턴 배열을 동적으로 할당.
-	int memSize = (sizeof(char)*nSize) * 4;
+	//배열에 할당할 문자 길이
+	int chrSize = (sizeof(char)*nSize) * 4;
 	//개행문자 갯수
-	int nEnter = (memSize <= 40) ? 0 : (memSize / 4) / 10;
-	retMem = (unsigned char*)malloc(memSize + sizeof(char) + nEnter);
+	int nEnter = (chrSize / 4) / 10;
+	//생성할 배열의 사이즈
+	int memSize = chrSize + nEnter;
+	//메모리 동적 할당
+	retMem = (unsigned char*)malloc(memSize);
 
 	if (NULL == retMem)
 	{
@@ -28,23 +31,26 @@ unsigned char* __randmem(int nSize) {
 
 	//65 ~ 90사이의 난수를 생성하여
 	//char 변수로 캐스팅한다
+	//0 : 0 ~ 40
+	//1 : 40 ~ 80
+	//2 : 80 ~ 120
+	//0~39  : 문자
+	//40    : 개행문자
+	//41~81 : 문자
+	//82    : 개행문자
+	//개행숫자만큼 반복
+	for (int a = 0; a < nEnter; a++) {
+		int nStart = a * 40;
+		int nEnd = nEnter * 40;
+	}
 	for (int i = 0; i < memSize; i++) {
 		if (i % 4 == 0) {
-			//중복 난수가 있을 경우 다시 생성한다.
-			int reTryFlag = 0;
 			nRd = (rand() % 25) + 65;
-			for (int j = 0; j < memSize; j++) {
-				if (retMem[j] == nRd) {
-					nRd = (rand() % 25) + 65;
-				}
-			}
 		}
+
+		retMem[i] = (char)nRd;
 		if (i % 40 == 0 && i != 0) {
 			retMem[i] = '\n';
-		}
-		else
-		{
-			retMem[i] = (char)nRd;
 		}
 		
 	}
