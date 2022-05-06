@@ -21,16 +21,16 @@ void main()
     //과제1번
     rsltArry = __crossmemcpy(strList1, strList2, nArryLen);
 
-    printf("%s\n", rsltArry);
+    printf("%s\n\n", rsltArry);
 
     //과제 2번
     int creatMemSize = 40;
 	rndChrArry = __randmem(creatMemSize);
 
-	printf("%s", rndChrArry);
+	printf("%s\n", rndChrArry);
 
     //과제3번
-    __scanmem(rndChrArry, creatMemSize);
+    __scanmem(rndChrArry, __strlen(rndChrArry));
 
 	free(rsltArry);
 	free(rndChrArry);

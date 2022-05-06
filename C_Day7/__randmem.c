@@ -12,9 +12,10 @@ unsigned char* __randmem(int nSize) {
 	int nRd;
 
 	//리턴 배열을 동적으로 할당.
-	int retSize = (sizeof(char)*nSize) + 1;
-
-	retMem = (unsigned char*)malloc(retSize + sizeof(char));
+	int memSize = (sizeof(char)*nSize) * 4;
+	//개행문자 갯수
+	int nEnter = (memSize <= 40) ? 0 : (memSize / 4) / 10;
+	retMem = (unsigned char*)malloc(memSize + sizeof(char) + nEnter);
 
 	if (NULL == retMem)
 	{
@@ -27,21 +28,27 @@ unsigned char* __randmem(int nSize) {
 
 	//65 ~ 90사이의 난수를 생성하여
 	//char 변수로 캐스팅한다
-	for (int i = 0; i < nSize; i++) {
+	for (int i = 0; i < memSize; i++) {
 		if (i % 4 == 0) {
 			//중복 난수가 있을 경우 다시 생성한다.
 			int reTryFlag = 0;
 			nRd = (rand() % 25) + 65;
-			for (int j = 0; j < nSize; j++) {
+			for (int j = 0; j < memSize; j++) {
 				if (retMem[j] == nRd) {
 					nRd = (rand() % 25) + 65;
 				}
 			}
 		}
-		retMem[i] = (char) nRd;
+		if (i % 40 == 0 && i != 0) {
+			retMem[i] = '\n';
+		}
+		else
+		{
+			retMem[i] = (char)nRd;
+		}
+		
 	}
-	retMem[retSize-1] = '\n';
-	retMem[retSize] = '\0';
+	retMem[memSize] = '\0';
 
 	return retMem;
 }
