@@ -35,5 +35,7 @@ void main()
 	free(rsltArry);
 	free(rndChrArry);
 
+	rsltArry = NULL;
+	rndChrArry = NULL;
     
 }
