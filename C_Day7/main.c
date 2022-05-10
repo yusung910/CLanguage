@@ -30,8 +30,7 @@ void main()
 	printf("%s\n", rndChrArry);
 
     //°úÁ¦3¹ø
-    BOOL boolReslt = __scanmem(rndChrArry, __strlen(rndChrArry));
-	if (boolReslt) {
+	if (__scanmem(rndChrArry, __strlen(rndChrArry))) {
 		puts("change!!");
 		printf("%s\n", rndChrArry);
 	}
