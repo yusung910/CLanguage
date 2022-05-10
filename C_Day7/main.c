@@ -24,13 +24,17 @@ void main()
     printf("%s\n\n", rsltArry);
 
     //과제 2번
-    int creatMemSize = 20;
+    int creatMemSize = 10;
 	rndChrArry = __randmem(creatMemSize);
 
 	printf("%s\n", rndChrArry);
 
     //과제3번
     BOOL boolReslt = __scanmem(rndChrArry, __strlen(rndChrArry));
+	if (boolReslt) {
+		puts("change!!");
+		printf("%s\n", rndChrArry);
+	}
 
 	free(rsltArry);
 	free(rndChrArry);

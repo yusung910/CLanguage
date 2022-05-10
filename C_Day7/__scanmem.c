@@ -1,5 +1,4 @@
 #include <malloc.h>
-#include <stdio.h>
 #include "__scanmem.h"
 
 BOOL __scanmem(unsigned char* pMem, int nSize) {
@@ -24,14 +23,6 @@ BOOL __scanmem(unsigned char* pMem, int nSize) {
                 chngFlag = TRUE;
             }
         }
-    }
-
-    if (chngFlag) {
-		puts("change memory");
-        printf("%s", pMem);
-    }
-    else {
-        puts("change fail!");
     }
 
     return chngFlag;
