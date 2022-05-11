@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h> // rand() 함수
 #include <time.h>   // time() 함수
+#include <malloc.h>
 
 #include "__strlen.h"
 
@@ -18,17 +19,17 @@ typedef struct
 
 void main() {
 
-    CHARACTER players[100], *player;
+    CHARACTER* players[100];
     int nTurn = 0;
-    player = players;
 
     //난수 세팅
     srand((unsigned)time(NULL));
 
     for (int i = 0; i < 100; i++) {
-        (player + i)->bIsLive = TRUE;
-        (player + i)->nLife = (rand() % 51) + 50;
-        (player + i)->nDamage = 0;
+		players[i] = (CHARACTER*) malloc(sizeof(CHARACTER));
+		players[i]->bIsLive = TRUE;
+		players[i]->nLife = (rand() % 51) + 50;
+		players[i]->nDamage = 0;
     }
 	
     while (1) {
@@ -46,25 +47,24 @@ void main() {
 			int nDodge = 0;
 			//데미지 계산
 			for (int j = 0; j < 100; j++) {
-				if ((player + j)->bIsLive) {
+				if (players[j]->bIsLive) {
 					int nDmg = (rand() % 11);
-					int userLife = (player + j)->nLife;
+					int userLife = players[j]->nLife;
 
 				
-					(player + j)->nDamage = nDmg;
-					(player + j)->nLife = userLife - nDmg;
+					players[j]->nDamage = nDmg;
+					players[j]->nLife = userLife - nDmg;
 
 					if (nDmg == 0) {
 						nDodge += 1;
 					}
 				}
 
-				if ((player + j)->nLife <= 0) {
+				if (players[j]->nLife <= 0) {
 					//데미지를 입은 유저를 사망처리
-					(player + j)->bIsLive = FALSE;
-					(player + j)->nLife = 0;
 					nDeathNote[nDeathNum] = j;
 					nDeathNum += 1;
+					free(players[j]);
 				}
 			}
 
@@ -73,24 +73,28 @@ void main() {
 
 			for (int a = 0; a < nResurection; a++) {
 				int nResurectionPlayer = (rand() % nResurection);
-				player[nResurectionPlayer].bIsLive = TRUE;
-				player[nResurectionPlayer].nLife = (rand() % 51) + 50;
-				player[nResurectionPlayer].nDamage = 0;
+				//player[nResurectionPlayer].bIsLive = TRUE;
+				//player[nResurectionPlayer].nLife = (rand() % 51) + 50;
+				//player[nResurectionPlayer].nDamage = 0;
 			}
 			//결과 출력
 			int nSurrival = 0;
 			int nDieUser = 0;
 
 			for (int b = 0; b < 100; b++) {
-				char* heartFlag = (player[b].bIsLive) ? "\u2665" : "\u2661";
-				if (player[b].bIsLive) {
+
+				char* heartFlag = (players[b]->bIsLive) ? "\u2665" : "\u2661";
+				if (players[b]->bIsLive) {
 					nSurrival += 1;
 				}else {
 					nDieUser += 1;
 				}
-				printf("%d / %s / %d / %d\n", b, heartFlag, player[b].nLife, player[b].nDamage);
+				printf("%d / %s / %d / %d , ", b, heartFlag, players[b]->nLife, players[b]->nDamage);
+				if (b > 0 && b % 5 == 0) {
+					printf("\n");
+				}
 			}
-
+			printf("\n");
 			printf("생존 캐릭터 %d명 사망 캐릭터 %d명\n", nSurrival, nDieUser);
 			printf("부활 캐릭터 %d명\n", nResurection);
 			printf("이번 공격으로 죽은 캐릭터 %d명\n", nDeathNum);
