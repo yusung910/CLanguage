@@ -18,9 +18,11 @@ typedef struct
 } CHARACTER;
 
 void main() {
-
+    //플레이어 배열
     CHARACTER* players[100];
+    //사망 플레이어를 저장하기위한 배열
     int* nDeathNote;
+    //플레이어 턴 수
     int nTurn = 0;
 
     //난수 세팅
