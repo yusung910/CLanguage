@@ -20,6 +20,7 @@ typedef struct
 void main() {
 
     CHARACTER* players[100];
+    int* nDeathNote;
     int nTurn = 0;
 
     //난수 세팅
@@ -27,18 +28,18 @@ void main() {
 
     for (int i = 0; i < 100; i++) {
 		players[i] = (CHARACTER*) malloc(sizeof(CHARACTER));
-		players[i]->bIsLive = TRUE;
 		players[i]->nLife = (rand() % 51) + 50;
 		players[i]->nDamage = 0;
     }
 	
     while (1) {
-		printf("Enter Key를 눌러 Turn을 진행시켜주세요.\n");
+		printf("\rEnter Key를 눌러 Turn을 진행시켜주세요.\n");
 		if(getch() == 13){
+            system("cls");
 			nTurn += 1;
 			printf("Turn : %d\n", nTurn);
 			//사망자 명단 저장 배열
-			int nDeathNote[100];
+			
 			//매 턴마다 발생하는 사망자 수
 			int nDeathNum = 0;
 			//부활 유저 수
@@ -47,58 +48,79 @@ void main() {
 			int nDodge = 0;
 			//데미지 계산
 			for (int j = 0; j < 100; j++) {
-				if (players[j]->bIsLive) {
+				if (players[j] != NULL) {
 					int nDmg = (rand() % 11);
 					int userLife = players[j]->nLife;
 
-				
 					players[j]->nDamage = nDmg;
 					players[j]->nLife = userLife - nDmg;
 
 					if (nDmg == 0) {
 						nDodge += 1;
 					}
-				}
 
-				if (players[j]->nLife <= 0) {
-					//데미지를 입은 유저를 사망처리
-					nDeathNote[nDeathNum] = j;
-					nDeathNum += 1;
-					free(players[j]);
+                    if (players[j]->nLife <= 0) {
+                        //데미지를 입은 유저를 사망처리
+                        free(players[j]);
+                        players[j] = NULL;
+                    }
 				}
 			}
 
-			//사망자 수 에서 10%인원을 부활한다.
-			nResurection = nDeathNum / 10;
-
-			for (int a = 0; a < nResurection; a++) {
-				int nResurectionPlayer = (rand() % nResurection);
-				//player[nResurectionPlayer].bIsLive = TRUE;
-				//player[nResurectionPlayer].nLife = (rand() % 51) + 50;
-				//player[nResurectionPlayer].nDamage = 0;
+            //사망자 수 에서 10% 인원을 부활한다.
+            //사망자를 카운팅한다.
+			for (int a = 0; a < 100; a++) {
+                if (players[a] == NULL) {
+                    nDeathNum += 1;
+                }
 			}
+
+            nDeathNote = (int*)malloc((nDeathNum+1) * sizeof(int));
+            int nDeathNoteArry = 0;
+            for (int f = 0; f < 100; f++) {
+                if (players[f] == NULL) {
+                    nDeathNote[nDeathNoteArry] = f;
+                    nDeathNoteArry += 1;
+                }
+            }
+
+            nResurection = nDeathNum / 10;
+            //사망자 중 10퍼센트 부활 한다.
+            for (int c = 0; c < nResurection; c++) {
+
+                int nPlayer = rand() % nDeathNoteArry;
+                players[nDeathNote[nPlayer]] = (CHARACTER*)malloc(sizeof(CHARACTER));
+                players[nDeathNote[nPlayer]]->nLife = (rand() % 51) + 50;
+                players[nDeathNote[nPlayer]]->nDamage = 0;
+            }
+
 			//결과 출력
 			int nSurrival = 0;
 			int nDieUser = 0;
 
 			for (int b = 0; b < 100; b++) {
 
-				char* heartFlag = (players[b]->bIsLive) ? "\u2665" : "\u2661";
-				if (players[b]->bIsLive) {
+				char* heartFlag = (players[b] == NULL) ? "\u2665" : "\u2661";
+                int nPlayerLife = (players[b] == NULL) ? 0 : players[b]->nLife;
+                int nPlayerDamaged = (players[b] == NULL) ? 0 : players[b]->nDamage;
+				if (players[b] == NULL) {
 					nSurrival += 1;
 				}else {
 					nDieUser += 1;
 				}
-				printf("%d / %s / %d / %d , ", b, heartFlag, players[b]->nLife, players[b]->nDamage);
+				printf("%d / %s / %d / %d , ", b, heartFlag, nPlayerLife, nPlayerDamaged);
 				if (b > 0 && b % 5 == 0) {
 					printf("\n");
 				}
 			}
+
+            free(nDeathNote);
+
 			printf("\n");
-			printf("생존 캐릭터 %d명 사망 캐릭터 %d명\n", nSurrival, nDieUser);
-			printf("부활 캐릭터 %d명\n", nResurection);
-			printf("이번 공격으로 죽은 캐릭터 %d명\n", nDeathNum);
-			printf("이번 공격에 공격 받지 않은 캐릭터 %d명\n", nDodge);
+			printf("\r생존 캐릭터 %d명 사망 캐릭터 %d명\n", nSurrival, nDieUser);
+			printf("\r부활 캐릭터 %d명\n", nResurection);
+			printf("\r이번 공격으로 죽은 캐릭터 %d명\n", nDeathNum);
+			printf("\r이번 공격에 공격 받지 않은 캐릭터 %d명\n", nDodge);
 		}else {
 			puts("game 종료!");
 			break;
