@@ -108,8 +108,8 @@ void main() {
 				}else {
 					nDieUser += 1;
 				}
-				printf("%d / %s / %d / %d , ", b, heartFlag, nPlayerLife, nPlayerDamaged);
-				if (b > 0 && b % 5 == 0) {
+				printf("%3d / %s / %3d / %3d , ", b, heartFlag, nPlayerLife, nPlayerDamaged);
+				if (b % 5 == 4) {
 					printf("\n");
 				}
 			}
