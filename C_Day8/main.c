@@ -24,7 +24,13 @@ void main() {
     //플레이어 턴 수
     int nTurn = 0;
     //데미지 확률
-    int nDmgProbList[11] = { 5, 5, 10, 10, 10, 10, 10, 10, 10, 10, 10 };
+    float nDmgProbList[11];
+    //난이도
+    int nLevel = 0;
+    //초기 세팅
+    for (int o = 0; o < 11; o++) {
+        nDmgProbList[o] = (float)1 / 11;
+    }
 
     //난수 세팅
     srand((unsigned)time(NULL));
@@ -51,27 +57,33 @@ void main() {
 			int nDodge = 0;
 
             //데미지 계산 하기 전 20턴이 넘어가고
-            //100턴마다 데미지 확률을 변경한다.
+            //10턴마다 데미지 확률을 변경한다.
+            if (nTurn > 0 && (nTurn % 10 == 0)) {
+                for (int o = 0; o < 5; o++) {
+                    int a = 10 - o;
+                    nDmgProbList[o] = (float)(1 - ((a + nLevel) * 0.01)) / 11;
+                    nDmgProbList[a] = (float)(1 + ((a + nLevel) * 0.01)) / 11;
+                }
+                if (nTurn < 900) {
+                    nLevel += 1;
+                }
+            }
 
-            //if (nTurn >= 20 && (nTurn % 100 == 0)) {
-            //    for (int o = 0; o < 11; o++) {
-            //    }
-            //}
+
 
 			//데미지 계산
 			for (int j = 0; j < 100; j++) {
 				if (players[j] != NULL) {
-                    //모든 player들에게 임의의 데미지를 부여한다.
+                    //모든 player들에게 임의의 데미지를 부여한다. 100.00
 					//매 턴이 반복될 수록 높은 데미지를 입을 수 있도록 난이도를 상향 평준화 한다.
-					int nFlagDmg = (rand() % 100);
+					float nFlagDmg = (float)(rand() % 10000) / 100;
 
-					
 					int nDmg = 0;
-                    int nBegin = 0;
-                    int nEnd = 0;
+                    float nBegin = 0;
+                    float nEnd = 0;
 
 					for (int i = 0; i < 11; i++) {
-                        int nProb = nDmgProbList[i];
+                        float nProb = nDmgProbList[i] * 100;
                         nBegin = (i == 0) ? 0 : nEnd;
                         nEnd = nEnd + (nProb);
 
@@ -79,7 +91,6 @@ void main() {
                             nDmg = i;
                         }
 					}
-
 
 					int userLife = players[j]->nLife;
 
@@ -176,11 +187,16 @@ void main() {
 			printf("이번 공격으로 죽은 캐릭터 %d명\n", nDeathNum);
 			printf("이번 공격에 공격 받지 않은 캐릭터 %d명\n", nDodge);
             printf("데미지 별 확률 :\n");
+            float rateSum = 0.0f;
             for (int z = 0; z < 11; z++) {
-                printf("%d : %d%% / ", z, nDmgProbList[z]);
-                if (z % 4 == 0)
+                printf("%2d : %3.3f%% / ", z, (nDmgProbList[z]*100));
+
+                rateSum = rateSum + (nDmgProbList[z] * 100);
+
+                if (z % 5 == 0 && z != 0)
                     printf("\n");
             }
+            printf("\n확률 총합 %.3f%%", rateSum);
 		}else if(inputKeyVal == 27){
 			puts("game 종료!");
 			break;
