@@ -23,6 +23,8 @@ void main() {
     int* nDeathNote;
     //플레이어 턴 수
     int nTurn = 0;
+    //데미지 확률
+    float nDmgProbList[] = { 0.05, 0.05, 0.05, 0.11, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.14 };
 
     //난수 세팅
     srand((unsigned)time(NULL));
@@ -55,16 +57,25 @@ void main() {
 					//매 턴이 반복될 수록 높은 데미지를 입을 수 있도록 난이도를 상향 평준화 한다.
 					int nFlagDmg = (rand() % 100);
 
-					int nDmgProbList[] = { 0.05, 0.05, 0.1, 0.1, 0.2, 0.1, 0.1, 0.1, 0.1, 0.1 };
+					
 					int nDmg = 0;
+                    int nBegin = 0;
+                    int nEnd = 0;
 
-					for (int i = 0; i < 10; i++) {
-						//0: 0 ~ 4, 0.05
-						//1: 5 ~ 10, 0.05
-						//2: 11 ~ 20, 0.1
-						//3: 21 ~ 30, 0.1
-						//4: 31 ~ 40, 0.1
-						
+					for (int i = 0; i < 11; i++) {
+						//0: 0<= a < 5, 0.05
+						//1: 5<= a < 10, 0.05
+						//2: 10<= a < 15, 0.2
+						//3: 30<= a < 40, 0.1
+						//4: 40<= a < 50, 0.1
+						//5: 50<= a < 60, 0.1
+                        int nProb = nDmgProbList[i] * 100;
+                        nBegin = (i == 0) ? 0 : nEnd;
+                        nEnd = nEnd + (nProb);
+
+                        if (nBegin <= nFlagDmg && nFlagDmg < nEnd) {
+                            nDmg = i;
+                        }
 					}
 
 
