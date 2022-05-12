@@ -24,7 +24,7 @@ void main() {
     //플레이어 턴 수
     int nTurn = 0;
     //데미지 확률
-    float nDmgProbList[] = { 0.05, 0.05, 0.05, 0.11, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.14 };
+    int nDmgProbList[11] = { 5, 5, 10, 10, 10, 10, 10, 10, 10, 10, 10 };
 
     //난수 세팅
     srand((unsigned)time(NULL));
@@ -42,7 +42,6 @@ void main() {
 			printf("Enter Key를 눌러 Turn을 진행시켜주세요, Esc키를 누를 경우 게임이 종료됩니다.\n");
 			nTurn += 1;
 			printf("Turn : %d\n", nTurn);
-			//사망자 명단 저장 배열
 			
 			//매 턴마다 발생하는 사망자 수
 			int nDeathNum = 0;
@@ -50,6 +49,15 @@ void main() {
 			int nResurection = 0;
 			//회피 데미지 수
 			int nDodge = 0;
+
+            //데미지 계산 하기 전 20턴이 넘어가고
+            //100턴마다 데미지 확률을 변경한다.
+
+            //if (nTurn >= 20 && (nTurn % 100 == 0)) {
+            //    for (int o = 0; o < 11; o++) {
+            //    }
+            //}
+
 			//데미지 계산
 			for (int j = 0; j < 100; j++) {
 				if (players[j] != NULL) {
@@ -63,13 +71,7 @@ void main() {
                     int nEnd = 0;
 
 					for (int i = 0; i < 11; i++) {
-						//0: 0<= a < 5, 0.05
-						//1: 5<= a < 10, 0.05
-						//2: 10<= a < 15, 0.2
-						//3: 30<= a < 40, 0.1
-						//4: 40<= a < 50, 0.1
-						//5: 50<= a < 60, 0.1
-                        int nProb = nDmgProbList[i] * 100;
+                        int nProb = nDmgProbList[i];
                         nBegin = (i == 0) ? 0 : nEnd;
                         nEnd = nEnd + (nProb);
 
@@ -169,10 +171,16 @@ void main() {
 
 			printf("\n");
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
-			printf("\r생존 캐릭터 %d명 사망 캐릭터 %d명\n", (100- nDeathNoteArry), nDeathNoteArry);
-			printf("\r부활 캐릭터 %d명\n", nResurection);
-			printf("\r이번 공격으로 죽은 캐릭터 %d명\n", nDeathNum);
-			printf("\r이번 공격에 공격 받지 않은 캐릭터 %d명\n", nDodge);
+			printf("생존 캐릭터 %d명 사망 캐릭터 %d명\n", (100- nDeathNoteArry), nDeathNoteArry);
+			printf("부활 캐릭터 %d명\n", nResurection);
+			printf("이번 공격으로 죽은 캐릭터 %d명\n", nDeathNum);
+			printf("이번 공격에 공격 받지 않은 캐릭터 %d명\n", nDodge);
+            printf("데미지 별 확률 :\n");
+            for (int z = 0; z < 11; z++) {
+                printf("%d : %d%% / ", z, nDmgProbList[z]);
+                if (z % 4 == 0)
+                    printf("\n");
+            }
 		}else if(inputKeyVal == 27){
 			puts("game 종료!");
 			break;
