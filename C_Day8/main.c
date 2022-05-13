@@ -69,8 +69,6 @@ void main() {
                 }
             }
 
-
-
 			//데미지 계산
 			for (int j = 0; j < 100; j++) {
 				if (players[j] != NULL) {
