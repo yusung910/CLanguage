@@ -179,13 +179,18 @@ void main() {
             //사망한 플레이어의 목록이 저장된 데이터 배열을 해제한다,
 			//배열을 메모리에서 해재함으로 써 기존의 데이터를 초기화한다.
             free(nDeathNote);
-
+			//개행문자 추가
 			printf("\n");
+			//화면 글자 색상 변경
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+
+			//현재상황 출력
 			printf("생존 캐릭터 %d명 사망 캐릭터 %d명\n", (100- nDeathNoteArry), nDeathNoteArry);
 			printf("부활 캐릭터 %d명\n", nResurection);
 			printf("이번 공격으로 죽은 캐릭터 %d명\n", nDeathNum);
 			printf("이번 공격에 공격 받지 않은 캐릭터 %d명\n", nDodge);
+
+			//데미지별 확률 출력
             printf("데미지 별 확률 :\n");
             float rateSum = 0.0f;
             for (int z = 0; z < 11; z++) {
