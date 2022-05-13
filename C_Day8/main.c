@@ -192,7 +192,7 @@ void main() {
             printf("데미지 별 확률 :\n");
             float rateSum = 0.0f;
             for (int z = 0; z < 11; z++) {
-                printf("%2d : %3.3f%% / ", z, (nDmgProbList[z]*100));
+                printf("%2d : %6.3f%% / ", z, (nDmgProbList[z]*100));
 
                 rateSum = rateSum + (nDmgProbList[z] * 100);
 
