@@ -20,12 +20,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="initCharacter.c" />
+    <ClCompile Include="setDmgProb.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="revivalChar.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="characterStruct.h" />
     <ClInclude Include="initCharacter.h" />
+    <ClInclude Include="setDmgProb.h" />
     <ClInclude Include="revivalChar.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

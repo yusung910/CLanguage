@@ -3,8 +3,12 @@
 #include <time.h>   // time() 함수
 #include <malloc.h>
 #include <windows.h>
+
 #include "characterStruct.h"
 #include "initCharacter.h"
+#include "revivalChar.h"
+#include "setDmgProb.h"
+
 #define TRUE	1
 #define FALSE	0
 
@@ -18,14 +22,9 @@ void main() {
 
 	//플레이어 턴 수
 	int nTurn = 0;
+
 	//데미지 확률
 	float nDmgProbList[11];
-	//난이도
-	int nLevel = 0;
-	//초기 세팅
-	for (int o = 0; o < 11; o++) {
-		nDmgProbList[o] = (float)1 / 11;
-	}
 
 	//부활 캐릭터 수
 	int nResurection = 0;
@@ -41,6 +40,9 @@ void main() {
 
 	//100개의 캐릭터 초기화
 	initCharacter(players, 100);
+
+	//데미지 확률 세팅
+	setDmgProb(nDmgProbList, nTurn);
 
 	printf("Enter Key(시작), Esc 키(종료)\n");
 	while (1) {
@@ -60,18 +62,8 @@ void main() {
 			//회피 데미지 수
 			int nDodge = 0;
 
-			//데미지 계산 하기 전 20턴이 넘어가고
-			//10턴마다 데미지 확률을 변경한다.
-			if (nTurn > 0 && (nTurn % 10 == 0)) {
-				for (int o = 0; o < 5; o++) {
-					int a = 10 - o;
-					nDmgProbList[o] = (float)(1 - ((a + nLevel) * 0.01)) / 11;
-					nDmgProbList[a] = (float)(1 + ((a + nLevel) * 0.01)) / 11;
-				}
-				if (nTurn < 900) {
-					nLevel += 1;
-				}
-			}
+			//확률 세팅
+			setDmgProb(nDmgProbList, nTurn);
 
 			//데미지 계산
 			for (int j = 0; j < 100; j++) {
@@ -107,8 +99,6 @@ void main() {
 					}
 				}
 			}
-
-
 
 			//사망자 수 에서 10% 인원을 부활한다.
 			//사망자를 카운팅한다.
