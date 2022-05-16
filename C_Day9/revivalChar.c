@@ -3,7 +3,7 @@
 #include "characterStruct.h"
 #include "revivalChar.h"
 
-int revivalChar(CHARACTER* charList[100], int nDeathNum) {
+int revivalChar(CHARACTER** charList, int nDeathNum) {
 
 	//사망 플레이어를 저장하기위한 배열
 	int* nDeathNote;
