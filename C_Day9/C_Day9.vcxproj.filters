@@ -18,27 +18,15 @@
     <ClCompile Include="main.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="initCharacter.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="revivalChar.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="setDmgProb.c">
+    <ClCompile Include="initUser.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="characterStruct.h">
+    <ClInclude Include="initUser.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="initCharacter.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="revivalChar.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="setDmgProb.h">
+    <ClInclude Include="cnst.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

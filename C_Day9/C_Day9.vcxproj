@@ -19,16 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="initCharacter.c" />
-    <ClCompile Include="setDmgProb.c" />
+    <ClCompile Include="initUser.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="revivalChar.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="characterStruct.h" />
-    <ClInclude Include="initCharacter.h" />
-    <ClInclude Include="setDmgProb.h" />
-    <ClInclude Include="revivalChar.h" />
+    <ClInclude Include="initUser.h" />
+    <ClInclude Include="cnst.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
