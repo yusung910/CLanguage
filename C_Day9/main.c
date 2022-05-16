@@ -3,24 +3,19 @@
 #include <time.h>   // time() 함수
 #include <malloc.h>
 #include <windows.h>
-
+#include "characterStruct.h"
+#include "initCharacter.h"
 #define TRUE	1
 #define FALSE	0
 
 
-typedef struct
-{
-	int	nDamage;      // 공격 받은 정도
-	int	nLife;        // 생명
-} CHARACTER;
-
 //8일차 과제에서
 //9일차 과제를 적용하기 위한 프로젝트
 void main() {
+
 	//플레이어 배열
 	CHARACTER* players[100];
-	//사망 플레이어를 저장하기위한 배열
-	int* nDeathNote;
+
 	//플레이어 턴 수
 	int nTurn = 0;
 	//데미지 확률
@@ -32,27 +27,36 @@ void main() {
 		nDmgProbList[o] = (float)1 / 11;
 	}
 
+	//부활 캐릭터 수
+	int nResurection = 0;
+
+	//사망자 수
+	int nDeathNum = 0;
+
+	//현재 턴에 발생한 사망자 수
+	int nNowturnDeath = 0;
+
 	//난수 세팅
 	srand((unsigned)time(NULL));
 
-	for (int i = 0; i < 100; i++) {
-		players[i] = (CHARACTER*)malloc(sizeof(CHARACTER));
-		players[i]->nLife = (rand() % 51) + 50;
-		players[i]->nDamage = 0;
-	}
+	//100개의 캐릭터 초기화
+	initCharacter(players, 100);
+
 	printf("Enter Key(시작), Esc 키(종료)\n");
 	while (1) {
 		int inputKeyVal = getch();
+
+		//현재 턴 사망자 초기화
+		nNowturnDeath = 0;
+		//사망자 수 초기화
+		nDeathNum = 0;
+
 		if (inputKeyVal == 13) {
 			system("cls");
 			printf("Enter Key를 눌러 Turn을 진행시켜주세요, Esc키를 누를 경우 게임이 종료됩니다.\n");
 			nTurn += 1;
 			printf("Turn : %d\n", nTurn);
 
-			//매 턴마다 발생하는 사망자 수
-			int nDeathNum = 0;
-			//부활 유저 수
-			int nResurection = 0;
 			//회피 데미지 수
 			int nDodge = 0;
 
@@ -97,11 +101,14 @@ void main() {
 
 					if (players[j]->nLife <= 0) {
 						//데미지를 입은 유저를 사망처리
+						nNowturnDeath += 1;
 						free(players[j]);
 						players[j] = NULL;
 					}
 				}
 			}
+
+
 
 			//사망자 수 에서 10% 인원을 부활한다.
 			//사망자를 카운팅한다.
@@ -110,33 +117,10 @@ void main() {
 					nDeathNum += 1;
 				}
 			}
-			//매 턴 마다 발생한 사망자의 수 만큼 동적 배열을 생성
-			//동적 배열을 이용하여 생성 한 이유는
-			//기존에 저장된 사망자 명단을 한번 초기화 해줘야 할 필요가 있기 때문.
-			//기존의 배열(int d[100])을 이용하여 생성 할 경우
-			//기존에 죽은 유저가 남아 있음
-			//죽은 유저는 얼마든지 부활 할 수 있기 때문에
-			//매 turn마다 사망자 목록을 초기화 해야함.
-			nDeathNote = (int*)malloc((nDeathNum + 1) * sizeof(int));
-			//생성된 배열에 사망자를 저장한다.
-			int nDeathNoteArry = 0;
-			for (int f = 0; f < 100; f++) {
-				if (players[f] == NULL) {
-					nDeathNote[nDeathNoteArry] = f;
-					nDeathNoteArry += 1;
-				}
-			}
-			//사망자 중 10퍼센트 부활 한다.
-			nResurection = nDeathNum / 10;
-			//부활 시킬 대상자 수 만큼 반복문을 실행.            
-			for (int c = 0; c < nResurection; c++) {
-				//0부터 사망한 인원 수 사이의 임의의 수를 생성
-				int nPlayer = rand() % nDeathNoteArry;
-				//임의의 수에 저장된 유저 인덱스에 character 구조체를 동적으로 다시 생성한다.
-				players[nDeathNote[nPlayer]] = (CHARACTER*)malloc(sizeof(CHARACTER));
-				players[nDeathNote[nPlayer]]->nLife = (rand() % 51) + 50;
-				players[nDeathNote[nPlayer]]->nDamage = 0;
-			}
+
+			//죽은 캐릭터 부활 처리
+			nResurection = revivalChar(players, nDeathNum);
+
 			printf("User / Live / Life / Dmg , User / Live / Life / Dmg , User / Live / Life / Dmg , User / Live / Life / Dmg , User / Live / Life / Dmg\n");
 			//결과 출력
 			for (int b = 0; b < 100; b++) {
@@ -174,18 +158,16 @@ void main() {
 				}
 			}
 
-			//사망한 플레이어의 목록이 저장된 데이터 배열을 해제한다,
-			//배열을 메모리에서 해재함으로 써 기존의 데이터를 초기화한다.
-			free(nDeathNote);
+
 			//개행문자 추가
 			printf("\n");
 			//화면 글자 색상 변경
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 
 			//현재상황 출력
-			printf("생존 캐릭터 %d명 사망 캐릭터 %d명\n", (100 - nDeathNoteArry), nDeathNoteArry);
+			printf("생존 캐릭터 %d명 사망 캐릭터 %d명\n", (100 - nDeathNum), nDeathNum);
 			printf("부활 캐릭터 %d명\n", nResurection);
-			printf("이번 공격으로 죽은 캐릭터 %d명\n", nDeathNum);
+			printf("이번 공격으로 죽은 캐릭터 %d명\n", nNowturnDeath);
 			printf("이번 공격에 공격 받지 않은 캐릭터 %d명\n", nDodge);
 
 			//데미지별 확률 출력
