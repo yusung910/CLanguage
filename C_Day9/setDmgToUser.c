@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "cnst.h"
 #include "setDmgToUser.h"
 
@@ -31,7 +33,7 @@ void setDmgToUser(CHARACTER** players, float* nDmgProbList) {
 			if (players[j]->nLife <= 0) {
 				//데미지를 입은 유저를 사망처리
 				free(players[j]);
-				players[j] = '\0';
+				players[j] = NULL;
 			}
 		}
 	}

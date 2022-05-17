@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="doPrintCurrentStatus.c" />
     <ClCompile Include="getDeathUserCnt.c" />
     <ClCompile Include="initUser.c" />
     <ClCompile Include="main.c" />
@@ -27,6 +28,7 @@
     <ClCompile Include="setResurrectionChar.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="doPrintCurrentStatus.h" />
     <ClInclude Include="getDeathUserCnt.h" />
     <ClInclude Include="initUser.h" />
     <ClInclude Include="cnst.h" />
