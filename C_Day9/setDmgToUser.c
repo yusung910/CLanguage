@@ -25,7 +25,8 @@ void setDmgToUser(CHARACTER** players, float* nDmgProbList) {
 				}
 			}
 
-			int userLife = players[j]->nLife;
+
+            int userLife = players[j]->nLife;
 
 			players[j]->nDamage = nDmg;
 			players[j]->nLife = userLife - nDmg;

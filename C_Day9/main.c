@@ -3,7 +3,6 @@
 #include <time.h>   // time() 함수
 #include <malloc.h>
 
-
 #include "cnst.h"
 #include "doPrintCurrentStatus.h"
 #include "getDeathUserCnt.h"
@@ -13,26 +12,6 @@
 #include "setResurrectionChar.h"
 
 void main() {
-    //세이브파일 검사
-    FILE *in;
-    in = fopen("save.bin", "rb");
-    if (in != NULL) {
-        char answer = '\0';
-        while (1) {
-            printf("기존 세이브 파일이 존재합니다. 불러오겠습니까?(Y,N) : ");
-            scanf("%c", &answer);
-            if (answer == 'Y' || answer=='y') {
-                printf("do Load");
-                break;
-            }else if (answer == 'N' || answer == 'n') {
-                break;
-            }else {
-                puts("Y 또는 N을 입력해주세요.");
-            }
-        }
-    }
-
-
     //플레이어 배열
     CHARACTER* players[100];
     //사망 플레이어를 저장하기위한 배열
@@ -45,8 +24,35 @@ void main() {
     //난수 세팅
     srand((unsigned)time(NULL));
 
-    //캐릭터 초기 세팅한다.
-	initUser(players);		
+    //세이브파일 검사
+    FILE *in;
+    in = fopen("save.bin", "rb");
+    if (in != NULL) {
+        char answer = '\0';
+        while (1) {
+            printf("기존 세이브 파일이 존재합니다. 불러오겠습니까?(Y,N) : ");
+            scanf("%c", &answer);
+            if (answer == 'Y' || answer == 'y') {
+                for (int i = 0; i < 100; i++) {
+                    players[i] = (CHARACTER*)malloc(sizeof(CHARACTER));
+                    fseek(in, i * sizeof(CHARACTER), SEEK_CUR);
+                    fread(players[i], 1, sizeof(CHARACTER), in);
+                }
+                break;
+            }
+            else if (answer == 'N' || answer == 'n') {
+                //캐릭터 초기 세팅한다.
+                initUser(players);
+                break;
+            }
+            else {
+                puts("Y 또는 N을 입력해주세요.");
+            }
+        }
+    }else {
+        initUser(players);
+    }
+    fclose(in);
 
     printf("Enter Key(시작), Esc 키(종료)\n");
     while (1) {
@@ -87,10 +93,7 @@ void main() {
             fwrite(players, 1, sizeof(players), out);
 
             //현재 턴 정보 저장
-            fwrite(&nTurn, 1, sizeof(nTurn), out);
-
-            //데미지별 확률 정보 저장
-            fwrite(nDmgProbList, 1, sizeof(nDmgProbList), out);
+            //fwrite(&nTurn, 1, sizeof(nTurn), out);
 
             //파일 연결 종료
             fclose(out);
