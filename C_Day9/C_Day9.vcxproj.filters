@@ -21,12 +21,36 @@
     <ClCompile Include="initUser.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="setDmgToUser.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="setDmgProb.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="getDeathUserCnt.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="setResurrectionChar.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="initUser.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="cnst.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="setDmgToUser.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="setDmgProb.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="getDeathUserCnt.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="setResurrectionChar.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

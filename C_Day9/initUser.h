@@ -1,3 +1,3 @@
 #pragma once
 #include "cnst.h"
-void initUser(CHARACTER* players);
+void initUser(CHARACTER** players);

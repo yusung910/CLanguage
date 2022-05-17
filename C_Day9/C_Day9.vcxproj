@@ -19,12 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="getDeathUserCnt.c" />
     <ClCompile Include="initUser.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="setDmgProb.c" />
+    <ClCompile Include="setDmgToUser.c" />
+    <ClCompile Include="setResurrectionChar.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="getDeathUserCnt.h" />
     <ClInclude Include="initUser.h" />
     <ClInclude Include="cnst.h" />
+    <ClInclude Include="setDmgProb.h" />
+    <ClInclude Include="setDmgToUser.h" />
+    <ClInclude Include="setResurrectionChar.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

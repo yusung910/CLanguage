@@ -4,12 +4,10 @@
 
 #include "cnst.h"
 
-void initUser(CHARACTER* players) {
-    players = (CHARACTER*)malloc(sizeof(CHARACTER) * 100);
-    for (int i = 0; i < 100; i++) {
-        players->nLife = (rand() % 51) + 50;
-        players->nDamage = 0;
-        players++;
-    }
-
+void initUser(CHARACTER** players) {
+	for (int i = 0; i < 100; i++){
+		players[i] = (CHARACTER*)malloc(sizeof(CHARACTER));
+		players[i]->nLife = (rand() % 51) + 50;
+		players[i]->nDamage = 0;
+	}
 }
