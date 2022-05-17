@@ -3,6 +3,7 @@
 #include <time.h>   // time() 함수
 #include <malloc.h>
 
+
 #include "cnst.h"
 #include "doPrintCurrentStatus.h"
 #include "getDeathUserCnt.h"
@@ -12,6 +13,26 @@
 #include "setResurrectionChar.h"
 
 void main() {
+    //세이브파일 검사
+    FILE *in;
+    in = fopen("save.bin", "rb");
+    if (in != NULL) {
+        char answer = '\0';
+        while (1) {
+            printf("기존 세이브 파일이 존재합니다. 불러오겠습니까?(Y,N) : ");
+            scanf("%c", &answer);
+            if (answer == 'Y' || answer=='y') {
+                printf("do Load");
+                break;
+            }else if (answer == 'N' || answer == 'n') {
+                break;
+            }else {
+                puts("Y 또는 N을 입력해주세요.");
+            }
+        }
+    }
+
+
     //플레이어 배열
     CHARACTER* players[100];
     //사망 플레이어를 저장하기위한 배열
@@ -58,6 +79,21 @@ void main() {
 			//현재 상황을 출력한다.
 			doPrintCurrentStatus(players, nDmgProbList, nResurection, nDeathNum);
         }else if (inputKeyVal == 27) {
+            //게임 종료시 마지막 정보를 save.bin에 저장
+            FILE *out;
+            out = fopen("save.bin", "wb");
+
+            //플레이어 정보 저장
+            fwrite(players, 1, sizeof(players), out);
+
+            //현재 턴 정보 저장
+            fwrite(&nTurn, 1, sizeof(nTurn), out);
+
+            //데미지별 확률 정보 저장
+            fwrite(nDmgProbList, 1, sizeof(nDmgProbList), out);
+
+            //파일 연결 종료
+            fclose(out);
             puts("game 종료!");
             break;
         }
