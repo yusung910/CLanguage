@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h> // rand() ÇÔ¼ö
-#include <time.h>   // time() ÇÔ¼ö
+ï»¿#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include <malloc.h>
 
 #include "cnst.h"
@@ -12,46 +12,71 @@
 #include "setResurrectionChar.h"
 
 void main() {
-    //ÇÃ·¹ÀÌ¾î ¹è¿­
+    //í”Œë ˆì´ì–´ ë°°ì—´
     CHARACTER* players[100];
-    //»ç¸Á ÇÃ·¹ÀÌ¾î¸¦ ÀúÀåÇÏ±âÀ§ÇÑ ¹è¿­
+    //ì‚¬ë§ í”Œë ˆì´ì–´ë¥¼ ì €ì¥í•˜ê¸°ìœ„í•œ ë°°ì—´
 	int* nDeathNote;
-    //ÇÃ·¹ÀÌ¾î ÅÏ ¼ö
+    //í”Œë ˆì´ì–´ í„´ ìˆ˜
     int nTurn = 0;
-    //µ¥¹ÌÁö È®·ü
+    //ë°ë¯¸ì§€ í™•ë¥ 
     float nDmgProbList[11];
 
-    //³­¼ö ¼¼ÆÃ
+
+    //ë‚œìˆ˜ ì„¸íŒ…
     srand((unsigned)time(NULL));
 
-    //¼¼ÀÌºêÆÄÀÏ °Ë»ç
+    //ì„¸ì´ë¸ŒíŒŒì¼ ê²€ì‚¬
     FILE *in;
     in = fopen("save.bin", "rb");
     if (in != NULL) {
         char answer = '\0';
         while (1) {
-            printf("±âÁ¸ ¼¼ÀÌºê ÆÄÀÏÀÌ Á¸ÀçÇÕ´Ï´Ù. ºÒ·¯¿À°Ú½À´Ï±î?(Y,N) : ");
+            printf("ê¸°ì¡´ ì„¸ì´ë¸Œ íŒŒì¼ì´ ì¡´ì¬í•©ë‹ˆë‹¤. ë¶ˆëŸ¬ì˜¤ê² ìŠµë‹ˆê¹Œ?(Y,N) : ");
             scanf("%c", &answer);
             if (answer == 'Y' || answer == 'y') {
-				CHARACTER *tmp = (CHARACTER*) malloc(sizeof(CHARACTER));
-				fseek(in, 8, SEEK_CUR);
-				fread(tmp, 8, 1, in);
-				printf("%s\n", tmp);
-				
-                //for (int i = 0; i < 100; i++) {
-                //    players[i] = (CHARACTER*)malloc(sizeof(CHARACTER));
-                //    fseek(in, i * sizeof(CHARACTER), SEEK_CUR);
-                //    fread(players[i], 1, sizeof(CHARACTER), in);
-                //}
+                int nBeforeDmg = 0;
+                int nBeforeLife = 0;
+                int nAfDmg = 0;
+                int nAfLife = 0;
+                int nR = 0;
+                int loadTurn = 0;
+                for (int i = 0; i < 100; i++) {
+                    fseek(in, (4 * i), SEEK_SET);
+                    fread(&nBeforeDmg, 1, sizeof(int), in);
+                    fseek(in, 400 + (4 *i), SEEK_SET);
+                    fread(&nBeforeLife, 1, sizeof(int), in);
+
+                    nAfDmg = nBeforeDmg - 100;
+                    nAfLife = nBeforeLife - 100;
+                    if (nAfDmg == 0 && nAfLife == 0) {
+                        players[i] = NULL;
+                    } else {
+                        players[i] = (CHARACTER*)malloc(sizeof(CHARACTER));
+                        players[i]->nLife = nAfLife;
+                        players[i]->nDamage = nAfDmg;
+                        nR += 1;
+                    }
+                }
+
+                //í„´ìˆ˜ ì €ì¥
+                fseek(in, -4, SEEK_END);
+                fread(&loadTurn, 1, sizeof(int), in);
+                nTurn = loadTurn - 100;
+
+                //ë°ë¯¸ì§€ë³„ í™•ë¥ ì„ ì„¸íŒ…í•œë‹¤.
+                setDmgProb(nDmgProbList, nTurn);
+                printf("Turn : %d\n", nTurn);
+
+                doPrintCurrentStatus(players, nDmgProbList, nR, (100- nR));
                 break;
             }
             else if (answer == 'N' || answer == 'n') {
-                //Ä³¸¯ÅÍ ÃÊ±â ¼¼ÆÃÇÑ´Ù.
+                //ìºë¦­í„° ì´ˆê¸° ì„¸íŒ…í•œë‹¤.
                 initUser(players);
                 break;
             }
             else {
-                puts("Y ¶Ç´Â NÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+                puts("Y ë˜ëŠ” Nì„ ì…ë ¥í•´ì£¼ì„¸ìš”.");
             }
         }
 		fclose(in);
@@ -60,55 +85,62 @@ void main() {
     }
     
 
-    printf("Enter Key(½ÃÀÛ), Esc Å°(Á¾·á)\n");
+    printf("Enter Key(ì‹œì‘), Esc í‚¤(ì¢…ë£Œ)\n");
     while (1) {
         int inputKeyVal = getch();
         if (inputKeyVal == 13) {
             system("cls");
-            printf("Enter Key¸¦ ´­·¯ TurnÀ» ÁøÇà½ÃÄÑÁÖ¼¼¿ä, EscÅ°¸¦ ´©¸¦ °æ¿ì °ÔÀÓÀÌ Á¾·áµË´Ï´Ù.\n");
+            printf("Enter Keyë¥¼ ëˆŒëŸ¬ Turnì„ ì§„í–‰ì‹œì¼œì£¼ì„¸ìš”, Escí‚¤ë¥¼ ëˆ„ë¥¼ ê²½ìš° ê²Œì„ì´ ì¢…ë£Œë©ë‹ˆë‹¤.\n");
             nTurn += 1;
             printf("Turn : %d\n", nTurn);
 
-			//ºÎÈ° Ä³¸¯ÅÍ ¼ö
+			//ë¶€í™œ ìºë¦­í„° ìˆ˜
 			int nResurection = 0;
-			//»ç¸Á Ä³¸¯ÅÍ ¼ö
+			//ì‚¬ë§ ìºë¦­í„° ìˆ˜
 			int nDeathNum = 0;
-			//µ¥¹ÌÁöº° È®·üÀ» ¼¼ÆÃÇÑ´Ù.
+			//ë°ë¯¸ì§€ë³„ í™•ë¥ ì„ ì„¸íŒ…í•œë‹¤.
 			setDmgProb(nDmgProbList, nTurn);
 
-			//Ä³¸¯ÅÍ¿¡°Ô µ¥¹ÌÁö¸¦ °¡ÇÑ´Ù.
+			//ìºë¦­í„°ì—ê²Œ ë°ë¯¸ì§€ë¥¼ ê°€í•œë‹¤.
 			setDmgToUser(players, nDmgProbList);
 
-			//»ç¸Á Ä³¸¯ÅÍ ¼ö¸¦ °¡Á®¿Â´Ù.
+			//ì‚¬ë§ ìºë¦­í„° ìˆ˜ë¥¼ ê°€ì ¸ì˜¨ë‹¤.
 			nDeathNum = getDeathUserCnt(players);
 
-			//»ç¸ÁÇÑ Ä³¸¯ÅÍ°¡ ÀÖÀ» °æ¿ì ºÎÈ° Ä³¸¯ÅÍ¸¦ ÀÛ¾÷ÇÑ´Ù.
+			//ì‚¬ë§í•œ ìºë¦­í„°ê°€ ìˆì„ ê²½ìš° ë¶€í™œ ìºë¦­í„°ë¥¼ ì‘ì—…í•œë‹¤.
 			if (nDeathNum > 0) {
-				//»ç¸ÁÀÚ ¼ö ¿¡¼­ 10% ÀÎ¿øÀ» ºÎÈ°ÇÑ´Ù.
+				//ì‚¬ë§ì ìˆ˜ ì—ì„œ 10% ì¸ì›ì„ ë¶€í™œí•œë‹¤.
 				nResurection = setResurrectionChar(players, nDeathNum);
 			}
 
-			//ÇöÀç »óÈ²À» Ãâ·ÂÇÑ´Ù.
+			//í˜„ì¬ ìƒí™©ì„ ì¶œë ¥í•œë‹¤.
 			doPrintCurrentStatus(players, nDmgProbList, nResurection, nDeathNum);
         }else if (inputKeyVal == 27) {
-            //°ÔÀÓ Á¾·á½Ã ¸¶Áö¸· Á¤º¸¸¦ save.bin¿¡ ÀúÀå
+            //ê²Œì„ ì¢…ë£Œì‹œ ë§ˆì§€ë§‰ ì •ë³´ë¥¼ save.binì— ì €ì¥
             FILE *out;
             out = fopen("save.bin", "wb");
+
+            int saveDmg[100];
+            int saveLife[100];
+            int saveTurn = nTurn + 100;
 			for (int i = 0; i < 100; i++) {
-				fwrite(players[i], sizeof(int), 4, out);
+                //ìºë¦­í„°ê°€ ì‚´ì•„ ìˆì„ ê²½ìš°ì— ë³€ìˆ˜ ê°’ì„ í• ë‹¹.
+                if (players[i] != NULL) {
+                    saveDmg[i] = players[i]->nDamage + 100;
+                    saveLife[i] = players[i]->nLife + 100;
+                }else{
+                    saveDmg[i] = 100;
+                    saveLife[i] = 100;
+                }
 			}
-			
-            //ÇÃ·¹ÀÌ¾î Á¤º¸ ÀúÀå
+            fwrite(saveDmg, 1, sizeof(saveDmg), out);
+            fwrite(saveLife, 1, sizeof(saveLife), out);
+            fwrite(&saveTurn, 1, sizeof(saveTurn), out);
             
-
-            //ÇöÀç ÅÏ Á¤º¸ ÀúÀå
-            //fwrite(&nTurn, 1, sizeof(nTurn), out);
-
-            //ÆÄÀÏ ¿¬°á Á¾·á
             fclose(out);
-            puts("game Á¾·á!");
+
+            puts("game ì¢…ë£Œ!");
             break;
         }
-
     }
 }
