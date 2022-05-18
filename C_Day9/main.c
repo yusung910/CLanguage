@@ -33,11 +33,16 @@ void main() {
             printf("기존 세이브 파일이 존재합니다. 불러오겠습니까?(Y,N) : ");
             scanf("%c", &answer);
             if (answer == 'Y' || answer == 'y') {
-                for (int i = 0; i < 100; i++) {
-                    players[i] = (CHARACTER*)malloc(sizeof(CHARACTER));
-                    fseek(in, i * sizeof(CHARACTER), SEEK_CUR);
-                    fread(players[i], 1, sizeof(CHARACTER), in);
-                }
+				CHARACTER *tmp = (CHARACTER*) malloc(sizeof(CHARACTER));
+				fseek(in, 8, SEEK_CUR);
+				fread(tmp, 8, 1, in);
+				printf("%s\n", tmp);
+				
+                //for (int i = 0; i < 100; i++) {
+                //    players[i] = (CHARACTER*)malloc(sizeof(CHARACTER));
+                //    fseek(in, i * sizeof(CHARACTER), SEEK_CUR);
+                //    fread(players[i], 1, sizeof(CHARACTER), in);
+                //}
                 break;
             }
             else if (answer == 'N' || answer == 'n') {
@@ -49,10 +54,11 @@ void main() {
                 puts("Y 또는 N을 입력해주세요.");
             }
         }
+		fclose(in);
     }else {
         initUser(players);
     }
-    fclose(in);
+    
 
     printf("Enter Key(시작), Esc 키(종료)\n");
     while (1) {
@@ -88,9 +94,12 @@ void main() {
             //게임 종료시 마지막 정보를 save.bin에 저장
             FILE *out;
             out = fopen("save.bin", "wb");
-
+			for (int i = 0; i < 100; i++) {
+				fwrite(players[i], sizeof(int), 4, out);
+			}
+			
             //플레이어 정보 저장
-            fwrite(players, 1, sizeof(players), out);
+            
 
             //현재 턴 정보 저장
             //fwrite(&nTurn, 1, sizeof(nTurn), out);
