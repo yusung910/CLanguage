@@ -3,7 +3,7 @@
 
 #include "cnst.h"
 
-BOOL doSaveData(CHARACTER** players, int* nTurn) {
+BOOL doSaveData(CHARACTER** players, int* nTurn, int* nResurection) {
 	char cSaveFlag = '\0';
 	BOOL retFlag = FALSE;
 	while (1) {
@@ -16,7 +16,8 @@ BOOL doSaveData(CHARACTER** players, int* nTurn) {
 
 			int saveDmg[100];
 			int saveLife[100];
-			int saveTurn = (*nTurn)+100;
+			int saveTurn = (*nTurn) + 100;
+            int saveRe = (*nResurection) + 100;
 			for (int i = 0; i < 100; i++) {
 				//캐릭터가 살아 있을 경우에 변수 값을 할당.
 				if (players[i] != NULL) {
@@ -28,9 +29,14 @@ BOOL doSaveData(CHARACTER** players, int* nTurn) {
 					saveLife[i] = 100;
 				}
 			}
+            //데미지 목록
 			fwrite(saveDmg, 1, sizeof(saveDmg), out);
+            //생명력 목록
 			fwrite(saveLife, 1, sizeof(saveLife), out);
-			fwrite(&saveTurn, 1, sizeof(saveTurn), out);
+            //턴 정보
+            fwrite(&saveTurn, 1, sizeof(saveTurn), out);
+            //부활 수
+			fwrite(&saveRe, 1, sizeof(saveRe), out);
 
 			fclose(out);
 			printf("\n게임 정보가 저장되었습니다!");

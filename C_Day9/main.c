@@ -16,24 +16,27 @@
 void main() {
     //플레이어 배열
     CHARACTER* players[100];
-    //사망 플레이어를 저장하기위한 배열
-	int* nDeathNote;
     //플레이어 턴 수
-    int nTurn=0;
+    int nTurn = 0;
     //데미지 확률
     float nDmgProbList[11];
 	//데미지별 확률 초기 세팅
 	for (int o = 0; o < 11; o++) {
 		nDmgProbList[o] = (float)1 / 11;
 	}
+    //부활 캐릭터 수
+    int nResurection = 0;
+    //사망 캐릭터 수
+    int nDeathNum = 0;
 
     //난수 세팅
     srand((unsigned)time(NULL));
 
     //세이브파일 검사
-	doLoadData(players, nDmgProbList, &nTurn);
+	doLoadData(players, nDmgProbList, &nTurn, &nResurection);
     
     printf("Enter Key(시작), Esc 키(종료)\n");
+
     while (1) {
         int inputKeyVal = getch();
         if (inputKeyVal == 13) {
@@ -42,12 +45,9 @@ void main() {
             nTurn += 1;
             printf("Turn : %d\n", nTurn);
 
-			//부활 캐릭터 수
-			int nResurection = 0;
-			//사망 캐릭터 수
-			int nDeathNum = 0;
+
 			//데미지별 확률을 세팅한다.
-			setDmgProb(nDmgProbList, nTurn);
+			setDmgProb(nDmgProbList, &nTurn);
 
 			//캐릭터에게 데미지를 가한다.
 			setDmgToUser(players, nDmgProbList);
@@ -65,7 +65,7 @@ void main() {
 			doPrintCurrentStatus(players, nDmgProbList, nResurection, nDeathNum);
         }else if (inputKeyVal == 27) {
 			//저장 작업을 진행한다
-			if (doSaveData(players, &nTurn)) {
+			if (doSaveData(players, &nTurn, &nResurection)) {
 				break;
 			}
         }

@@ -1,4 +1,4 @@
 #pragma once
 #include "cnst.h"
 
-BOOL doSaveData(CHARACTER** players, int* nTurn);
+BOOL doSaveData(CHARACTER** players, int* nTurn, int* nResurection);

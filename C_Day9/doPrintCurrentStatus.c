@@ -49,9 +49,9 @@ void doPrintCurrentStatus(CHARACTER** players, float* nDmgProbList, int nResurec
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
 
 	//현재상황 출력
-	printf("생존 캐릭터 %d명 사망 캐릭터 %d명\n", (100 - nDeathNum), nDeathNum);
+	printf("생존 캐릭터 %d명 사망 캐릭터 %d명\n", (100 - (nDeathNum - nResurection)), (nDeathNum - nResurection));
+    printf("이번 공격으로 죽은 캐릭터 %d명\n", nDeathNum);
 	printf("부활 캐릭터 %d명\n", nResurection);
-	printf("이번 공격으로 죽은 캐릭터 %d명\n", nDeathNum);
 	printf("이번 공격에 공격 받지 않은 캐릭터 %d명\n", nDodge);
 
 	//데미지별 확률 출력

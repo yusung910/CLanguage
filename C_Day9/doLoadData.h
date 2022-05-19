@@ -3,4 +3,4 @@
 #include <stdlib.h>
 
 #include "cnst.h"
-void doLoadData(CHARACTER** players, float* nDmgProbList, int* nTurn);
+void doLoadData(CHARACTER** players, float* nDmgProbList, int* nTurn, int* nResurection);
