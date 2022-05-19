@@ -65,5 +65,5 @@ void doPrintCurrentStatus(CHARACTER** players, float* nDmgProbList, int nResurec
 		if (z % 5 == 0 && z != 0)
 			printf("\n");
 	}
-	printf("\nÈ®·ü ÃÑÇÕ %.3f%%", rateSum);
+	printf("\nÈ®·ü ÃÑÇÕ %.3f%%\n", rateSum);
 }

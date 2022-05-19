@@ -19,7 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="doLoadData.c" />
     <ClCompile Include="doPrintCurrentStatus.c" />
+    <ClCompile Include="doSaveData.c" />
     <ClCompile Include="getDeathUserCnt.c" />
     <ClCompile Include="initUser.c" />
     <ClCompile Include="main.c" />
@@ -28,7 +30,9 @@
     <ClCompile Include="setResurrectionChar.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="doLoadData.h" />
     <ClInclude Include="doPrintCurrentStatus.h" />
+    <ClInclude Include="doSaveData.h" />
     <ClInclude Include="getDeathUserCnt.h" />
     <ClInclude Include="initUser.h" />
     <ClInclude Include="cnst.h" />

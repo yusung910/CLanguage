@@ -7,3 +7,4 @@ typedef struct
 
 #define TRUE	1
 #define FALSE	0
+#define BOOL int
