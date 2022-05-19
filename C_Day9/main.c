@@ -64,6 +64,7 @@ void main() {
 			//현재 상황을 출력한다.
 			doPrintCurrentStatus(players, nDmgProbList, nResurection, nDeathNum);
         }else if (inputKeyVal == 27) {
+			//저장 작업을 진행한다
 			if (doSaveData(players, &nTurn)) {
 				break;
 			}
