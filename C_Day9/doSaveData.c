@@ -16,7 +16,7 @@ BOOL doSaveData(CHARACTER** players, int* nTurn) {
 
 			int saveDmg[100];
 			int saveLife[100];
-			int saveTurn = nTurn + 100;
+			int saveTurn = (*nTurn)+100;
 			for (int i = 0; i < 100; i++) {
 				//캐릭터가 살아 있을 경우에 변수 값을 할당.
 				if (players[i] != NULL) {
