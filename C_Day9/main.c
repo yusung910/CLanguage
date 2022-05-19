@@ -19,7 +19,7 @@ void main() {
     //사망 플레이어를 저장하기위한 배열
 	int* nDeathNote;
     //플레이어 턴 수
-    int nTurn = 0;
+    int nTurn=0;
     //데미지 확률
     float nDmgProbList[11];
 	//데미지별 확률 초기 세팅

@@ -13,7 +13,7 @@ void doPrintCurrentStatus(CHARACTER** players, float* nDmgProbList, int nResurec
 		char* heartFlag = (players[b] == NULL) ? "\u2661" : "\u2665";
 		int nPlayerLife = (players[b] == NULL) ? 0 : players[b]->nLife;
 		int nPlayerDamaged = (players[b] == NULL) ? 0 : players[b]->nDamage;
-		int nTextColor = (players[b] == NULL) ? 0 : 3;
+		int nTextColor = (players[b] == NULL) ? 8 : 3;
 
 		//생존한 유저 중 데미지를 0 입었을 경우 노란색으로 지정
 		if (nTextColor == 3) {
