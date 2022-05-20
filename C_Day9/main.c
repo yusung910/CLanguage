@@ -14,6 +14,8 @@
 #include "setResurrectionChar.h"
 
 void main() {
+	//게임 화면 조절
+	system("mode con: cols=150 lines=40");
     //플레이어 배열
     CHARACTER* players[100];
     //플레이어 턴 수
