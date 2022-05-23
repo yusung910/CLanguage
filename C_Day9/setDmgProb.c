@@ -1,5 +1,5 @@
 void setDmgProb(float* nDmgProbList, int nTurn) {
-	int nLevel = (nTurn < 900) ? nTurn / 10 : 9;
+	int nLevel = (nTurn < 900) ? (nTurn / 10) : 9;
 	//데미지 계산 하기 전 20턴이 넘어가고
 	//10턴마다 데미지 확률을 변경한다.
 	if (nTurn > 10) {

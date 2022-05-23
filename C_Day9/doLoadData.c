@@ -51,7 +51,7 @@ void doLoadData(CHARACTER** players, float* nDmgProbList, int* nTurn, int* nResu
                 *nResurection = loadRe - 100;
 
 				//데미지별 확률을 세팅한다.
-				setDmgProb(nDmgProbList, nTurn);
+				setDmgProb(nDmgProbList, *nTurn);
 				printf("Turn : %d\n", *nTurn);
 
 				doPrintCurrentStatus(players, nDmgProbList, *nResurection, (nDeath+(*nResurection)));

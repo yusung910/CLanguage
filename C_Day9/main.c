@@ -49,7 +49,7 @@ void main() {
 
 
 			//데미지별 확률을 세팅한다.
-			setDmgProb(nDmgProbList, &nTurn);
+			setDmgProb(nDmgProbList, nTurn);
 
 			//캐릭터에게 데미지를 가한다.
 			setDmgToUser(players, nDmgProbList);
