@@ -2,7 +2,6 @@
 
 using namespace std;
 
-
 namespace Calculator {
 
 	int sum(int a, int b) {
@@ -26,8 +25,10 @@ using namespace Calculator;
 
 int main()
 {
+
     cout << "Sum :: " << sum(10, 11) << endl;
 	cout << "mul :: " << mul(10, 11) << endl;
 	cout << "min :: " << min(10, 11) << endl;
 	cout << "div :: " << division(10, 11) << endl;
+    return 0;
 }
