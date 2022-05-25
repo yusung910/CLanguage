@@ -2,6 +2,10 @@
 
 using namespace std;
 
+struct playersInfo {
+	int hp;
+	char name[100];
+};
 
 namespace Calculator {
 
@@ -19,6 +23,12 @@ namespace Calculator {
 
 	float division(int a, int b) {
 		return (float) a / b;
+	}
+
+	void initCharInfo(playersInfo pinfo) {
+		pinfo.hp = 100;
+		pinfo.name = "플레이어1";
+
 	}
 }
 
