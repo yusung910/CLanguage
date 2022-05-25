@@ -7,6 +7,7 @@ struct playersInfo {
 	char name[100];
 };
 
+
 namespace Calculator {
 
 	int sum(int a, int b) {
@@ -27,7 +28,7 @@ namespace Calculator {
 
 	void initCharInfo(playersInfo pinfo) {
 		pinfo.hp = 100;
-		pinfo.name = "플레이어1";
+		//pinfo.name = "플레이어1";
 
 	}
 }
@@ -36,8 +37,10 @@ using namespace Calculator;
 
 int main()
 {
+
     cout << "Sum :: " << sum(10, 11) << endl;
 	cout << "mul :: " << mul(10, 11) << endl;
 	cout << "min :: " << min(10, 11) << endl;
 	cout << "div :: " << division(10, 11) << endl;
+    return 0;
 }
