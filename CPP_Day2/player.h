@@ -9,7 +9,7 @@ public:
 	//¸â¹öÇÔ¼ö
 	void SetHp(int dmg = 0);
 	void SetMana(int dmg = 0);
-
+    void ShowStatus();
 private:
 	int m_nHp, m_nMana;
 	char* m_cName;

@@ -3,8 +3,8 @@
 
 int main()
 {
-	char cPname[20] = { "플레이어1" };
-	CPlayer testPlayer(100, 100, cPname);
-
+    char pname[] = "플레이어1";
+	CPlayer testPlayer(100, 100, pname);
+    testPlayer.ShowStatus();
 	return 0;
 }
