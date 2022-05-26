@@ -18,5 +18,13 @@
     <ClCompile Include="CPP_Day2.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="PLAYER.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="player.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
