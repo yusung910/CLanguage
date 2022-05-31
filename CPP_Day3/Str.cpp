@@ -16,41 +16,46 @@ String::String()
 	m_nHp = 100;
 	m_nNum++;
 
-	//cout << this << " 디폴트생성자\n";
+	cout << this << " 디폴트생성자\n";
 }
 
-String::String(const char* s)
+String::String(const char* s, int n)
 {
-	m_nLength = strlen(s);
-	m_cName = new char[m_nLength + 1];
-	::strcpy(m_cName, s);
+    //일련번호 자릿수 초기값
+    int n_pos = 1;
+    //일련번호 증가
+    m_nNum++;
+    //임시 캐릭터명 길이
+    int nTmpNameLength = strlen(s);
 
-	//cout << this << " 포인터생성자\n";
-}
+    while (1)
+    {
+        if (m_nNum / 10 > 0) {
+            n_pos++;
+        } else {
+            break;
+        }
+    }
+    //캐릭터명 배열 생성
+    m_cName = new char[nTmpNameLength + n_pos + 1];
 
-String::String(const String& s, int hp)
-{
-	m_nNum++;
+    //캐릭터명 복사
+    ::strcpy(m_cName, s);
 
-	m_nLength = s.m_nLength;
-	m_cName = new char[m_nLength + 1];
-	m_nHp = hp;
-	
+    for (int i = 0; i < n_pos; i++) {
+        int nTmpNum = m_nNum;
+        if (i > 1) {
+            nTmpNum /= 10;
+        }
+        m_cName[nTmpNameLength + i] = (m_nNum % 10) + 48;
+    }
 
-	//캐릭터 넘버 생성
-	GetCharName();
+    m_cName[nTmpNameLength + n_pos] = '\0';
 
-	::strcpy(m_cName, s.m_cName);
+    //캐릭터명 + 일련번호를 붙인 문자열 길이값을 다시 저장한다.
+    m_nLength = strlen(m_cName);
 
-	//cout << this << " 복사생성자\n";
-}
-
-String::String(char ch, int n)
-{
-	m_nLength = n;
-	m_cName = new char[m_nLength + 1];
-	::memset(m_cName, ch, m_nLength);
-	m_cName[m_nLength] = '\0';
+	cout << this << " 포인터생성자\n";
 }
 
 String::~String()
@@ -61,7 +66,7 @@ String::~String()
 		m_cName = NULL;
 	}
 	m_nNum--;
-	//cout << this << " 소멸자\n";
+	cout << this << " 소멸자\n";
 }
 
 //// 리턴을 레퍼런스로 하여 다중대입문을 구현 ( str3 = str2 = str1 )                               
@@ -91,31 +96,5 @@ int String::GetLength(void) const
 
 void String::Display(void) const
 {
-	cout << " 캐릭명 : " << m_cName << ", HP : " << m_nHp << ", 일련번호 : " << m_nNum << endl;
-}
-
-void String::SetCharSerialNum() {
-	int n_pos = 1;
-	char* charNum;
-
-	while (1)
-	{
-		if (m_nNum / 10 > 0) {
-			n_pos++;
-		} else {
-			break;
-		}
-	}
-
-	charNum = (char*)malloc((sizeof(char) * n_pos) + 1);
-
-	for (int i = 0; i < n_pos; i++) {
-		int nTmpNum = m_nNum;
-		if (i > 1) {
-			nTmpNum /= 10;
-		}
-		charNum[i] = (m_nNum % 10) + 48;
-	}
-
-	free(charNum);
+	cout << " 캐릭명 : " << m_cName << ", HP : " << m_nHp << endl;
 }
