@@ -54,7 +54,7 @@ String::String(const char* s, int n)
 
     //캐릭터명 + 일련번호를 붙인 문자열 길이값을 다시 저장한다.
     m_nLength = strlen(m_cName);
-
+    m_nHp = n;
 	cout << this << " 포인터생성자\n";
 }
 
