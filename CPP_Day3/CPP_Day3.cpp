@@ -11,8 +11,8 @@ int main()
     test2.Display();
     test3.Display();
 
-    //test2 = test3;
-    //test2.Display();
+    test2 = test3;
+    test2.Display();
 
     String test[10] = { 
         String("히어로", 100),
