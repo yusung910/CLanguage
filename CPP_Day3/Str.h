@@ -12,6 +12,7 @@ public:
 	const String& operator=(const String& s); // operator= member fucntion
 	int GetLength(void) const;
 	void Display(void) const;
+	int GetMnumber();
 private:
 	static int m_nNum;
 	char *m_cName;

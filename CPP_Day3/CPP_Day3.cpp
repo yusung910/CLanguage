@@ -13,7 +13,6 @@ int main()
 
     test2 = test3;
     test2.Display();
-
     String test[10] = { 
         String("히어로", 100),
         String("히어로", 100),
@@ -30,5 +29,4 @@ int main()
 	for (int i = 0; i < 10; i++) {
 		test[i].Display();
 	}
-
 }

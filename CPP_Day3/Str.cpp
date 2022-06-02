@@ -8,7 +8,7 @@
 
 using namespace std;
 
-int String::m_nNum = 1528735;
+int String::m_nNum = 100;
 
 String::String()
 {
@@ -16,7 +16,7 @@ String::String()
 	m_nHp = 100;
 	m_nNum++;
 
-	cout << this << " 디폴트생성자\n";
+	cout << this << " 디폴트생성자" << endl;
 }
 
 String::String(const char* s, int n)
@@ -57,7 +57,7 @@ String::String(const char* s, int n)
     //캐릭터명 + 일련번호를 붙인 문자열 길이값을 다시 저장한다.
     m_nLength = strlen(m_cName);
     m_nHp = n;
-	cout << this << " 포인터생성자\n";
+	cout << this << " 포인터생성자, 생성된 캐릭터 수 : " << m_nNum << endl;
 }
 
 String::~String()
@@ -68,7 +68,7 @@ String::~String()
 		m_cName = NULL;
 	}
 	m_nNum--;
-	cout << this << " 소멸자\n";
+	cout << this << " 소멸자, 현재 캐릭터 수 : "<< m_nNum << endl;
 }
 
 //// 리턴을 레퍼런스로 하여 다중대입문을 구현 ( str3 = str2 = str1 )                               
@@ -100,3 +100,5 @@ void String::Display(void) const
 {
 	cout << " 캐릭명 : " << m_cName << ", HP : " << m_nHp << endl;
 }
+
+int String::GetMnumber(){ return m_nNum; }
