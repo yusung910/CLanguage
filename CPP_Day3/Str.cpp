@@ -27,10 +27,12 @@ String::String(const char* s, int n)
     m_nNum++;
     //임시 캐릭터명 길이
     int nTmpNameLength = strlen(s);
-
+	//임시로 일련번호를 별도의 변수에 저장한다
+	int nTmpSerial = m_nNum;
     while (1)
     {
-        if (m_nNum / 10 > 0) {
+		nTmpSerial = nTmpSerial / 10;
+        if (nTmpSerial > 0) {
             n_pos++;
         } else {
             break;
@@ -44,10 +46,10 @@ String::String(const char* s, int n)
 
     for (int i = 0; i < n_pos; i++) {
         int nTmpNum = m_nNum;
-        if (i > 1) {
-            nTmpNum /= 10;
+        if (i > 0) {
+            nTmpNum = nTmpNum / 10;
         }
-        m_cName[nTmpNameLength + i] = (m_nNum % 10) + 48;
+        m_cName[nTmpNameLength + ((n_pos - i) - 1)] = (nTmpNum % 10) + 48;
     }
 
     m_cName[nTmpNameLength + n_pos] = '\0';
