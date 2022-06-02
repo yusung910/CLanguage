@@ -8,7 +8,7 @@
 
 using namespace std;
 
-int String::m_nNum = 100;
+int String::m_nNum = 11020;
 
 String::String()
 {
