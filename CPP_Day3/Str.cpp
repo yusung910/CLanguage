@@ -8,7 +8,7 @@
 
 using namespace std;
 
-int String::m_nNum = 0;
+int String::m_nNum = 1528735;
 
 String::String()
 {
@@ -43,9 +43,9 @@ String::String(const char* s, int n)
 
     //캐릭터명 복사
     ::strcpy(m_cName, s);
-
+	//일련번호를 별도의 변수에 저장한다.
+	int nTmpNum = m_nNum;
     for (int i = 0; i < n_pos; i++) {
-        int nTmpNum = m_nNum;
         if (i > 0) {
             nTmpNum = nTmpNum / 10;
         }
