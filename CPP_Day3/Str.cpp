@@ -21,41 +21,12 @@ String::String()
 
 String::String(const char* s, int n)
 {
-    //일련번호 자릿수 초기값
-    int n_pos = 1;
+
     //일련번호 증가
     m_nNum++;
-    //임시 캐릭터명 길이
-    int nTmpNameLength = strlen(s);
-	//임시로 일련번호를 별도의 변수에 저장한다
-	int nTmpSerial = m_nNum;
-    while (1)
-    {
-		nTmpSerial = nTmpSerial / 10;
-        if (nTmpSerial > 0) {
-            n_pos++;
-        } else {
-            break;
-        }
-    }
-    //캐릭터명 배열 생성
-    m_cName = new char[nTmpNameLength + n_pos + 1];
 
-    //캐릭터명 복사
-    ::strcpy(m_cName, s);
-	//일련번호를 별도의 변수에 저장한다.
-	int nTmpNum = m_nNum;
-    for (int i = 0; i < n_pos; i++) {
-        if (i > 0) {
-            nTmpNum = nTmpNum / 10;
-        }
-        m_cName[nTmpNameLength + ((n_pos - i) - 1)] = (nTmpNum % 10) + 48;
-    }
-
-    m_cName[nTmpNameLength + n_pos] = '\0';
-
-    //캐릭터명 + 일련번호를 붙인 문자열 길이값을 다시 저장한다.
-    m_nLength = strlen(m_cName);
+	//캐릭터명+일련번호 생성
+	SetCharSerialNum(s);
     m_nHp = n;
 	cout << this << " 포인터생성자, 생성된 캐릭터 수 : " << m_nNum << endl;
 }
@@ -99,6 +70,47 @@ int String::GetLength(void) const
 void String::Display(void) const
 {
 	cout << " 캐릭명 : " << m_cName << ", HP : " << m_nHp << endl;
+}
+
+void String::SetCharSerialNum(const char* s)
+{
+	//일련번호 자릿수 초기값
+	int n_pos = 1;
+	//임시 캐릭터명 길이
+	int nTmpNameLength = strlen(s);
+	//임시로 일련번호를 별도의 변수에 저장한다
+	int nTmpSerial = m_nNum;
+
+	while (1)
+	{
+		nTmpSerial = nTmpSerial / 10;
+		if (nTmpSerial > 0) {
+			n_pos++;
+		}
+		else {
+			break;
+		}
+	}
+	
+	//캐릭터명 배열 생성
+	m_cName = new char[nTmpNameLength + n_pos + 1];
+	//문자열 복사
+	::strcpy(m_cName, s);
+
+	//일련번호를 별도의 변수에 저장한다.
+	int nTmpNum = m_nNum;
+	for (int i = 0; i < n_pos; i++) {
+		if (i > 0) {
+			nTmpNum = nTmpNum / 10;
+		}
+		m_cName[nTmpNameLength + ((n_pos - i) - 1)] = (nTmpNum % 10) + 48;
+	}
+
+	m_cName[nTmpNameLength + n_pos] = '\0';
+
+	//캐릭터명 + 일련번호를 붙인 문자열 길이값을 다시 저장한다.
+	m_nLength = strlen(m_cName);
+
 }
 
 int String::GetMnumber(){ return m_nNum; }
