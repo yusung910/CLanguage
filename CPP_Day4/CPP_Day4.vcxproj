@@ -123,11 +123,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CUnit.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="CRect.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CRect.h" />
+    <ClInclude Include="CUnit.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
