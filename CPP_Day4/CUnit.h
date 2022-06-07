@@ -3,11 +3,12 @@ int CUnit::m_nNum = 0;
 class CUnit
 {
 public:
-	CUnit(const char* s);
+	CUnit();
 	~CUnit();
 
 	void Move(int x, int y);
 	char* GetName();
+	void SetName(const char* s);
 protected:
 	char* m_cName;
 	int m_nHp;

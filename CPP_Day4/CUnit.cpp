@@ -3,15 +3,16 @@
 
 using namespace std;
 
-CUnit::CUnit(const char* s)
+CUnit::CUnit()
 {
-	strcpy(m_cName, s);
+	
 	m_nHp = 0;
 	m_nMana = 0;
 	m_nDamage = 0;
 	m_aPos[0] = 0;
 	m_aPos[1] = 0;
 	m_nNum++;
+	cout << "CUnit »ý¼ºÀÚ";
 }
 CUnit::~CUnit() {
 	if (m_cName)
@@ -30,4 +31,8 @@ void CUnit::Move(int x, int y)
 
 char* CUnit::GetName() {
 	return m_cName;
+}
+
+void CUnit::SetName(const char* s) {
+	strcpy(m_cName, s);
 }
