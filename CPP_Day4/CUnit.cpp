@@ -3,16 +3,15 @@
 
 using namespace std;
 
+int CUnit::m_nNum = 0;
+
 CUnit::CUnit()
 {
-	
-	m_nHp = 0;
-	m_nMana = 0;
 	m_nDamage = 0;
 	m_aPos[0] = 0;
 	m_aPos[1] = 0;
 	m_nNum++;
-	cout << "CUnit 생성자";
+	cout << "CUnit 생성자" << endl;
 }
 CUnit::~CUnit() {
 	if (m_cName)
@@ -21,6 +20,7 @@ CUnit::~CUnit() {
 		m_cName = NULL;
 	}
 	m_nNum--;
+    cout << "CUnit 소멸자" << endl;
 }
 
 void CUnit::Move(int x, int y)
@@ -35,4 +35,16 @@ char* CUnit::GetName() {
 
 void CUnit::SetName(const char* s) {
 	strcpy(m_cName, s);
+}
+
+void CUnit::Attack() {
+
+}
+
+void CUnit::Display() {
+    cout << "유닛 위치 X : " << m_aPos[0] << ", Y : " << m_aPos[1] << ", 타입 : " << m_UnitType << endl;
+}
+
+int CUnit::GetUnitCnt() {
+    return m_nNum;
 }
