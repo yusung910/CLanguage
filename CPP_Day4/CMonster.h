@@ -11,8 +11,6 @@ public:
     void Display();
     void Init();
 
-    int m_nScore;
-
 private:
     int m_nDps;
     int m_nHp;

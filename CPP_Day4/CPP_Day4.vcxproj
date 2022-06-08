@@ -76,6 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -124,12 +125,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CDummy.cpp" />
     <ClCompile Include="CMonster.cpp" />
     <ClCompile Include="CPilot.cpp" />
     <ClCompile Include="CUnit.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CDummy.h" />
     <ClInclude Include="CMonster.h" />
     <ClInclude Include="CPilot.h" />
     <ClInclude Include="CRect.h" />

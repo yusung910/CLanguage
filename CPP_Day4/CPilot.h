@@ -10,8 +10,12 @@ public:
 
     void Display();
 
+	void SetName(const char* s);
+	char* GetName();
     int m_nRankScore;
 private:
+
+	char* m_cName;
     int m_nPower;
     int m_nBomb;
     int m_nLife;

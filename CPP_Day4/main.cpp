@@ -2,6 +2,7 @@
 #include "CUnit.h"
 #include "CMonster.h"
 #include "CPilot.h"
+#include "CDummy.h"
 
 using namespace std;
 
@@ -16,6 +17,7 @@ void main() {
 
     mobOne->CUnit::Display();
     mobTwo->Display();
+	userPilot->SetName("YUS");
     userPilot->Display();
 
     cout << "생성 된 유닛 수 : " << mobOne->GetUnitCnt() << endl;
@@ -26,6 +28,19 @@ void main() {
     
     //delete pTestCast;
     //delete objUnit;
+
+
+	CDummy dummies[5] = {
+		CDummy(),
+		CDummy(),
+		CDummy(),
+		CDummy(),
+		CDummy(),
+	};
+
+	for (int i = 0; i < 5; i++) {
+		dummies[i].Display();
+	}
 
     delete mobTwo;
     delete userPilot;

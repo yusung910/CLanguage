@@ -14,11 +14,6 @@ CUnit::CUnit()
 	cout << "CUnit 持失切" << endl;
 }
 CUnit::~CUnit() {
-	if (m_cName)
-	{
-		delete m_cName;
-		m_cName = NULL;
-	}
 	m_nNum--;
     cout << "CUnit 社瑚切" << endl;
 }
@@ -27,14 +22,6 @@ void CUnit::Move(int x, int y)
 {
 	m_aPos[0] = x;
 	m_aPos[1] = y;
-}
-
-char* CUnit::GetName() {
-	return m_cName;
-}
-
-void CUnit::SetName(const char* s) {
-	strcpy(m_cName, s);
 }
 
 void CUnit::Attack() {

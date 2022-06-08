@@ -9,12 +9,10 @@ public:
 
 	void Move(int x = 10, int y = 10);
     void Attack();
-	void SetName(const char* s);
+	
     void Display();
     int GetUnitCnt();
-    char* GetName();
 
-	char* m_cName;
 	int m_nDamage;
 	int m_aPos[2];
 	static int m_nNum;

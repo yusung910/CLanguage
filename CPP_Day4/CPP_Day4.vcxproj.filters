@@ -27,6 +27,9 @@
     <ClCompile Include="CPilot.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="CDummy.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CRect.h">
@@ -39,6 +42,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="CPilot.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CDummy.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
