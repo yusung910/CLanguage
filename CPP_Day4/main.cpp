@@ -22,11 +22,11 @@ void main() {
 
     cout << "생성 된 유닛 수 : " << mobOne->GetUnitCnt() << endl;
 
-    //CUnit* objUnit = new CUnit;
+    CUnit* objUnit = new CUnit;
 
-    //CMonster* pTestCast = static_cast<CMonster*>(objUnit);
-    
-    //delete pTestCast;
+    CMonster* pTestCast = static_cast<CMonster*>(objUnit);
+	pTestCast->m_nDps = 0;
+    delete pTestCast;
     //delete objUnit;
 
 

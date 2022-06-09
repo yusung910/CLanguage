@@ -10,8 +10,6 @@ public:
 
     void Display();
     void Init();
-
-private:
     int m_nDps;
     int m_nHp;
 };
