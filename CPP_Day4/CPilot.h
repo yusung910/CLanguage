@@ -19,7 +19,7 @@ private:
     int m_nPower;
     int m_nBomb;
     int m_nLife;
-    int m_nPilotType;
+    const int m_nPilotType;
     
 };
 

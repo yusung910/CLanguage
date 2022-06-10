@@ -3,12 +3,12 @@
 
 using namespace std;
 
-CPilot::CPilot(int nPilotType) {
+CPilot::CPilot(int nPilotType) : m_nPilotType(nPilotType){
     m_nPower = 1;
     m_nBomb = 2;
     m_nLife = 1;
     m_nRankScore = 0;
-    m_nPilotType = nPilotType;
+    //m_nPilotType = nPilotType;
     m_UnitType = PILOT;
 }
 

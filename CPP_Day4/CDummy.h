@@ -11,7 +11,6 @@ public:
 	int GetDummyCnt();
 	void Display();
 private:
-	int m_nDummyCnt;
 	int m_nHp;
 	int m_aPos[2];
 	int m_nAddScore;

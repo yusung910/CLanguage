@@ -11,7 +11,7 @@ void main() {
     CMonster* mobOne;
     CPilot* userPilot;
     
-    userPilot = new CPilot(1);
+    userPilot = new CPilot(99);
     mobOne = new CMonster;
     mobTwo = new CMonster;
 
