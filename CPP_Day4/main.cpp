@@ -24,6 +24,7 @@ void main() {
 
     CUnit* objUnit = new CUnit;
 
+	//Static casting 관련 실행
     //CMonster* pTestCast = static_cast<CMonster*>(objUnit);
 	//pTestCast->m_nDps = 0;
     //delete pTestCast;
