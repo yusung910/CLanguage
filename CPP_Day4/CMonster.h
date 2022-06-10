@@ -12,6 +12,7 @@ public:
     void Init();
     int m_nDps;
     int m_nHp;
+	static int m_nMonsterCnt;
 };
 
 #endif
