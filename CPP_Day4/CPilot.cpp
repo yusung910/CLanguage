@@ -32,7 +32,7 @@ char* CPilot::GetName() {
 void CPilot::SetName(const char* s) {
 	int nTmpNameLength = strlen(s);
 
-	//캐릭터명 배열 생성
+	//캐릭터명 동적 배열 생성
 	m_cName = new char[nTmpNameLength + 1];
 	strcpy(m_cName, s);
 }
