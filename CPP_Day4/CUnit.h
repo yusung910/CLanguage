@@ -28,6 +28,7 @@ public:
         MONSTER_L,
         MONSTER_B,
     };
+	
 };
 
 #endif

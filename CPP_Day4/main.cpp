@@ -9,16 +9,24 @@ using namespace std;
 void main() {
     CUnit* mobTwo;
     CMonster* mobOne;
-    CPilot* userPilot;
+    CPilot userPilot(99);
+	CPilot secUserPilot(45);
     
-    userPilot = new CPilot(99);
+    //userPilot = new CPilot(99);
+	//secUserPilot = new CPilot(45);
     mobOne = new CMonster;
     mobTwo = new CMonster;
 
     mobOne->CUnit::Display();
     mobTwo->Display();
-	userPilot->SetName("YoooSung");
-    userPilot->Display();
+	userPilot.SetName("YoooSung");
+    userPilot.Display();
+
+	secUserPilot.SetName("RGAEM");
+	userPilot = secUserPilot;
+	userPilot.Display();
+	
+
 
     cout << "생성 된 유닛 수 : " << mobOne->GetUnitCnt() << endl;
 
@@ -44,6 +52,6 @@ void main() {
 	}
 
     delete mobTwo;
-    delete userPilot;
+    //delete userPilot;
     delete mobOne;
 }

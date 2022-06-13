@@ -35,3 +35,4 @@ void CUnit::Display() {
 int CUnit::GetUnitCnt() {
     return m_nNum;
 }
+

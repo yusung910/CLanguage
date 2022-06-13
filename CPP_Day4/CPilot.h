@@ -13,6 +13,7 @@ public:
 	void SetName(const char* s);
 	char* GetName();
     int m_nRankScore;
+	const CPilot& operator=(const CPilot& u); // operator= member fucntion
 private:
 
 	char* m_cName;
@@ -20,7 +21,6 @@ private:
     int m_nBomb;
     int m_nLife;
     const int m_nPilotType;
-    
 };
 
 #endif
