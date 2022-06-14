@@ -30,9 +30,11 @@ public:
     //°´Ã¼ À§Ä¡
 	int m_nPosArry[2];
     //°´Ã¼¸í
-	char* m_nName;
+	char* m_cName;
     //°´Ã¼ Å¸ÀÔ
 	int	m_nType;
+	//°´Ã¼ °³¼ö
+	static int m_nObjCnt;
 };
 
 #endif

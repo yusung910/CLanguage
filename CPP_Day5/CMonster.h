@@ -23,6 +23,8 @@ public:
     //몬스터의 정보를 화면에 표현한다.
     void Display();
     void Attack();
+	//몬스터명을 세팅
+	char* SetMonsterName();
 protected:
 
 	void init();
