@@ -18,8 +18,12 @@ public:
 	//// 가상함수
     //객체 정보를 화면에 출력한다.
 	virtual void Display() = 0;
-    //가상 공격 함수
-    virtual void Attack() = 0;
+    //공격 가상함수
+    virtual int Attack() = 0;
+	//초기화 가상함수
+	virtual void init() = 0;
+	//스킬목록 가상함수
+	virtual void ShowSkillList() = 0;
 
     //객체의 타입을 리턴하는 함수.
 	int GetType() { return m_nType; }

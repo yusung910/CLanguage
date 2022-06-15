@@ -11,11 +11,13 @@ CUser::CUser() {
 
 CUser::~CUser() {
     //소멸자
+	//동적배열들을 소멸한다
 	//cout << "CUser :: 객체 소멸자" << endl;
 }
 
-void CUser::Attack() {
+int CUser::Attack() {
     //공격
+	return 0;
 }
 
 void CUser::Display() {

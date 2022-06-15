@@ -1,7 +1,9 @@
 #ifndef __USER_H_
 #define __USER_H_
 
-#include "CObject.h"
+//#include "CObject.h"
+#include "CSkill.h"
+
 enum E_USER_EQUIP {
     E_U_HEAD, //투구
     E_U_WEAPON, //무기
@@ -13,7 +15,10 @@ enum E_USER_EQUIP {
     E_U_RING2, //반지2
     E_U_AMULET, //목걸이
 };
-class CUser : public CObject {
+
+
+
+class CUser : public CSkill {
 
 public:
     //생성자
@@ -23,9 +28,10 @@ public:
     //유저의 정보를 화면에 표현한다.
     void Display();
     //공격
-    void Attack();
+    int Attack();
     //초기화
     void init();
+
 
 private:
     //경험치
@@ -44,5 +50,6 @@ private:
     int m_Dex;
     //공격력
     int m_Damage;
+
 };
 #endif

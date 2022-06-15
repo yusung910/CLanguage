@@ -154,12 +154,14 @@
     <ClCompile Include="CMonster.h" />
     <ClCompile Include="CPP_Monster.cpp" />
     <ClCompile Include="CPP_Object.cpp" />
+    <ClCompile Include="CPP_Skill.cpp" />
     <ClCompile Include="CPP_User.cpp" />
     <ClCompile Include="CUser.h" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CObject.h" />
+    <ClInclude Include="CSkill.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

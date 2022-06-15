@@ -1,7 +1,8 @@
 #ifndef __MONSTER_H_
 #define __MONSTER_H_
 
-#include "CObject.h"
+//#include "CObject.h"
+#include "CSkill.h"
 enum E_MONSTER_TYPE {
     GOBLINE = 1,
     COBOLT,
@@ -11,7 +12,7 @@ enum E_MONSTER_TYPE {
     MONSTER_MAX,
 };
 
-class CMonster : public CObject {
+class CMonster : public CSkill {
 
 public:
     //생성자
@@ -22,11 +23,13 @@ public:
 	int GetMonsterExp();
     //몬스터의 정보를 화면에 표현한다.
     void Display();
-    void Attack();
+	//몬스터의 공격을 실행하고 데미지 값을 리턴받는다.
+    int Attack();
+	//몬스터가 가지고 있는 스킬목록을 호출한다
+	void ShowSkillList();
 	//몬스터명을 세팅
 	char* SetMonsterName();
-protected:
-
+	//몬스터 정보를 세팅한다.
 	void init();
 
 private:

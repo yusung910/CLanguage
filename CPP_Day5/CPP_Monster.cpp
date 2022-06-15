@@ -66,6 +66,10 @@ char* CMonster::SetMonsterName() {
 	}
 	return m_cName;
 }
-void CMonster::Attack() {
+int CMonster::Attack() {
     //공격!
+	return 0;
+}
+//스킬 목록을 호출한다.
+void CMonster::ShowSkillList() {
 }
