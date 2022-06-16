@@ -30,10 +30,29 @@ void CSkill::ShowSkillList() {
 	cout << "기술 목록 :: " << endl;
 	int n_skillListSize = sizeof(n_SkillList) / sizeof(int);
 	for (int i = 0; i < n_skillListSize; i++) {
-		switch (n_SkillList[i]) {
-		case E_SKILL::ATTACK:
-			break;
-		}
-		cout << "스킬명 : " << n_SkillList[i] << endl;
+		cout << "스킬명 : " << GetSkillName(i) << endl;
 	}
+}
+
+char* CSkill::GetSkillName(int n) {
+	char* c_retChr = NULL;
+	switch (n) {
+	case E_SKILL::ATTACK:
+		c_retChr = new char[strlen("기본공격") + 1];
+		strcpy(c_retChr, "기본공격");
+		break;
+	case E_SKILL::BASH:
+		c_retChr = new char[strlen("배쉬") + 1];
+		strcpy(c_retChr, "배쉬");
+		break;
+	case E_SKILL::DOUBLE_ATTACK:
+		c_retChr = new char[strlen("더블어택") + 1];
+		strcpy(c_retChr, "더블어택");
+		break;
+	case E_SKILL::STRIKE:
+		c_retChr = new char[strlen("스트라이크") + 1];
+		strcpy(c_retChr, "스트라이크");
+		break;
+	}
+	return c_retChr;
 }

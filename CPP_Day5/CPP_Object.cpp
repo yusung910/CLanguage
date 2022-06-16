@@ -31,3 +31,14 @@ void CObject::SetName(const char* s) {
     strcpy(m_cName, s);
 }
 
+char* CObject::GetName() {
+	return m_cName;
+}
+
+void CObject::SetPos(COORD pos) {
+	m_cdPos = pos;
+}
+
+COORD CObject::GetPos() {
+	return m_cdPos;
+}

@@ -1,6 +1,6 @@
 #ifndef __CHARACTER_H__
 #define __CHARACTER_H__
-
+#include <windows.h>
 enum TYPE {
 	E_C_NONE = -1,
 	E_C_USER,
@@ -25,14 +25,21 @@ public:
 	//스킬목록 가상함수
 	virtual void ShowSkillList() = 0;
 
+	//화면에 표시할 COORD 객체 값을 세팅한다
+	void SetPos(COORD pos);
+	//세팅된 coord객체값을 리턴한다
+	COORD GetPos();
+
     //객체의 타입을 리턴하는 함수.
 	int GetType() { return m_nType; }
     //던전 레벨
     int m_nDungeonLvl;
     //객체명 세팅
     void SetName(const char* s);
+	//객체명 리턴
+	char* GetName();
     //객체 위치
-	int m_nPosArry[2];
+	COORD m_cdPos;
     //객체명
 	char* m_cName;
     //객체 타입

@@ -27,12 +27,13 @@ public:
 	void init();
 	//사용 가능한 스킬목록을 불러온다.
 	void ShowSkillList();
-
+	//스킬명을 한글명으로 가져온다
+	char* GetSkillName(int n);
+protected:
 	//사용 가능한 스킬목록;
 	int* n_SkillList;
 	//스킬명
 	char* c_SkillName;
-
 };
 
 #endif

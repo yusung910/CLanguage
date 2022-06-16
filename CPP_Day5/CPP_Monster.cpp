@@ -23,9 +23,23 @@ int CMonster::GetMonsterExp() {
 }
 //몬스터 정보를 화면에 표시
 void CMonster::Display() {
-	cout << "몬스터 : " << m_cName << endl;
-	cout << "체력 : " << m_nHP << endl;
-	cout << "공격력 : " << m_nAttack << endl;
+	m_cdPos.Y += 1;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdPos);
+	cout << "몬스터 등장!";
+	m_cdPos.Y += 1;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdPos);
+	cout << "[몬스터 정보] ";
+	m_cdPos.Y += 1;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdPos);
+	cout << "이름 : " << m_cName; 
+	m_cdPos.Y += 1;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdPos);
+	cout << "체력 : " << m_nHP;
+	m_cdPos.Y += 1;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdPos);
+	cout << "공격력 : " << m_nAttack;
+	m_cdPos.Y += 1;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdPos);
 }
 //몬스터 객체 초기화 함수
 void CMonster::init() {
