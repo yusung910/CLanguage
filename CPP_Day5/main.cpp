@@ -39,7 +39,7 @@ void main() {
 		//사용자 입력 키
 		int inputKey = _getch();
 		//몬스터 젠 확률 계산을 위한 난수 생성
-		int n_ProDropMob = (rand() % 10) + 1;
+		int n_ProDropMob = (rand() % 50) + 1;
 		if (inputKey == 224) {
 			inputKey = _getch();
 			switch (inputKey) {
@@ -60,7 +60,7 @@ void main() {
 			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 			cout << "*<-(" << objList[0]->GetName() << ")";
 			//20퍼센트 확률로 몹 젠
-			if (n_ProDropMob <= 2) {
+			if (n_ProDropMob <= 5) {
 				int doFightFlag = 1;
 				//몬스터 정보 초기화
 				objList[1]->SetPos(pos);
@@ -78,8 +78,12 @@ void main() {
 					if (intputFightMenu == 49) {
 
 					} else if (intputFightMenu == 50) {
-
+                        system("cls");
+                        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+                        cout << "*<-(" << objList[0]->GetName() << ")";
+                        doFightFlag = 0;
 					} else{
+
 					}
 				}
 			}
