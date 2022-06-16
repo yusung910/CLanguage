@@ -56,34 +56,44 @@ void main() {
 				pos.X += 1;
 				break;
 			}
-			system("cls");
-			SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
-			cout << "*<-(" << objList[0]->GetName() << ")";
+
+            //유저 캐릭터를 이동한다.
+            objList[0]->SetPos(pos);
+            objList[0]->Move();
+
 			//20퍼센트 확률로 몹 젠
 			if (n_ProDropMob <= 5) {
 				int doFightFlag = 1;
-				//몬스터 정보 초기화
-				objList[1]->SetPos(pos);
-				objList[1]->init();
+                //몬스터 정보를 초기화 한다.
+                objList[1]->init();
+
+				//몬스터 정보를 출력할 위치값을 설정
+                objList[1]->SetMenuPos(pos);
+                //몬스터정보 출력
 				objList[1]->Display();
-				COORD tmp = objList[1]->GetPos();
-				tmp.Y += 1;
-				SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), tmp);
-				cout << "싸우시겠습니까?(1. 싸운다, 2. 도망친다) :";
+
+                //메뉴 출력을 위한 위치값 호출
+                COORD tmpMpos = objList[1]->GetMenuPos();
+                tmpMpos.Y += 1;
+                objList[0]->SetMenuPos(tmpMpos);
+                objList[0]->Display();
+
+                tmpMpos = objList[0]->GetMenuPos();
+                SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), tmpMpos);
+                cout << "싸우시겠습니까? (1. 전투, 2.도망가기) :";
 
 				while (doFightFlag) {
-
+                    
 					int intputFightMenu = _getch();
-
+                    
 					if (intputFightMenu == 49) {
-
+                        system("cls");
+                        //현재 화면에서 몬스터 정보와 스킬 목록을 출력한다.
 					} else if (intputFightMenu == 50) {
                         system("cls");
                         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
                         cout << "*<-(" << objList[0]->GetName() << ")";
                         doFightFlag = 0;
-					} else{
-
 					}
 				}
 			}

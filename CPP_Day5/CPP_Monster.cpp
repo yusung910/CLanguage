@@ -23,23 +23,17 @@ int CMonster::GetMonsterExp() {
 }
 //몬스터 정보를 화면에 표시
 void CMonster::Display() {
-	m_cdPos.Y += 1;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdPos);
-	cout << "몬스터 등장!";
-	m_cdPos.Y += 1;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdPos);
-	cout << "[몬스터 정보] ";
-	m_cdPos.Y += 1;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdPos);
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMenuPos);
+	cout << "[몬스터 정보]";
+    m_cdMenuPos.Y += 1;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMenuPos);
 	cout << "이름 : " << m_cName; 
-	m_cdPos.Y += 1;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdPos);
+    m_cdMenuPos.Y += 1;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMenuPos);
 	cout << "체력 : " << m_nHP;
-	m_cdPos.Y += 1;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdPos);
+    m_cdMenuPos.Y += 1;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMenuPos);
 	cout << "공격력 : " << m_nAttack;
-	m_cdPos.Y += 1;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdPos);
 }
 //몬스터 객체 초기화 함수
 void CMonster::init() {
@@ -86,4 +80,9 @@ int CMonster::Attack() {
 }
 //스킬 목록을 호출한다.
 void CMonster::ShowSkillList() {
+}
+
+//몬스터 이동 함수
+void CMonster::Move() {
+
 }

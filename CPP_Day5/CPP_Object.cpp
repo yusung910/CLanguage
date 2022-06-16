@@ -42,3 +42,12 @@ void CObject::SetPos(COORD pos) {
 COORD CObject::GetPos() {
 	return m_cdPos;
 }
+
+//화면에 표시할 메뉴의 COORD 객체 값을 세팅한다.
+void CObject::SetMenuPos(COORD menuPos) {
+    m_cdMenuPos = menuPos;
+}
+//세팅된 메뉴의 coord 객체 값을 리턴한다.
+COORD CObject::GetMenuPos() {
+    return m_cdMenuPos;
+}

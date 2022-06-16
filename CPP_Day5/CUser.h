@@ -31,7 +31,8 @@ public:
     int Attack();
     //초기화
     void init();
-
+    //이동
+    void Move();
 
 private:
     //경험치

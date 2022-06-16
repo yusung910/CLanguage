@@ -31,6 +31,8 @@ public:
 	char* SetMonsterName();
 	//몬스터 정보를 세팅한다.
 	void init();
+    //이동 함수를 구현화
+    void Move();
 
 private:
     //몬스터 경험치

@@ -22,8 +22,18 @@ int CUser::Attack() {
 
 void CUser::Display() {
     //화면 표시
-    cout << "캐릭명: " << m_cName << endl;
-    cout << "체력 : " << m_nHP << ", 공격력 : " << m_Damage << endl;
+    m_cdMenuPos.Y += 1;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMenuPos);
+    cout << "[캐릭터 정보]";
+    m_cdMenuPos.Y += 1;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMenuPos);
+    cout << "캐릭명: " << m_cName;
+    m_cdMenuPos.Y += 1;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMenuPos);
+    cout << "체력 : " << m_nHP;
+    m_cdMenuPos.Y += 1;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMenuPos);
+    cout << "공격력 : " << m_Damage;
 }
 
 void CUser::init() {
@@ -45,4 +55,10 @@ void CUser::init() {
     m_Damage = 5;
 	//객체 타입 설정
 	m_nType = TYPE::E_C_USER;
+}
+
+void CUser::Move() {
+    system("cls");
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdPos);
+    cout << "*<-(" << m_cName << ")";
 }
