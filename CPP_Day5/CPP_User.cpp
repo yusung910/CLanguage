@@ -34,6 +34,9 @@ void CUser::Display() {
     m_cdMenuPos.Y += 1;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMenuPos);
     cout << "공격력 : " << m_Damage;
+    m_cdMenuPos.Y += 1;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMenuPos);
+    cout << "레벨 : " << m_nLEVEL;
 }
 
 void CUser::init() {

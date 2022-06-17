@@ -80,7 +80,8 @@ void main() {
 
 			//20퍼센트 확률로 몹 젠
 			if (n_ProDropMob < 2) {
-				int doFightFlag = 1;
+                objList[0]->DrawingBackGround();
+                int doFightFlag = 1;
                 //몬스터 정보를 초기화 한다.
                 objList[1]->init();
 
@@ -95,9 +96,8 @@ void main() {
 				objList[0]->Display();
 
 				//현재 커서 위치에서 Y값을 증가한다.
-				presentCur.dwCursorPosition.Y += 1;
-                SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), presentCur.dwCursorPosition);
-				
+                COORD cdFightMenuPos = { 45, 25 };
+                SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cdFightMenuPos);
                 cout << "싸우시겠습니까? (1. 전투, 2.도망가기) :";
 
 				while (doFightFlag) {
