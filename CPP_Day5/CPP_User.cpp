@@ -58,7 +58,12 @@ void CUser::init() {
 }
 
 void CUser::Move() {
-    system("cls");
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdPos);
-    cout << "*<-(" << m_cName << ")";
+	if (m_cdPos.X < 70) {
+		cout << "*<-(" << m_cName << ")";
+	}
+	else {
+		cout << "(" << m_cName << ")->*";
+	}
+    
 }

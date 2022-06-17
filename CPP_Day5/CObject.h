@@ -37,6 +37,9 @@ public:
     //세팅된 메뉴의 coord 객체 값을 리턴한다.
     COORD GetMenuPos();
 
+	//화면을 그리는 함수
+	void DrawingBackGround();
+
     //객체의 타입을 리턴하는 함수.
 	int GetType() { return m_nType; }
     //던전 레벨
