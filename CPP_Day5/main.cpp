@@ -4,6 +4,7 @@
 #include "CObject.h"
 #include "CMonster.h"
 #include "CUser.h"
+#include "CDrawing.h"
 
 using namespace std;
 
@@ -17,11 +18,11 @@ enum E_DIR_KEY{
 void main() {
 	//화면 크기 조절
 	system("mode con: cols=150 lines=50");
-
+    CDrawing* drawingObj = new CDrawing;
 	CObject* objList[2] = { new CUser, new CMonster };
 
 	//배경그리기
-	objList[0]->DrawingBackGround();
+    drawingObj->SetBackground();
 
 	//게임 종료 여부
 	bool b_EndFlag = 1;
@@ -40,7 +41,7 @@ void main() {
 	//유저 캐릭터를 이동한다.
 	cout << "\x1B[2J\x1B[H";
 	//배경그리기
-	objList[0]->DrawingBackGround();
+    drawingObj->SetBackground();
 
 	objList[0]->SetName(userName);
 	objList[0]->SetPos(pos);
@@ -73,27 +74,34 @@ void main() {
 			}
 
 			//배경그리기
-			objList[0]->DrawingBackGround();
+            drawingObj->SetBackground();
 
             objList[0]->SetPos(pos);
             objList[0]->Move();
 
 			//20퍼센트 확률로 몹 젠
 			if (n_ProDropMob < 2) {
-                objList[0]->DrawingBackGround();
+                //배경그리기
+                drawingObj->SetBackground();
                 int doFightFlag = 1;
                 //몬스터 정보를 초기화 한다.
                 objList[1]->init();
 
+
+                //출력을 위해 임의로 생성한 몬스터와 유저 객체를
+                //동적캐스팅(dynamic_cast)해서 할당한다.
+                CMonster* tmpMonsterObj = dynamic_cast<CMonster*>(objList[1]);
+                CUser* tmpUserObj = dynamic_cast<CUser*>(objList[0]);
+
 				//몬스터 정보 출력
-				COORD cdMonsterInfo = { 90, 10 };
-				objList[1]->SetMenuPos(cdMonsterInfo);
-				objList[1]->Display();
+				COORD cdMonsterInfoPos = { 90, 10 };
+                drawingObj->SetCdDrawingPos(cdMonsterInfoPos);
+                drawingObj->PrintOfInfo(tmpMonsterObj);
 
 				//유저 정보 출력
 				COORD cdUserInfo = { 30, 9 };
-				objList[0]->SetMenuPos(cdUserInfo);
-				objList[0]->Display();
+                drawingObj->SetCdDrawingPos(cdUserInfo);
+                drawingObj->PrintOfInfo(tmpUserObj);
 
 				//현재 커서 위치에서 Y값을 증가한다.
                 COORD cdFightMenuPos = { 45, 25 };
@@ -110,7 +118,7 @@ void main() {
 						//유저가 사용할 수 있는 기술 목록 출력
 					} else if (intputFightMenu == 50) {
 						//배경그리기
-						objList[0]->DrawingBackGround();
+                        drawingObj->SetBackground();
 
 						objList[0]->SetPos(pos);
 						objList[0]->Move();

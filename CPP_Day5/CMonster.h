@@ -28,12 +28,17 @@ public:
 	//몬스터가 가지고 있는 스킬목록을 호출한다
 	void ShowSkillList();
 	//몬스터명을 세팅
-	char* SetMonsterName();
+	void SetMonsterName();
+    //몬스터명을 리턴
+    char* GetMonsterName();
 	//몬스터 정보를 세팅한다.
 	void init();
     //이동 함수를 구현화
     void Move();
-
+    //몬스터 체력을 리턴한다.
+    int GetMonsterHP() { return m_nHP; };
+    //몬스터의 공격력을 리턴한다.
+    int GetMonsterAttack() { return m_nAttack; };
 private:
     //몬스터 경험치
 	int m_nMonsterExp;

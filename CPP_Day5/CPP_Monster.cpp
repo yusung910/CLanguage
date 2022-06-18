@@ -1,5 +1,6 @@
 #include <iostream>
 #include "CMonster.h"
+#include "CDrawing.h"
 
 using namespace std;
 
@@ -23,17 +24,7 @@ int CMonster::GetMonsterExp() {
 }
 //몬스터 정보를 화면에 표시
 void CMonster::Display() {
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMenuPos);
-	cout << "[몬스터 정보]";
-    m_cdMenuPos.Y += 1;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMenuPos);
-	cout << "이름 : " << m_cName; 
-    m_cdMenuPos.Y += 1;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMenuPos);
-	cout << "체력 : " << m_nHP;
-    m_cdMenuPos.Y += 1;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMenuPos);
-	cout << "공격력 : " << m_nAttack;
+
 }
 //몬스터 객체 초기화 함수
 void CMonster::init() {
@@ -53,7 +44,7 @@ void CMonster::init() {
 	//몬스터명 세팅
 	SetMonsterName();
 }
-char* CMonster::SetMonsterName() {
+void CMonster::SetMonsterName() {
 	m_nMobInfo = (rand() % E_MONSTER_TYPE::MONSTER_MAX) + 1;
 	switch (m_nMobInfo) {
 	case E_MONSTER_TYPE::COBOLT:
@@ -72,8 +63,12 @@ char* CMonster::SetMonsterName() {
 		SetName("트롤");
 		break;
 	}
-	return m_cName;
 }
+
+char* CMonster::GetMonsterName() {
+    return m_cName;
+}
+
 int CMonster::Attack() {
     //공격!
 	return 0;

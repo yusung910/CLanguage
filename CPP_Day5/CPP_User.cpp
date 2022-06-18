@@ -21,22 +21,7 @@ int CUser::Attack() {
 }
 
 void CUser::Display() {
-    //화면 표시
-    m_cdMenuPos.Y += 1;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMenuPos);
-    cout << "[캐릭터 정보]";
-    m_cdMenuPos.Y += 1;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMenuPos);
-    cout << "캐릭명: " << m_cName;
-    m_cdMenuPos.Y += 1;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMenuPos);
-    cout << "체력 : " << m_nHP;
-    m_cdMenuPos.Y += 1;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMenuPos);
-    cout << "공격력 : " << m_Damage;
-    m_cdMenuPos.Y += 1;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMenuPos);
-    cout << "레벨 : " << m_nLEVEL;
+
 }
 
 void CUser::init() {

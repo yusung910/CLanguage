@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CMonster.h" />
+    <ClCompile Include="CPP_CDrawing.cpp" />
     <ClCompile Include="CPP_Monster.cpp" />
     <ClCompile Include="CPP_Object.cpp" />
     <ClCompile Include="CPP_Skill.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CDrawing.h" />
     <ClInclude Include="CObject.h" />
     <ClInclude Include="CSkill.h" />
   </ItemGroup>

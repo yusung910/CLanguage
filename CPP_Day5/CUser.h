@@ -33,7 +33,22 @@ public:
     void init();
     //이동
     void Move();
-
+    //체력을 리턴한다
+    int GetUserHp() { return m_nHP; };
+    //경험치를 리턴한다.
+    int GetUserExp() { return m_nExp; };
+    //마나를 리턴한다.
+    int GetUserMana() { return m_nMana; };
+    //레벨을 리턴한다.
+    int GetUserLvl() { return m_nLEVEL; };
+    //힘을 리턴한다.
+    int GetUserStr() { return m_Str; };
+    //인트를 리턴한다.
+    int GetUserInt() { return m_Int; };
+    //덱스를 리턴한다.
+    int GetUserDex() { return m_Dex; };
+    //데미지를 리턴한다.
+    int GetUserDmg() { return m_Damage; };
 private:
     //경험치
     int m_nExp;
