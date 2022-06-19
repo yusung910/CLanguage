@@ -22,8 +22,6 @@ public:
     virtual int Attack() = 0;
 	//초기화 가상함수
 	virtual void init() = 0;
-	//스킬목록 가상함수
-	virtual void ShowSkillList() = 0;
     //이동 가상함수
     virtual void Move() = 0;
 

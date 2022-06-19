@@ -22,16 +22,14 @@ int CSkill::Attack() {
 void CSkill::init() {
 	//유저가 가지고 있는 스킬 목록을 초기화한다.
 	n_SkillList = new int[E_SKILL::MAX_SKILL_CNT];
+    //null 값으로 memset한다
+    memset(n_SkillList, -1, E_SKILL::MAX_SKILL_CNT);
 	//기본 스킬을 넣는다.
 	n_SkillList[0] = E_SKILL::ATTACK;
 }
 //사용 가능한 스킬목록을 불러온다.
-void CSkill::ShowSkillList() {
-	cout << "기술 목록 :: " << endl;
-	int n_skillListSize = sizeof(n_SkillList) / sizeof(int);
-	for (int i = 0; i < n_skillListSize; i++) {
-		cout << "스킬명 : " << GetSkillName(i) << endl;
-	}
+int* CSkill::GetSkillList() {
+    return n_SkillList;
 }
 
 char* CSkill::GetSkillName(int n) {

@@ -3,6 +3,7 @@
 #include "CMonster.h"
 #include "CUser.h"
 #include "CDrawing.h"
+#include "CSkill.h"
 
 using namespace std;
 
@@ -82,5 +83,16 @@ void CDrawing::PrintOfInfo(CMonster* monster) {
     cout << "공격력 : " << monster->GetMonsterAttack();
 }
 
-void CDrawing::PrintOfInfo(CMonster* monster, CUser* user) {
+void CDrawing::PrintUserSkilList(CSkill* skill) {
+    m_cdDrawingPos.Y += 1;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+    cout << "[스킬 목록]";
+    int* skillList = skill->GetSkillList();
+    for (int i = 0; i < E_SKILL::MAX_SKILL_CNT; i++) {
+        if (skillList[i] > -1) {
+            m_cdDrawingPos.Y += 1;
+            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+            cout << i + 1 << ". " << skill->GetSkillName(skillList[i]);
+        }
+    }
 }

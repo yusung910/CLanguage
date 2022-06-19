@@ -3,6 +3,7 @@
 
 #include "CMonster.h"
 #include "CUser.h"
+#include "CSkill.h"
 
 class CDrawing {
 public:
@@ -16,13 +17,12 @@ public:
 
     //유저정보를 출력한다.
     void PrintOfInfo(CUser* user);
-    
-    //몬스터와 유저정보를 모두 출력
-    void PrintOfInfo(CMonster* monster, CUser* user);
+
+    //유저가 사용할 수 있는 스킬 정보를 출력한다.
+    void PrintUserSkilList(CSkill* skill);
 
     //세팅된 멤버변수 m_cdDrawingPos를 리턴
     COORD GetCdDrawingPos();
-
 
     //출력하기 위한 위치를 저장하는 변수.
     COORD m_cdDrawingPos;

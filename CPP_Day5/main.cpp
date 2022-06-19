@@ -92,6 +92,7 @@ void main() {
                 //동적캐스팅(dynamic_cast)해서 할당한다.
                 CMonster* tmpMonsterObj = dynamic_cast<CMonster*>(objList[1]);
                 CUser* tmpUserObj = dynamic_cast<CUser*>(objList[0]);
+                CSkill* tmpUserSkillObj = dynamic_cast<CSkill*>(objList[0]);
 
 				//몬스터 정보 출력
 				COORD cdMonsterInfoPos = { 90, 10 };
@@ -103,7 +104,7 @@ void main() {
                 drawingObj->SetCdDrawingPos(cdUserInfo);
                 drawingObj->PrintOfInfo(tmpUserObj);
 
-				//현재 커서 위치에서 Y값을 증가한다.
+				//전투 여부를 묻는다.
                 COORD cdFightMenuPos = { 45, 25 };
                 SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cdFightMenuPos);
                 cout << "싸우시겠습니까? (1. 전투, 2.도망가기) :";
@@ -114,8 +115,18 @@ void main() {
                     
 					if (intputFightMenu == 49) {
                         //화면을 초기화 하고 몬스터의 정보와 유저의 세부 정보를 화면에 표시한다.
+                        //배경그리기
+                        drawingObj->SetBackground();
+                        //몬스터 정보 출력
+                        drawingObj->SetCdDrawingPos(cdMonsterInfoPos);
+                        drawingObj->PrintOfInfo(tmpMonsterObj);
+                        //유저 정보 출력
+                        drawingObj->SetCdDrawingPos(cdUserInfo);
+                        drawingObj->PrintOfInfo(tmpUserObj);
 
 						//유저가 사용할 수 있는 기술 목록 출력
+                        drawingObj->SetCdDrawingPos(cdFightMenuPos);
+                        drawingObj->PrintUserSkilList(tmpUserSkillObj);
 					} else if (intputFightMenu == 50) {
 						//배경그리기
                         drawingObj->SetBackground();

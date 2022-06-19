@@ -26,7 +26,7 @@ public:
 	//초기화
 	void init();
 	//사용 가능한 스킬목록을 불러온다.
-	void ShowSkillList();
+    int* GetSkillList();
 	//스킬명을 한글명으로 가져온다
 	char* GetSkillName(int n);
 protected:
