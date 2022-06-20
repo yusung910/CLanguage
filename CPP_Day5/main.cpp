@@ -136,7 +136,7 @@ void main() {
 						while (n_doUseSkillFlag) {
 						
 							//사용자가 공격스킬을 선택한다.
-							int n_useSkill = (_getch() - 49);
+							int n_useSkill = (_getch() - 48);
 
 							//사용자가 입력한 값에 해당하는 스킬명을 가져온다.
 							char* useSkill = tmpUserSkillObj->GetSkillName(n_useSkill);
