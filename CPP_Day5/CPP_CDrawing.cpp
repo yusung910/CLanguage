@@ -118,3 +118,27 @@ void CDrawing::PrintMonsterAttack(CUser* user, CMonster* monster) {
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
 	cout << "[" << user->m_cName << "] 에게 " << monster->Attack() << "의 데미지를 입혔습니다.";
 }
+
+void CDrawing::PrintCombatEnd(CUser* user, CMonster* monster) {
+    m_cdDrawingPos.Y += 2;
+    cout << "[전투 종료]";
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+    if (monster->GetMonsterHP() <= 0) {
+        m_cdDrawingPos.Y += 1;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+        cout << "[" << user->m_cName << "] 승리!";
+        m_cdDrawingPos.Y += 1;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+        cout << "획득 경험치 : " << monster->GetMonsterExp();
+    }
+    else if (user->GetUserHp() <= 0) {
+        //몬스터가 죽었을 경우
+        m_cdDrawingPos.Y += 1;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+        cout << "플레이어 : [" << user->m_cName << "]";
+        m_cdDrawingPos.Y += 1;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+        cout << "사망 하셨습니다.";
+    }
+    
+}

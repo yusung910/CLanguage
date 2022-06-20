@@ -27,6 +27,9 @@ public:
 	//몬스터가 공격한 내용을 출력한다
 	void PrintMonsterAttack(CUser* user, CMonster* monster);
 
+    //전투 종료 메세지 출력
+    void PrintCombatEnd(CUser* user, CMonster* monster);
+
     //세팅된 멤버변수 m_cdDrawingPos를 리턴
     COORD GetCdDrawingPos();
 

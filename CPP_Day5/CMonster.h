@@ -43,15 +43,15 @@ public:
     int GetMonsterAttack() { return m_nAttack; };
 private:
     //몬스터 경험치
-	int m_nMonsterExp;
+    unsigned int m_nMonsterExp;
     //몬스터 체력
-    int	m_nHP;
+    unsigned int m_nHP;
     //몬스터 마나
-    int	m_nMana;
+    unsigned int m_nMana;
     //몬스터 레벨
-    int	m_nLEVEL;
+    unsigned int m_nLEVEL;
     //몬스터 공격력
-    int m_nAttack;
+    unsigned int m_nAttack;
     //몬스터 종류
     int m_nMobInfo;
 };

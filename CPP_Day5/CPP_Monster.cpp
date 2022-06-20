@@ -88,5 +88,5 @@ int CMonster::GetMonsterHP() {
 }
 //몬스터의 체력을 세팅한다
 void CMonster::SetMonsterHP(int n) {
-	m_nHP = n;
+	m_nHP = n < 0 ? 0 : n;
 }

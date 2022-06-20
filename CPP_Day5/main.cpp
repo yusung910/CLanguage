@@ -118,9 +118,11 @@ void main() {
                         //화면을 초기화 하고 몬스터의 정보와 유저의 세부 정보를 화면에 표시한다.
                         //배경그리기
                         drawingObj->SetBackground();
+
                         //몬스터 정보 출력
                         drawingObj->SetCdDrawingPos(cdMonsterInfoPos);
                         drawingObj->PrintOfInfo(tmpMonsterObj);
+
                         //유저 정보 출력
                         drawingObj->SetCdDrawingPos(cdUserInfo);
                         drawingObj->PrintOfInfo(tmpUserObj);
@@ -185,6 +187,35 @@ void main() {
 								//사용 기술 정보 출력
 								drawingObj->SetCdDrawingPos(cdFightMenuPos);
 								drawingObj->PrintUserSkillList(tmpUserSkillObj);
+                                //플레이어 또는 몬스터의 체력 상태를 확인한다
+                                if (tmpUserObj->GetUserHp() <= 0 && tmpMonsterObj->GetMonsterHP() <= 0) {
+                                    //플레이어가 죽었을 경우.
+                                }
+                                else if (tmpMonsterObj->GetMonsterHP() <= 0) {
+                                    //몬스터가 죽었을 경우.
+                                    //배경그리기
+                                    drawingObj->SetBackground();
+
+                                    //몬스터 정보 출력
+                                    drawingObj->SetCdDrawingPos(cdMonsterInfoPos);
+                                    drawingObj->PrintOfInfo(tmpMonsterObj);
+
+                                    //유저 정보 출력
+                                    drawingObj->SetCdDrawingPos(cdUserInfo);
+                                    drawingObj->PrintOfInfo(tmpUserObj);
+
+                                    //전투 결과 출력
+                                    if (tmpUserObj->GetUserHp() <= 0 || tmpMonsterObj->GetMonsterHP() <= 0) {
+                                        //몬스터 또는 플레이어의 hp가 0보다 작거나 같을 경우.
+                                        drawingObj->PrintCombatEnd(tmpUserObj, tmpMonsterObj);
+                                    }
+
+                                    //스킬 사용 종료
+                                    n_doUseSkillFlag = 0;
+
+                                    //전투 종료
+                                    doFightFlag = 0;
+                                }
 							}
 						}
 					} else if (intputFightMenu == 50) {

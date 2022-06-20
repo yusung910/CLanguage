@@ -36,7 +36,7 @@ public:
     //체력을 리턴한다
     int GetUserHp() { return m_nHP; };
 	//유저의 체력을 세팅한다.
-	void SetUserHP(int n) { m_nHP = n; };
+	void SetUserHP(int n) { m_nHP = n < 0 ? 0 : n; };
     //경험치를 리턴한다.
     int GetUserExp() { return m_nExp; };
     //마나를 리턴한다.
