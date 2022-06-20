@@ -19,7 +19,13 @@ public:
     void PrintOfInfo(CUser* user);
 
     //유저가 사용할 수 있는 스킬 정보를 출력한다.
-    void PrintUserSkilList(CSkill* skill);
+    void PrintUserSkillList(CSkill* skill);
+
+	//유저가 사용한 기술을 출력한다.
+	void PrintUserSkillAttack(CUser* user, CMonster* monster);
+
+	//몬스터가 공격한 내용을 출력한다
+	void PrintMonsterAttack(CUser* user, CMonster* monster);
 
     //세팅된 멤버변수 m_cdDrawingPos를 리턴
     COORD GetCdDrawingPos();

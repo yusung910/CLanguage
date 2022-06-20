@@ -83,8 +83,8 @@ void CDrawing::PrintOfInfo(CMonster* monster) {
     cout << "공격력 : " << monster->GetMonsterAttack();
 }
 
-void CDrawing::PrintUserSkilList(CSkill* skill) {
-    m_cdDrawingPos.Y += 1;
+void CDrawing::PrintUserSkillList(CSkill* skill) {
+	m_cdDrawingPos.Y += 1;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
     cout << "[스킬 목록]";
     int* skillList = skill->GetSkillList();
@@ -92,7 +92,29 @@ void CDrawing::PrintUserSkilList(CSkill* skill) {
         if (skillList[i] > -1) {
             m_cdDrawingPos.Y += 1;
             SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
-            cout << i + 1 << ". " << skill->GetSkillName(skillList[i]);
+            cout << i << ". " << skill->GetSkillName(skillList[i]);
         }
     }
+}
+
+void CDrawing::PrintUserSkillAttack(CUser* user, CMonster* monster) {
+	Sleep(100);
+	m_cdDrawingPos.Y += 2;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+	cout << "\"" << user->m_cName << "\"의 [" << user->GetSkillName(user->GetUsingSkill()) << "] !!";
+	Sleep(100);
+	m_cdDrawingPos.Y += 1;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+	cout << "[" << monster->m_cName << "] 에게 " << user->Attack() << "의 데미지를 입혔습니다.";
+}
+
+void CDrawing::PrintMonsterAttack(CUser* user, CMonster* monster) {
+	Sleep(100);
+	m_cdDrawingPos.Y += 2;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+	cout << "\"" << monster->m_cName << "\"의 [ 공격 ] !!";
+	Sleep(100);
+	m_cdDrawingPos.Y += 1;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+	cout << "[" << user->m_cName << "] 에게 " << monster->Attack() << "의 데미지를 입혔습니다.";
 }

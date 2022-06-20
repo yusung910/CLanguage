@@ -4,7 +4,8 @@
 #include "CObject.h"
 
 enum E_SKILL {
-	ATTACK = 0,
+	ESCAPE = 0,
+	ATTACK,
 	DOUBLE_ATTACK,
 	BASH,
 	STRIKE,
@@ -29,11 +30,17 @@ public:
     int* GetSkillList();
 	//스킬명을 한글명으로 가져온다
 	char* GetSkillName(int n);
+	//전투 발생 시 사용할 스킬번호를 세팅한다
+	void SetUsingSkill(int n);
+	//전투 발생 시 사용할 스킬번호를 리턴
+	int GetUsingSkill();
 protected:
 	//사용 가능한 스킬목록;
 	int* n_SkillList;
 	//스킬명
 	char* c_SkillName;
+	//전투 발생 시 사용할 스킬번호
+	int n_usingSkill;
 };
 
 #endif

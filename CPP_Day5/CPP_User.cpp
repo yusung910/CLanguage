@@ -16,8 +16,8 @@ CUser::~CUser() {
 }
 
 int CUser::Attack() {
-    //공격
-	return 0;
+    //기본 공격력과 힘(10퍼센트)에 비례한 데미지를 계산하여 리턴한다.
+	return m_Damage + (m_Str * 0.1);
 }
 
 void CUser::Display() {

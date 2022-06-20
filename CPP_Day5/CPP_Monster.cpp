@@ -37,12 +37,12 @@ void CMonster::init() {
     m_nMana = 0;
     //몬스터의 레벨
     m_nLEVEL = 0;
-    //몬스터의 공격력
-    m_nAttack = (rand() % 10 ) + 1;
 	//객체 타입 설정
 	m_nType = TYPE::E_C_MONSTER;
 	//몬스터명 세팅
 	SetMonsterName();
+	//몬스터의 공격력
+	m_nAttack = m_nMobInfo + 2;
 }
 void CMonster::SetMonsterName() {
 	m_nMobInfo = (rand() % E_MONSTER_TYPE::MONSTER_MAX) + 1;
@@ -71,7 +71,7 @@ char* CMonster::GetMonsterName() {
 
 int CMonster::Attack() {
     //공격!
-	return 0;
+	return m_nAttack;
 }
 //스킬 목록을 호출한다.
 void CMonster::ShowSkillList() {
@@ -80,4 +80,13 @@ void CMonster::ShowSkillList() {
 //몬스터 이동 함수
 void CMonster::Move() {
 
+}
+
+//몬스터 체력을 리턴한다.
+int CMonster::GetMonsterHP() {
+	return m_nHP;
+}
+//몬스터의 체력을 세팅한다
+void CMonster::SetMonsterHP(int n) {
+	m_nHP = n;
 }

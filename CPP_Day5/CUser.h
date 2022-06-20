@@ -35,6 +35,8 @@ public:
     void Move();
     //체력을 리턴한다
     int GetUserHp() { return m_nHP; };
+	//유저의 체력을 세팅한다.
+	void SetUserHP(int n) { m_nHP = n; };
     //경험치를 리턴한다.
     int GetUserExp() { return m_nExp; };
     //마나를 리턴한다.
@@ -49,6 +51,8 @@ public:
     int GetUserDex() { return m_Dex; };
     //데미지를 리턴한다.
     int GetUserDmg() { return m_Damage; };
+	
+
 private:
     //경험치
     int m_nExp;
@@ -66,6 +70,5 @@ private:
     int m_Dex;
     //공격력
     int m_Damage;
-
 };
 #endif

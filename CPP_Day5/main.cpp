@@ -80,7 +80,7 @@ void main() {
             objList[0]->Move();
 
 			//20퍼센트 확률로 몹 젠
-			if (n_ProDropMob < 2) {
+			if (n_ProDropMob < 10) {
                 //배경그리기
                 drawingObj->SetBackground();
                 int doFightFlag = 1;
@@ -114,6 +114,7 @@ void main() {
 					int intputFightMenu = _getch();
                     
 					if (intputFightMenu == 49) {
+
                         //화면을 초기화 하고 몬스터의 정보와 유저의 세부 정보를 화면에 표시한다.
                         //배경그리기
                         drawingObj->SetBackground();
@@ -126,7 +127,66 @@ void main() {
 
 						//유저가 사용할 수 있는 기술 목록 출력
                         drawingObj->SetCdDrawingPos(cdFightMenuPos);
-                        drawingObj->PrintUserSkilList(tmpUserSkillObj);
+                        drawingObj->PrintUserSkillList(tmpUserSkillObj);
+
+
+						//스킬 선택하는 구문
+						int n_doUseSkillFlag = 1;
+
+						while (n_doUseSkillFlag) {
+						
+							//사용자가 공격스킬을 선택한다.
+							int n_useSkill = (_getch() - 49);
+
+							//사용자가 입력한 값에 해당하는 스킬명을 가져온다.
+							char* useSkill = tmpUserSkillObj->GetSkillName(n_useSkill);
+
+							//배경그리기
+							drawingObj->SetBackground();
+
+							//몬스터 정보 출력
+							drawingObj->SetCdDrawingPos(cdMonsterInfoPos);
+							drawingObj->PrintOfInfo(tmpMonsterObj);
+
+							//유저 정보 출력
+							drawingObj->SetCdDrawingPos(cdUserInfo);
+							drawingObj->PrintOfInfo(tmpUserObj);
+
+							if (useSkill == NULL) {
+								drawingObj->SetCdDrawingPos(cdFightMenuPos);
+								SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cdFightMenuPos);
+								cout << "사용할 수 없는 기술입니다. 다시 입력하여주세요.";
+								drawingObj->SetCdDrawingPos(cdFightMenuPos);
+								drawingObj->PrintUserSkillList(tmpUserSkillObj);
+							} else {
+								//배경그리기
+								drawingObj->SetBackground();
+
+								//플레이어가 사용한 공격 스킬을 세팅한다.
+								tmpUserObj->SetUsingSkill(n_useSkill);
+								//플레이어의 공격내용을 화면에 출력한다.
+								drawingObj->PrintUserSkillAttack(tmpUserObj, tmpMonsterObj);
+								//몬스터의 체력을 감소한다.
+								tmpMonsterObj->SetMonsterHP(tmpMonsterObj->GetMonsterHP() - tmpUserObj->Attack());
+
+								//몬스터의 공격내용을 화면에 출력한다.
+								drawingObj->PrintMonsterAttack(tmpUserObj, tmpMonsterObj);
+								//플레이어의 체력을 감소한다.
+								tmpUserObj->SetUserHP(tmpUserObj->GetUserHp() - tmpMonsterObj->Attack());
+
+								//몬스터 정보 출력
+								drawingObj->SetCdDrawingPos(cdMonsterInfoPos);
+								drawingObj->PrintOfInfo(tmpMonsterObj);
+
+								//유저 정보 출력
+								drawingObj->SetCdDrawingPos(cdUserInfo);
+								drawingObj->PrintOfInfo(tmpUserObj);
+
+								//사용 기술 정보 출력
+								drawingObj->SetCdDrawingPos(cdFightMenuPos);
+								drawingObj->PrintUserSkillList(tmpUserSkillObj);
+							}
+						}
 					} else if (intputFightMenu == 50) {
 						//배경그리기
                         drawingObj->SetBackground();
@@ -140,23 +200,4 @@ void main() {
 		}
 
 	}
-
-	
-
-	//for (int i = 0; i < 2; i++) {
-	//	switch (listObj[i]->GetType())
-	//	{
-	//	case TYPE::E_C_USER :
-	//		listObj[i]->SetName("플레이어1");
-	//		break;
-	//	case TYPE::E_C_MONSTER :
-	//		break;
-	//	}
-	//	listObj[i]->Display();
-	//}
-
-	////게임종료를 위한 객체 제거
-	//for (int a = 0; a < 2; a++) {
-	//	delete listObj[a];
-	//}
 }

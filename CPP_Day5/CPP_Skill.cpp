@@ -25,7 +25,8 @@ void CSkill::init() {
     //null 값으로 memset한다
     memset(n_SkillList, -1, E_SKILL::MAX_SKILL_CNT);
 	//기본 스킬을 넣는다.
-	n_SkillList[0] = E_SKILL::ATTACK;
+	n_SkillList[0] = E_SKILL::ESCAPE;
+	n_SkillList[1] = E_SKILL::ATTACK;
 }
 //사용 가능한 스킬목록을 불러온다.
 int* CSkill::GetSkillList() {
@@ -35,6 +36,10 @@ int* CSkill::GetSkillList() {
 char* CSkill::GetSkillName(int n) {
 	char* c_retChr = NULL;
 	switch (n) {
+	case E_SKILL::ESCAPE:
+		c_retChr = new char[strlen("도망치기") + 1];
+		strcpy(c_retChr, "도망치기");
+		break;
 	case E_SKILL::ATTACK:
 		c_retChr = new char[strlen("기본공격") + 1];
 		strcpy(c_retChr, "기본공격");
@@ -53,4 +58,12 @@ char* CSkill::GetSkillName(int n) {
 		break;
 	}
 	return c_retChr;
+}
+//사용할 기술을 세팅
+void CSkill::SetUsingSkill(int n) {
+	n_usingSkill = n;
+}
+//사용중인 기술을 리턴
+int CSkill::GetUsingSkill() {
+	return n_usingSkill;
 }

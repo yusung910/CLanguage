@@ -36,7 +36,9 @@ public:
     //이동 함수를 구현화
     void Move();
     //몬스터 체력을 리턴한다.
-    int GetMonsterHP() { return m_nHP; };
+    int GetMonsterHP();
+	//몬스터의 체력을 세팅한다
+	void SetMonsterHP(int n);
     //몬스터의 공격력을 리턴한다.
     int GetMonsterAttack() { return m_nAttack; };
 private:
