@@ -29,6 +29,8 @@ void CUser::init() {
     m_nExp = 0;
     //체력
     m_nHP = 100;
+    //최대체력
+    m_nMaxHP = 100;
     //마나
     m_nMana = 20;
     //레벨
@@ -47,11 +49,5 @@ void CUser::init() {
 
 void CUser::Move() {
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdPos);
-	if (m_cdPos.X < 70) {
-		cout << "*<-(" << m_cName << ")";
-	}
-	else {
-		cout << "(" << m_cName << ")->*";
-	}
-    
+    cout << "◎";
 }

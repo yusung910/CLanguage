@@ -51,6 +51,8 @@ public:
     int GetUserDex() { return m_Dex; };
     //데미지를 리턴한다.
     int GetUserDmg() { return m_Damage; };
+    //최대 체력을 리턴한다
+    int GetUserMaxHp() { return m_nMaxHP; };
 	
 
 private:
@@ -58,6 +60,8 @@ private:
     int m_nExp;
     //체력
     int	m_nHP;
+    //최대체력
+    int m_nMaxHP;
     //마나
     int	m_nMana;
     //레벨

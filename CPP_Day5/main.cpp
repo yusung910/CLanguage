@@ -16,12 +16,17 @@ enum E_DIR_KEY{
 	RIGHT = 77
 };
 
+
 void main() {
 	//화면 크기 조절
 	system("mode con: cols=150 lines=50");
     CDrawing* drawingObj = new CDrawing;
 	CUser* user = new CUser;
 	CMonster* monster =  new CMonster;
+    CBattle* battle = new CBattle;
+
+    //현재 배경
+    int n_currentBg = E_BACKGROUND_TYPE::VILLAGE;
 
 	//배경그리기
     drawingObj->SetBackground();
@@ -31,8 +36,8 @@ void main() {
 
 	COORD pos;
 
-	pos.X = 30;
-	pos.Y = 15;
+	pos.X = 5;
+	pos.Y = 5;
 
 	//사용자 플레이어 명을 받는다.
 	char userName[20];
@@ -46,10 +51,26 @@ void main() {
     drawingObj->SetBackground();
 
 	user->SetName(userName);
-	user->SetPos(pos);
-	user->Move();
 
 	while (b_EndFlag) {
+
+        //배경그리기
+        drawingObj->SetBackground();
+
+        switch (n_currentBg) {
+        case E_BACKGROUND_TYPE::VILLAGE:
+        case E_BACKGROUND_TYPE::INN:
+        case E_BACKGROUND_TYPE::STORE:
+            drawingObj->PrintOfHome();
+            break;
+        case E_BACKGROUND_TYPE::DUNGEON:
+            drawingObj->PrintDungeon();
+
+        }
+
+        user->SetPos(pos);
+        user->Move();
+
 		//사용자 입력 키
 		int inputKey = _getch();
 		//몬스터 젠 확률 계산을 위한 난수 생성
@@ -57,36 +78,47 @@ void main() {
 		//현재 커서 위치를 저장한다.
 		GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &presentCur);
 
-		int n_ProDropMob = (rand() % 50) + 1;
+		
 		if (inputKey == 224) {
 			inputKey = _getch();
 			switch (inputKey) {
 			case E_DIR_KEY::UP :
-				pos.Y = (pos.Y > 1) ? pos.Y - 1 : 1;
+				pos.Y = (pos.Y > 1) ? pos.Y - 5 : 1;
 				break;
 			case E_DIR_KEY::DOWN :
-				pos.Y = (pos.Y < 48) ? pos.Y + 1 : 48;
+				pos.Y = (pos.Y < 48) ? pos.Y + 5 : 48;
 				break;
 			case E_DIR_KEY::LEFT:
-				pos.X = (pos.X > 2) ? pos.X - 1 : 2;
+				pos.X = (pos.X > 2) ? pos.X - 5 : 1;
 				break;
 			case E_DIR_KEY::RIGHT:
-				pos.X = (pos.X < 140) ? pos.X + 1 : 140;
+				pos.X = (pos.X < 147) ? pos.X + 5 : 147;
 				break;
 			}
 
-			//배경그리기
-            drawingObj->SetBackground();
-
-			user->SetPos(pos);
-			user->Move();
+            user->SetPos(pos);
+            user->Move();
 
 			//20퍼센트 확률로 몹 젠
-			if (n_ProDropMob < 10) {
-				CBattle* battle = new CBattle;
-				battle->DoBattle(user, monster, pos);
-			}
-		}
+            //Enter키를 누를 경우 현재 위치가 어디인지 확인한다.
 
+            int nMap = drawingObj->GetUserPosBuild(pos, n_currentBg);
+
+            int n_ProDropMob = (rand() % 50) + 1;
+            n_currentBg = nMap;
+            if (nMap == E_BACKGROUND_TYPE::DUNGEON) {
+                drawingObj->PrintDungeon();
+                
+                if (n_ProDropMob < 5) {
+                    battle->DoBattle(user, monster, pos);
+                }
+            }
+            else {
+                drawingObj->PrintOfHome();
+                if (nMap == E_BACKGROUND_TYPE::INN) {
+                    
+                }
+            }
+        }
 	}
 }

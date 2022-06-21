@@ -9,40 +9,119 @@
 
 using namespace std;
 
+CDrawing::CDrawing() {
+}
+
+CDrawing::~CDrawing() {
+}
 void CDrawing::SetBackground() {
     //배경 그리기전 화면을 초기화한다.
     cout << "\x1B[2J\x1B[H";
-    int x = 150;
-    int y = 50;
-    COORD m_backPos = { 0, 0 };
-    for (int i = 0; i < 150; i++) {
+    COORD cdStart = { 0, 0 };
+    COORD cdEnd = { 150, 50 };
+    PrintSquare(cdStart, cdEnd);
+}
+
+int CDrawing::GetUserPosBuild(COORD pos, int nCurrentMap) {
+    int n_retMap = E_BACKGROUND_TYPE::VILLAGE;
+    if (nCurrentMap == E_BACKGROUND_TYPE::VILLAGE) {
+        if (pos.X >= cdInnStart.X &&
+            pos.X <= cdInnEnd.X &&
+            pos.Y >= cdInnStart.Y &&
+            pos.Y <= cdInnEnd.Y) {
+            n_retMap = E_BACKGROUND_TYPE::INN;
+        }
+        else if (pos.X >= cdStoreStart.X &&
+            pos.X <= cdStoreEnd.X &&
+            pos.Y >= cdStoreStart.Y &&
+            pos.Y <= cdStoreEnd.Y) {
+            n_retMap = E_BACKGROUND_TYPE::STORE;
+        }
+        else if (pos.X >= cdDungeonStart.X &&
+            pos.X <= cdDungeonEnd.X &&
+            pos.Y >= cdDungeonStart.Y &&
+            pos.Y <= cdDungeonEnd.Y) {
+            n_retMap = E_BACKGROUND_TYPE::DUNGEON;
+        }
+    }
+    else if (nCurrentMap == E_BACKGROUND_TYPE::DUNGEON) {
+        n_retMap = E_BACKGROUND_TYPE::DUNGEON;
+        if (pos.X >= cdExitDungeonStart.X &&
+            pos.X <= cdExitDungeonEnd.X &&
+            pos.Y >= cdExitDungeonStart.Y &&
+            pos.Y <= cdExitDungeonEnd.Y) {
+            n_retMap = E_BACKGROUND_TYPE::VILLAGE;
+        }
+    }
+    return n_retMap;
+}
+
+void CDrawing::PrintOfHome() {
+    //기본 배경을 그린다.
+    SetBackground();
+
+    //여관 건물을 그린다.
+    PrintSquare(cdInnStart, cdInnEnd);
+    COORD cdInnTitle = { 23, 17 };
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cdInnTitle);
+    cout << "여관";
+
+    //상점 건물을 그린다.
+    PrintSquare(cdStoreStart, cdStoreEnd);
+    COORD cdStoreTitle = { 73, 17 };
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cdStoreTitle);
+    cout << "상점";
+
+    //상점 건물을 그린다.
+    PrintSquare(cdDungeonStart, cdDungeonEnd);
+    COORD cdDungeonTitle = { 123, 17 };
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cdDungeonTitle);
+    cout << "던전";
+}
+
+//던전 그리기
+void CDrawing::PrintDungeon() {
+    //배경 그리기
+    SetBackground();
+
+    COORD cdExitTitle = { 5, 5 };
+    PrintSquare(cdExitDungeonStart, cdExitDungeonEnd);
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cdExitTitle);
+    cout << "출구";
+    
+}
+
+void CDrawing::PrintSquare(COORD cdStartPos, COORD cdEndPos) {
+    //사각형 그리기.
+
+    //그리기 위한 pos
+    COORD m_backPos;
+    for (int i = cdStartPos.X; i < cdEndPos.X; i++) {
         m_backPos.X = i;
+        m_backPos.Y = cdStartPos.Y;
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_backPos);
         cout << "*";
-        //Sleep(1);
     }
 
-    for (int j = 0; j < 50; j++) {
+    for (int j = cdStartPos.Y; j < cdEndPos.Y; j++) {
         m_backPos.Y = j;
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_backPos);
         cout << "*";
-        //Sleep(1);
     }
 
-    for (int a = 149; a > 0; a--) {
+    for (int a = (cdEndPos.X - 1); a >= cdStartPos.X; a--) {
         m_backPos.X = a;
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_backPos);
         cout << "*";
-        //Sleep(1);
     }
 
-    for (int b = 49; b > 0; b--) {
+    for (int b = (cdEndPos.Y - 1); b >= cdStartPos.Y; b--) {
         m_backPos.Y = b;
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_backPos);
         cout << "*";
-        //Sleep(1);
     }
 }
+
 
 void CDrawing::SetMsgPos(COORD pos) {
 	m_cdMsgPos = pos;
@@ -126,27 +205,22 @@ void CDrawing::PrintCombatRslt(CUser* user, CMonster* monster) {
 		m_cdMsgPos.Y += 1;
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
         cout << "획득 경험치 : " << monster->GetMonsterExp();
-		m_cdMsgPos.Y += 2;
-		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
-		cout << "다음 진행할 메뉴를 선택하여주세요:";
-		m_cdMsgPos.Y += 1;
-		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
-		cout << "1. 계속 진행.";
-		m_cdMsgPos.Y += 1;
-		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
-		cout << "2. 마을로 돌아간다.";
+        m_cdMsgPos.Y += 1;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+        cout << "아무 키나 눌러 계속 진행하세요.";
     }
     else if (user->GetUserHp() <= 0) {
-        //몬스터가 죽었을 경우
+        //플레이어가 죽었을 경우
 		m_cdMsgPos.Y += 1;
         SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
         cout << "[" << user->m_cName << "] 사망";
-		//몬스터가 죽었을 경우
+
 		m_cdMsgPos.Y += 1;
 		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
 		cout << "XXX 골드와 XXX 경험치를 잃어버렸습니다.";
-		m_cdMsgPos.Y += 1;
-		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
-		cout << "1. 마을로 돌아간다.";
+        m_cdMsgPos.Y += 1;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+        cout << "아무 키나 눌러주세요, 마을 여관으로 이동 됩니다.";
     }
+
 }

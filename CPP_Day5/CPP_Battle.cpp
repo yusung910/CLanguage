@@ -8,7 +8,12 @@
 #include "CDrawing.h"
 
 using namespace std;
+CBattle::CBattle() {
+}
 
+CBattle::~CBattle() {
+
+}
 void CBattle::DoBattle(CUser* user, CMonster* monster, COORD pos) {
 
 	CDrawing* drawingObj = new CDrawing;
@@ -18,7 +23,6 @@ void CBattle::DoBattle(CUser* user, CMonster* monster, COORD pos) {
 	int doFightFlag = 1;
 	//몬스터 정보를 초기화 한다.
 	monster->init();
-
 
 	//출력을 위해 임의로 생성한 몬스터와 유저 객체를
 	//동적캐스팅(dynamic_cast)해서 할당한다.
@@ -128,6 +132,8 @@ void CBattle::DoBattle(CUser* user, CMonster* monster, COORD pos) {
 
 						//전투 종료
 						doFightFlag = 0;
+                        //결과 화면을 보기 위한 getch();
+                        _getch();
 					}
 					else if (monster->GetMonsterHP() <= 0) {
 						//몬스터가 죽었을 경우.
@@ -149,6 +155,9 @@ void CBattle::DoBattle(CUser* user, CMonster* monster, COORD pos) {
 
 						//전투 종료
 						doFightFlag = 0;
+
+                        //결과 화면을 보기 위한 getch();
+                        _getch();
 					}
 				}
 			}
