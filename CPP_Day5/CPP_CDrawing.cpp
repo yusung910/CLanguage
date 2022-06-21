@@ -1,5 +1,7 @@
 #include <iostream>
 #include <windows.h>
+
+#include "CObject.h"
 #include "CMonster.h"
 #include "CUser.h"
 #include "CDrawing.h"
@@ -42,56 +44,52 @@ void CDrawing::SetBackground() {
     }
 }
 
-void CDrawing::SetCdDrawingPos(COORD pos) {
-    m_cdDrawingPos = pos;
+void CDrawing::SetMsgPos(COORD pos) {
+	m_cdMsgPos = pos;
 }
 
-COORD CDrawing::GetCdDrawingPos() {
-    return m_cdDrawingPos;
-}
-
-void CDrawing::PrintOfInfo(CUser* user) {
-    //화면 표시
-    m_cdDrawingPos.Y += 1;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+void CDrawing::PrintOfCombatInfo(CUser* user) {
+    //유저정보 출력
+	m_cdMsgPos.Y += 1;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
     cout << "[캐릭터 정보]";
-    m_cdDrawingPos.Y += 1;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+	m_cdMsgPos.Y += 1;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
     cout << "캐릭명: " << user->m_cName;
-    m_cdDrawingPos.Y += 1;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+	m_cdMsgPos.Y += 1;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
     cout << "체력 : " << user->GetUserHp();
-    m_cdDrawingPos.Y += 1;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+	m_cdMsgPos.Y += 1;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
     cout << "공격력 : " << user->GetUserDmg();
-    m_cdDrawingPos.Y += 1;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+	m_cdMsgPos.Y += 1;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
     cout << "레벨 : " << user->GetUserLvl();
 }
 
-void CDrawing::PrintOfInfo(CMonster* monster) {
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
-    cout << "[몬스터 정보]";
-    m_cdDrawingPos.Y += 1;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
-    cout << "이름 : " << monster->m_cName;
-    m_cdDrawingPos.Y += 1;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
-    cout << "체력 : " << monster->GetMonsterHP();
-    m_cdDrawingPos.Y += 1;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
-    cout << "공격력 : " << monster->GetMonsterAttack();
+void CDrawing::PrintOfCombatInfo(CMonster* monster) {
+	//몬스터 정보 출력
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+	cout << "[몬스터 정보]";
+	m_cdMsgPos.Y += 1;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+	cout << "이름 : " << monster->m_cName;
+	m_cdMsgPos.Y += 1;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+	cout << "체력 : " << monster->GetMonsterHP();
+	m_cdMsgPos.Y += 1;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+	cout << "공격력 : " << monster->GetMonsterAttack();
 }
 
 void CDrawing::PrintUserSkillList(CSkill* skill) {
-	m_cdDrawingPos.Y += 1;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
     cout << "[스킬 목록]";
     int* skillList = skill->GetSkillList();
     for (int i = 0; i < E_SKILL::MAX_SKILL_CNT; i++) {
         if (skillList[i] > -1) {
-            m_cdDrawingPos.Y += 1;
-            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+			m_cdMsgPos.Y += 1;
+            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
             cout << i << ". " << skill->GetSkillName(skillList[i]);
         }
     }
@@ -99,46 +97,56 @@ void CDrawing::PrintUserSkillList(CSkill* skill) {
 
 void CDrawing::PrintUserSkillAttack(CUser* user, CMonster* monster) {
 	Sleep(100);
-	m_cdDrawingPos.Y += 2;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
 	cout << "\"" << user->m_cName << "\"의 [" << user->GetSkillName(user->GetUsingSkill()) << "] !!";
 	Sleep(100);
-	m_cdDrawingPos.Y += 1;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+	m_cdMsgPos.Y += 1;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
 	cout << "[" << monster->m_cName << "] 에게 " << user->Attack() << "의 데미지를 입혔습니다.";
 }
 
 void CDrawing::PrintMonsterAttack(CUser* user, CMonster* monster) {
 	Sleep(100);
-	m_cdDrawingPos.Y += 2;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+	m_cdMsgPos.Y += 2;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
 	cout << "\"" << monster->m_cName << "\"의 [ 공격 ] !!";
 	Sleep(100);
-	m_cdDrawingPos.Y += 1;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+	m_cdMsgPos.Y += 1;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
 	cout << "[" << user->m_cName << "] 에게 " << monster->Attack() << "의 데미지를 입혔습니다.";
 }
 
-void CDrawing::PrintCombatEnd(CUser* user, CMonster* monster) {
-    m_cdDrawingPos.Y += 2;
-    cout << "[전투 종료]";
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+void CDrawing::PrintCombatRslt(CUser* user, CMonster* monster) {
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+	cout << "[전투 결과]";
     if (monster->GetMonsterHP() <= 0) {
-        m_cdDrawingPos.Y += 1;
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+		m_cdMsgPos.Y += 1;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
         cout << "[" << user->m_cName << "] 승리!";
-        m_cdDrawingPos.Y += 1;
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
+		m_cdMsgPos.Y += 1;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
         cout << "획득 경험치 : " << monster->GetMonsterExp();
+		m_cdMsgPos.Y += 2;
+		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+		cout << "다음 진행할 메뉴를 선택하여주세요:";
+		m_cdMsgPos.Y += 1;
+		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+		cout << "1. 계속 진행.";
+		m_cdMsgPos.Y += 1;
+		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+		cout << "2. 마을로 돌아간다.";
     }
     else if (user->GetUserHp() <= 0) {
         //몬스터가 죽었을 경우
-        m_cdDrawingPos.Y += 1;
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
-        cout << "플레이어 : [" << user->m_cName << "]";
-        m_cdDrawingPos.Y += 1;
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdDrawingPos);
-        cout << "사망 하셨습니다.";
+		m_cdMsgPos.Y += 1;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+        cout << "[" << user->m_cName << "] 사망";
+		//몬스터가 죽었을 경우
+		m_cdMsgPos.Y += 1;
+		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+		cout << "XXX 골드와 XXX 경험치를 잃어버렸습니다.";
+		m_cdMsgPos.Y += 1;
+		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+		cout << "1. 마을로 돌아간다.";
     }
-    
 }

@@ -5,6 +5,7 @@
 #include "CMonster.h"
 #include "CUser.h"
 #include "CDrawing.h"
+#include "CBattle.h"
 
 using namespace std;
 
@@ -19,7 +20,8 @@ void main() {
 	//화면 크기 조절
 	system("mode con: cols=150 lines=50");
     CDrawing* drawingObj = new CDrawing;
-	CObject* objList[2] = { new CUser, new CMonster };
+	CUser* user = new CUser;
+	CMonster* monster =  new CMonster;
 
 	//배경그리기
     drawingObj->SetBackground();
@@ -43,9 +45,9 @@ void main() {
 	//배경그리기
     drawingObj->SetBackground();
 
-	objList[0]->SetName(userName);
-	objList[0]->SetPos(pos);
-	objList[0]->Move();
+	user->SetName(userName);
+	user->SetPos(pos);
+	user->Move();
 
 	while (b_EndFlag) {
 		//사용자 입력 키
@@ -76,157 +78,13 @@ void main() {
 			//배경그리기
             drawingObj->SetBackground();
 
-            objList[0]->SetPos(pos);
-            objList[0]->Move();
+			user->SetPos(pos);
+			user->Move();
 
 			//20퍼센트 확률로 몹 젠
 			if (n_ProDropMob < 10) {
-                //배경그리기
-                drawingObj->SetBackground();
-                int doFightFlag = 1;
-                //몬스터 정보를 초기화 한다.
-                objList[1]->init();
-
-
-                //출력을 위해 임의로 생성한 몬스터와 유저 객체를
-                //동적캐스팅(dynamic_cast)해서 할당한다.
-                CMonster* tmpMonsterObj = dynamic_cast<CMonster*>(objList[1]);
-                CUser* tmpUserObj = dynamic_cast<CUser*>(objList[0]);
-                CSkill* tmpUserSkillObj = dynamic_cast<CSkill*>(objList[0]);
-
-				//몬스터 정보 출력
-				COORD cdMonsterInfoPos = { 90, 10 };
-                drawingObj->SetCdDrawingPos(cdMonsterInfoPos);
-                drawingObj->PrintOfInfo(tmpMonsterObj);
-
-				//유저 정보 출력
-				COORD cdUserInfo = { 30, 9 };
-                drawingObj->SetCdDrawingPos(cdUserInfo);
-                drawingObj->PrintOfInfo(tmpUserObj);
-
-				//전투 여부를 묻는다.
-                COORD cdFightMenuPos = { 45, 25 };
-                SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cdFightMenuPos);
-                cout << "싸우시겠습니까? (1. 전투, 2.도망가기) :";
-
-				while (doFightFlag) {
-                    
-					int intputFightMenu = _getch();
-                    
-					if (intputFightMenu == 49) {
-
-                        //화면을 초기화 하고 몬스터의 정보와 유저의 세부 정보를 화면에 표시한다.
-                        //배경그리기
-                        drawingObj->SetBackground();
-
-                        //몬스터 정보 출력
-                        drawingObj->SetCdDrawingPos(cdMonsterInfoPos);
-                        drawingObj->PrintOfInfo(tmpMonsterObj);
-
-                        //유저 정보 출력
-                        drawingObj->SetCdDrawingPos(cdUserInfo);
-                        drawingObj->PrintOfInfo(tmpUserObj);
-
-						//유저가 사용할 수 있는 기술 목록 출력
-                        drawingObj->SetCdDrawingPos(cdFightMenuPos);
-                        drawingObj->PrintUserSkillList(tmpUserSkillObj);
-
-
-						//스킬 선택하는 구문
-						int n_doUseSkillFlag = 1;
-
-						while (n_doUseSkillFlag) {
-						
-							//사용자가 공격스킬을 선택한다.
-							int n_useSkill = (_getch() - 48);
-
-							//사용자가 입력한 값에 해당하는 스킬명을 가져온다.
-							char* useSkill = tmpUserSkillObj->GetSkillName(n_useSkill);
-
-							//배경그리기
-							drawingObj->SetBackground();
-
-							//몬스터 정보 출력
-							drawingObj->SetCdDrawingPos(cdMonsterInfoPos);
-							drawingObj->PrintOfInfo(tmpMonsterObj);
-
-							//유저 정보 출력
-							drawingObj->SetCdDrawingPos(cdUserInfo);
-							drawingObj->PrintOfInfo(tmpUserObj);
-
-							if (useSkill == NULL) {
-								drawingObj->SetCdDrawingPos(cdFightMenuPos);
-								SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cdFightMenuPos);
-								cout << "사용할 수 없는 기술입니다. 다시 입력하여주세요.";
-								drawingObj->SetCdDrawingPos(cdFightMenuPos);
-								drawingObj->PrintUserSkillList(tmpUserSkillObj);
-							} else {
-								//배경그리기
-								drawingObj->SetBackground();
-
-								//플레이어가 사용한 공격 스킬을 세팅한다.
-								tmpUserObj->SetUsingSkill(n_useSkill);
-								//플레이어의 공격내용을 화면에 출력한다.
-								drawingObj->PrintUserSkillAttack(tmpUserObj, tmpMonsterObj);
-								//몬스터의 체력을 감소한다.
-								tmpMonsterObj->SetMonsterHP(tmpMonsterObj->GetMonsterHP() - tmpUserObj->Attack());
-
-								//몬스터의 공격내용을 화면에 출력한다.
-								drawingObj->PrintMonsterAttack(tmpUserObj, tmpMonsterObj);
-								//플레이어의 체력을 감소한다.
-								tmpUserObj->SetUserHP(tmpUserObj->GetUserHp() - tmpMonsterObj->Attack());
-
-								//몬스터 정보 출력
-								drawingObj->SetCdDrawingPos(cdMonsterInfoPos);
-								drawingObj->PrintOfInfo(tmpMonsterObj);
-
-								//유저 정보 출력
-								drawingObj->SetCdDrawingPos(cdUserInfo);
-								drawingObj->PrintOfInfo(tmpUserObj);
-
-								//사용 기술 정보 출력
-								drawingObj->SetCdDrawingPos(cdFightMenuPos);
-								drawingObj->PrintUserSkillList(tmpUserSkillObj);
-                                //플레이어 또는 몬스터의 체력 상태를 확인한다
-                                if (tmpUserObj->GetUserHp() <= 0 && tmpMonsterObj->GetMonsterHP() <= 0) {
-                                    //플레이어가 죽었을 경우.
-                                }
-                                else if (tmpMonsterObj->GetMonsterHP() <= 0) {
-                                    //몬스터가 죽었을 경우.
-                                    //배경그리기
-                                    drawingObj->SetBackground();
-
-                                    //몬스터 정보 출력
-                                    drawingObj->SetCdDrawingPos(cdMonsterInfoPos);
-                                    drawingObj->PrintOfInfo(tmpMonsterObj);
-
-                                    //유저 정보 출력
-                                    drawingObj->SetCdDrawingPos(cdUserInfo);
-                                    drawingObj->PrintOfInfo(tmpUserObj);
-
-                                    //전투 결과 출력
-                                    if (tmpUserObj->GetUserHp() <= 0 || tmpMonsterObj->GetMonsterHP() <= 0) {
-                                        //몬스터 또는 플레이어의 hp가 0보다 작거나 같을 경우.
-                                        drawingObj->PrintCombatEnd(tmpUserObj, tmpMonsterObj);
-                                    }
-
-                                    //스킬 사용 종료
-                                    n_doUseSkillFlag = 0;
-
-                                    //전투 종료
-                                    doFightFlag = 0;
-                                }
-							}
-						}
-					} else if (intputFightMenu == 50) {
-						//배경그리기
-                        drawingObj->SetBackground();
-
-						objList[0]->SetPos(pos);
-						objList[0]->Move();
-                        doFightFlag = 0;
-					}
-				}
+				CBattle* battle = new CBattle;
+				battle->DoBattle(user, monster, pos);
 			}
 		}
 
