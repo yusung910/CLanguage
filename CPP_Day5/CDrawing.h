@@ -55,6 +55,13 @@ public:
 
 	//위치를 지정한다
 	void gotoxy(int x, int y);
+    void gotoxy(COORD pos);
+
+    //상점 건물을 그린다.
+    void PrintBuilding(COORD cdStartPos, COORD cdEndPos);
+
+    //메세지 출력하는 구역을 초기화한다.
+    void ClearMsgArea();
 
     //출력하기 위한 위치를 저장하는 변수.
     COORD m_cdMsgPos;
@@ -62,6 +69,7 @@ public:
     //여관 좌표
     COORD cdInnStart = { 5, 10 };
     COORD cdInnEnd = { 25, 20 };
+    
 
     //상점좌표
     COORD cdStoreStart = { 30, 10 };
@@ -73,7 +81,7 @@ public:
 
     //사냥터 출구 좌표
     COORD cdExitDungeonStart = { 0, 0 };
-    COORD cdExitDungeonEnd = { 15, 10 };
+    COORD cdExitDungeonEnd = { 10, 10 };
 
 	int nArryMap[80][30];
 protected:

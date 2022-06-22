@@ -48,5 +48,14 @@ void CUser::init() {
 }
 
 void CUser::Move() {
-    cout << "◎";
+    cout << "*";
 }
+
+//유저의 위치를 세팅한다
+void CUser::SetUserPos(COORD pos) {
+    m_nUserPos = pos;
+};
+void CUser::SetUserPos(int x, int y) {
+    COORD pos = { x, y };
+    m_nUserPos = pos;
+};

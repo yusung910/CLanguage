@@ -157,6 +157,7 @@
     <ClCompile Include="CPP_Monster.cpp" />
     <ClCompile Include="CPP_Object.cpp" />
     <ClCompile Include="CPP_Skill.cpp" />
+    <ClCompile Include="CPP_System.cpp" />
     <ClCompile Include="CPP_User.cpp" />
     <ClCompile Include="CUser.h" />
     <ClCompile Include="main.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="CDrawing.h" />
     <ClInclude Include="CObject.h" />
     <ClInclude Include="CSkill.h" />
+    <ClInclude Include="CSystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

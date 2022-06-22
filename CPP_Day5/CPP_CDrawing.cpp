@@ -11,7 +11,7 @@ using namespace std;
 
 CDrawing::CDrawing() {
 	//기본 지형의 값이 저장된 2차원 배열의 값을 초기화한다.
-	memset(nArryMap, 0, sizeof(nArryMap));
+	//memset(nArryMap, 0, sizeof(nArryMap));
 }
 
 CDrawing::~CDrawing() {
@@ -19,6 +19,7 @@ CDrawing::~CDrawing() {
 
 void CDrawing::SetBackground() {
     //배경 그리기전 화면을 초기화한다.
+    memset(nArryMap, 0, sizeof(nArryMap));
     cout << "\x1B[2J\x1B[H";
     COORD cdStart = { 0, 0 };
     COORD cdEnd = { 80, 30 };
@@ -29,30 +30,30 @@ int CDrawing::GetUserPosBuild(COORD pos, int nCurrentMap) {
     int n_retMap = E_BACKGROUND_TYPE::VILLAGE;
     if (nCurrentMap == E_BACKGROUND_TYPE::VILLAGE) {
         if (pos.X >= cdInnStart.X &&
-            pos.X <= cdInnEnd.X &&
+            pos.X < cdInnEnd.X &&
             pos.Y >= cdInnStart.Y &&
-            pos.Y <= cdInnEnd.Y) {
+            pos.Y < cdInnEnd.Y) {
             n_retMap = E_BACKGROUND_TYPE::INN;
         }
         else if (pos.X >= cdStoreStart.X &&
-            pos.X <= cdStoreEnd.X &&
+            pos.X < cdStoreEnd.X &&
             pos.Y >= cdStoreStart.Y &&
-            pos.Y <= cdStoreEnd.Y) {
+            pos.Y < cdStoreEnd.Y) {
             n_retMap = E_BACKGROUND_TYPE::STORE;
         }
         else if (pos.X >= cdDungeonStart.X &&
-            pos.X <= cdDungeonEnd.X &&
+            pos.X < cdDungeonEnd.X &&
             pos.Y >= cdDungeonStart.Y &&
-            pos.Y <= cdDungeonEnd.Y) {
+            pos.Y < cdDungeonEnd.Y) {
             n_retMap = E_BACKGROUND_TYPE::DUNGEON;
         }
     }
     else if (nCurrentMap == E_BACKGROUND_TYPE::DUNGEON) {
         n_retMap = E_BACKGROUND_TYPE::DUNGEON;
         if (pos.X >= cdExitDungeonStart.X &&
-            pos.X <= cdExitDungeonEnd.X &&
+            pos.X < cdExitDungeonEnd.X &&
             pos.Y >= cdExitDungeonStart.Y &&
-            pos.Y <= cdExitDungeonEnd.Y) {
+            pos.Y < cdExitDungeonEnd.Y) {
             n_retMap = E_BACKGROUND_TYPE::VILLAGE;
         }
     }
@@ -60,25 +61,25 @@ int CDrawing::GetUserPosBuild(COORD pos, int nCurrentMap) {
 }
 
 void CDrawing::PrintOfHome() {
-    //기본 배경을 그린다.
-    //SetBackground();
 	//여관
-	PrintSquare(cdInnStart, cdInnEnd);
+    PrintBuilding(cdInnStart, cdInnEnd);
+    gotoxy(13, 12);
+    cout << "여관";
 	//상점
-	PrintSquare(cdStoreStart, cdStoreEnd);
+    PrintBuilding(cdStoreStart, cdStoreEnd);
+    gotoxy(38, 12);
+    cout << "상점";
 	//던전
-	PrintSquare(cdDungeonStart, cdDungeonEnd);
-
+    PrintBuilding(cdDungeonStart, cdDungeonEnd);
+    gotoxy(63, 12);
+    cout << "던전";
 }
 
 //던전 그리기
 void CDrawing::PrintDungeon() {
-    //배경 그리기
-    SetBackground();
-
-    COORD cdExitTitle = { 5, 5 };
-    PrintSquare(cdExitDungeonStart, cdExitDungeonEnd);
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cdExitTitle);
+    COORD cdExitTitle = { 3, 3 };
+    PrintBuilding(cdExitDungeonStart, cdExitDungeonEnd);
+    gotoxy(3, 2);
     cout << "출구";
     
 }
@@ -115,6 +116,48 @@ void CDrawing::PrintSquare(COORD cdStartPos, COORD cdEndPos) {
 		gotoxy(m_backPos.X, m_backPos.Y);
 		nArryMap[m_backPos.X][m_backPos.Y] = 1;
         cout << "*";
+    }
+}
+
+void CDrawing::PrintBuilding(COORD cdStartPos, COORD cdEndPos) {
+    //그리기 위한 pos
+    COORD m_backPos;
+    for (int i = cdStartPos.X; i < cdEndPos.X; i++) {
+        m_backPos.X = i;
+        m_backPos.Y = cdStartPos.Y;
+        gotoxy(m_backPos.X, m_backPos.Y);
+        nArryMap[m_backPos.X][m_backPos.Y] = 1;
+        cout << "*";
+    }
+
+    for (int j = cdStartPos.Y; j < cdEndPos.Y; j++) {
+        m_backPos.Y = j;
+        gotoxy(m_backPos.X, m_backPos.Y);
+        nArryMap[m_backPos.X][m_backPos.Y] = 1;
+        cout << "*";
+    }
+
+    for (int a = (cdEndPos.X - 1); a >= cdStartPos.X; a--) {
+        m_backPos.X = a;
+        gotoxy(m_backPos.X, m_backPos.Y);
+
+        if (a > (cdEndPos.X - 10)) {
+            cout << " ";
+        }
+        else {
+            nArryMap[m_backPos.X][m_backPos.Y] = 1;
+            cout << "*";
+        }
+        
+    }
+
+    for (int b = (cdEndPos.Y - 1); b >= cdStartPos.Y; b--) {
+        m_backPos.Y = b;
+        gotoxy(m_backPos.X, m_backPos.Y);
+        nArryMap[m_backPos.X][m_backPos.Y] = 1;
+        cout << "*";
+
+        
     }
 }
 
@@ -223,15 +266,31 @@ void CDrawing::PrintCombatRslt(CUser* user, CMonster* monster) {
 
 
 void CDrawing::PrintOutInnMsg(CUser* user) {
-	m_cdMsgPos.Y += 1;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+    int x = 10;
+    int y = 22;
+    gotoxy(x, y);
 	cout << "1. 회복 - XXX 골드 소모";
-	m_cdMsgPos.Y += 1;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
-	cout << "2. 돌아가기.";
+    y += 1;
+    gotoxy(x, y);
+	cout << "2. 돌아가기";
 }
 
 void CDrawing::gotoxy(int x, int y) {
 	COORD pos = { x, y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+}
+void CDrawing::gotoxy(COORD pos) {
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+}
+
+void CDrawing::ClearMsgArea() {
+    COORD start = { 10, 22 };
+    COORD end = { 79, 29 };
+
+    for(int j=start.Y; j<end.Y; j++){
+        for (int i = start.X; i < end.X; i++) {
+            gotoxy(i, j);
+            printf(" ");
+        }
+    }
 }

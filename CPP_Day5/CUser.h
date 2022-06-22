@@ -53,7 +53,11 @@ public:
     int GetUserDmg() { return m_Damage; };
     //최대 체력을 리턴한다
     int GetUserMaxHp() { return m_nMaxHP; };
-	
+	//유저의 현재 위치를 가져온다
+    COORD GetUserPos() { return m_nUserPos; };
+    //유저의 위치를 세팅한다
+    void SetUserPos(COORD pos);
+    void SetUserPos(int x, int y);
 
 private:
     //경험치
@@ -74,5 +78,7 @@ private:
     int m_Dex;
     //공격력
     int m_Damage;
+    //캐릭터 x,y 
+    COORD m_nUserPos = {2,2};
 };
 #endif
