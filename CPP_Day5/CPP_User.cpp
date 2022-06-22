@@ -48,6 +48,5 @@ void CUser::init() {
 }
 
 void CUser::Move() {
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdPos);
     cout << "¡Ý";
 }

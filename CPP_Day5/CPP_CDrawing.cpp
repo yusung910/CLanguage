@@ -10,15 +10,18 @@
 using namespace std;
 
 CDrawing::CDrawing() {
+	//기본 지형의 값이 저장된 2차원 배열의 값을 초기화한다.
+	memset(nArryMap, 0, sizeof(nArryMap));
 }
 
 CDrawing::~CDrawing() {
 }
+
 void CDrawing::SetBackground() {
     //배경 그리기전 화면을 초기화한다.
     cout << "\x1B[2J\x1B[H";
     COORD cdStart = { 0, 0 };
-    COORD cdEnd = { 150, 50 };
+    COORD cdEnd = { 80, 30 };
     PrintSquare(cdStart, cdEnd);
 }
 
@@ -58,25 +61,14 @@ int CDrawing::GetUserPosBuild(COORD pos, int nCurrentMap) {
 
 void CDrawing::PrintOfHome() {
     //기본 배경을 그린다.
-    SetBackground();
+    //SetBackground();
+	//여관
+	PrintSquare(cdInnStart, cdInnEnd);
+	//상점
+	PrintSquare(cdStoreStart, cdStoreEnd);
+	//던전
+	PrintSquare(cdDungeonStart, cdDungeonEnd);
 
-    //여관 건물을 그린다.
-    PrintSquare(cdInnStart, cdInnEnd);
-    COORD cdInnTitle = { 23, 17 };
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cdInnTitle);
-    cout << "여관";
-
-    //상점 건물을 그린다.
-    PrintSquare(cdStoreStart, cdStoreEnd);
-    COORD cdStoreTitle = { 73, 17 };
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cdStoreTitle);
-    cout << "상점";
-
-    //상점 건물을 그린다.
-    PrintSquare(cdDungeonStart, cdDungeonEnd);
-    COORD cdDungeonTitle = { 123, 17 };
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cdDungeonTitle);
-    cout << "던전";
 }
 
 //던전 그리기
@@ -99,25 +91,29 @@ void CDrawing::PrintSquare(COORD cdStartPos, COORD cdEndPos) {
     for (int i = cdStartPos.X; i < cdEndPos.X; i++) {
         m_backPos.X = i;
         m_backPos.Y = cdStartPos.Y;
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_backPos);
+		gotoxy(m_backPos.X, m_backPos.Y);
+		nArryMap[m_backPos.X][m_backPos.Y] = 1;
         cout << "*";
     }
 
     for (int j = cdStartPos.Y; j < cdEndPos.Y; j++) {
         m_backPos.Y = j;
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_backPos);
+		gotoxy(m_backPos.X, m_backPos.Y);
+		nArryMap[m_backPos.X][m_backPos.Y] = 1;
         cout << "*";
     }
 
     for (int a = (cdEndPos.X - 1); a >= cdStartPos.X; a--) {
         m_backPos.X = a;
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_backPos);
+		gotoxy(m_backPos.X, m_backPos.Y);
+		nArryMap[m_backPos.X][m_backPos.Y] = 1;
         cout << "*";
     }
 
     for (int b = (cdEndPos.Y - 1); b >= cdStartPos.Y; b--) {
         m_backPos.Y = b;
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_backPos);
+		gotoxy(m_backPos.X, m_backPos.Y);
+		nArryMap[m_backPos.X][m_backPos.Y] = 1;
         cout << "*";
     }
 }
@@ -223,4 +219,19 @@ void CDrawing::PrintCombatRslt(CUser* user, CMonster* monster) {
         cout << "아무 키나 눌러주세요, 마을 여관으로 이동 됩니다.";
     }
 
+}
+
+
+void CDrawing::PrintOutInnMsg(CUser* user) {
+	m_cdMsgPos.Y += 1;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+	cout << "1. 회복 - XXX 골드 소모";
+	m_cdMsgPos.Y += 1;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+	cout << "2. 돌아가기.";
+}
+
+void CDrawing::gotoxy(int x, int y) {
+	COORD pos = { x, y };
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }

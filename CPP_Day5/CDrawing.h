@@ -49,23 +49,33 @@ public:
 
     //플레이어가 위치하고 있는 건물을 가져온다.
     int GetUserPosBuild(COORD pos, int nCurrentMap);
+
+	//여관에서의 메세지 출력
+	void PrintOutInnMsg(CUser* user);
+
+	//위치를 지정한다
+	void gotoxy(int x, int y);
+
     //출력하기 위한 위치를 저장하는 변수.
     COORD m_cdMsgPos;
 
     //여관 좌표
-    COORD cdInnStart = { 10, 10 };
-    COORD cdInnEnd = { 40, 25 };
+    COORD cdInnStart = { 5, 10 };
+    COORD cdInnEnd = { 25, 20 };
 
     //상점좌표
-    COORD cdStoreStart = { 60, 10 };
-    COORD cdStoreEnd = { 90, 25 };
+    COORD cdStoreStart = { 30, 10 };
+    COORD cdStoreEnd = { 50, 20 };
 
     //사냥터 좌표
-    COORD cdDungeonStart = { 110, 10 };
-    COORD cdDungeonEnd = { 140, 25 };
+    COORD cdDungeonStart = { 55, 10 };
+    COORD cdDungeonEnd = { 75, 20 };
+
     //사냥터 출구 좌표
     COORD cdExitDungeonStart = { 0, 0 };
     COORD cdExitDungeonEnd = { 15, 10 };
+
+	int nArryMap[80][30];
 protected:
 private:
 
