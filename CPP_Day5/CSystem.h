@@ -1,6 +1,7 @@
 #ifndef __SYSTEM_H_
 #define __SYSTEM_H_
 
+#include <stdio.h>
 #include <conio.h>
 #include <windows.h>
 #include "CObject.h"
@@ -29,6 +30,9 @@ class CSystem {
 
         //게임 진행
         void GamePlaying();
+
+		//게임 내 상호작용
+		void GameInterPlay();
 
         //현재 배경
         int n_currentBg = E_BACKGROUND_TYPE::VILLAGE;

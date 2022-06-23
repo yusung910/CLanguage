@@ -14,9 +14,9 @@ CBattle::CBattle() {
 CBattle::~CBattle() {
 
 }
-void CBattle::DoBattle(CUser* user, CMonster* monster, COORD pos) {
 
-	CDrawing* drawingObj = new CDrawing;
+void CBattle::DoBattle(CDrawing* drawingObj, CUser* user, CMonster* monster) {
+
 	//배경그리기
 	drawingObj->SetBackground();
 
@@ -26,24 +26,19 @@ void CBattle::DoBattle(CUser* user, CMonster* monster, COORD pos) {
 
 	//출력을 위해 임의로 생성한 몬스터와 유저 객체를
 	//동적캐스팅(dynamic_cast)해서 할당한다.
-	CSkill* tmpUserSkillObj = dynamic_cast<CSkill*>(user);
+	//user->getS
+	//CSkill* tmpUserSkillObj = dynamic_cast<CSkill*>(user);
 
-	//몬스터 정보 위치 세팅
-	COORD cdMonsterInfoPos = { 90, 10 };
-	drawingObj->SetMsgPos(cdMonsterInfoPos);
 	drawingObj->PrintOfCombatInfo(monster);
 
-	//유저 정보 위치 세팅 후 출력
-	COORD cdUserInfo = { 30, 9 };
-	drawingObj->SetMsgPos(cdUserInfo);
+
 	drawingObj->PrintOfCombatInfo(user);
 	//전투 메세지 출력위치
-	COORD cdCombatMsgPos = { 70, 25 };
+	COORD cdCombatMsgPos = { 50, 25 };
 	//시스템 메세지 출력 위치
-	COORD cdSystemMsgPos = { 35, 25 };
+	COORD cdSystemMsgPos = { 15, 25 };
 
-	drawingObj->SetMsgPos(cdSystemMsgPos);
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cdSystemMsgPos);
+	drawingObj->gotoxy(cdSystemMsgPos);
 	//전투 여부를 묻는다.
 	cout << "싸우시겠습니까? (1. 전투, 2.도망가기) :";
 
@@ -54,18 +49,13 @@ void CBattle::DoBattle(CUser* user, CMonster* monster, COORD pos) {
 		if (intputFightMenu == 49) {
 
 			//화면을 초기화 하고 몬스터의 정보와 유저의 세부 정보를 화면에 표시한다.
-			//배경그리기
-			drawingObj->SetBackground();
 
-			//유저, 몬스터 정보 출력
-			drawingObj->SetMsgPos(cdUserInfo);
 			drawingObj->PrintOfCombatInfo(user);
-			drawingObj->SetMsgPos(cdMonsterInfoPos);
 			drawingObj->PrintOfCombatInfo(monster);
 
 			//유저가 사용할 수 있는 기술 목록 출력
-			drawingObj->SetMsgPos(cdSystemMsgPos);
-			drawingObj->PrintUserSkillList(tmpUserSkillObj);
+			drawingObj->gotoxy(cdSystemMsgPos);
+			drawingObj->PrintUserSkillList(user);
 
 			//스킬 선택하는 구문
 			int n_doUseSkillFlag = 1;
@@ -76,21 +66,16 @@ void CBattle::DoBattle(CUser* user, CMonster* monster, COORD pos) {
 				int n_useSkill = (_getch() - 48);
 
 				//사용자가 입력한 값에 해당하는 스킬명을 가져온다.
-				char* useSkill = tmpUserSkillObj->GetSkillName(n_useSkill);
-
-				//배경그리기
-				drawingObj->SetBackground();
+				char* useSkill = user->GetSkillName(n_useSkill);
 
 				//유저, 몬스터 정보 출력
-				drawingObj->SetMsgPos(cdUserInfo);
 				drawingObj->PrintOfCombatInfo(user);
-				drawingObj->SetMsgPos(cdMonsterInfoPos);
 				drawingObj->PrintOfCombatInfo(monster);
 
 				if (useSkill == NULL) {
 					SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cdSystemMsgPos);
 					cout << "사용할 수 없는 기술입니다. 다시 입력하여주세요.";
-					drawingObj->PrintUserSkillList(tmpUserSkillObj);
+					drawingObj->PrintUserSkillList(user);
 				}
 				else {
 					//배경그리기
@@ -100,7 +85,7 @@ void CBattle::DoBattle(CUser* user, CMonster* monster, COORD pos) {
 					user->SetUsingSkill(n_useSkill);
 
 					//플레이어의 공격내용을 화면에 출력한다.
-					drawingObj->SetMsgPos(cdCombatMsgPos);
+					drawingObj->gotoxy(cdCombatMsgPos);
 					drawingObj->PrintUserSkillAttack(user, monster);
 
 					//몬스터의 체력을 감소한다.
@@ -112,19 +97,17 @@ void CBattle::DoBattle(CUser* user, CMonster* monster, COORD pos) {
 					user->SetUserHP(user->GetUserHp() - monster->Attack());
 
 					//유저, 몬스터 정보 출력
-					drawingObj->SetMsgPos(cdUserInfo);
 					drawingObj->PrintOfCombatInfo(user);
-					drawingObj->SetMsgPos(cdMonsterInfoPos);
 					drawingObj->PrintOfCombatInfo(monster);
 
 					//사용 기술 정보 출력
-					drawingObj->SetMsgPos(cdSystemMsgPos);
-					drawingObj->PrintUserSkillList(tmpUserSkillObj);
+					drawingObj->gotoxy(cdSystemMsgPos);
+					drawingObj->PrintUserSkillList(user);
 
 					//플레이어 또는 몬스터의 체력 상태를 확인한다
 					if (user->GetUserHp() <= 0 && monster->GetMonsterHP() <= 0) {
 						//플레이어가 죽었을 경우.
-						drawingObj->SetMsgPos(cdSystemMsgPos);
+						drawingObj->gotoxy(cdSystemMsgPos);
 						drawingObj->PrintCombatRslt(user, monster);
 
 						//스킬 사용 종료
@@ -141,13 +124,11 @@ void CBattle::DoBattle(CUser* user, CMonster* monster, COORD pos) {
 						drawingObj->SetBackground();
 
 						//유저, 몬스터 정보 출력
-						drawingObj->SetMsgPos(cdUserInfo);
 						drawingObj->PrintOfCombatInfo(user);
-						drawingObj->SetMsgPos(cdMonsterInfoPos);
 						drawingObj->PrintOfCombatInfo(monster);
 
 						//전투 결과 출력
-						drawingObj->SetMsgPos(cdSystemMsgPos);
+						drawingObj->gotoxy(cdSystemMsgPos);
 						drawingObj->PrintCombatRslt(user, monster);
 
 						//스킬 사용 종료
@@ -166,7 +147,7 @@ void CBattle::DoBattle(CUser* user, CMonster* monster, COORD pos) {
 			//배경그리기
 			drawingObj->SetBackground();
 
-			user->SetPos(pos);
+			//user->SetPos(pos);
 			user->Move();
 			doFightFlag = 0;
 		}

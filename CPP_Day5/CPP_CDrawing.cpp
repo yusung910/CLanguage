@@ -77,7 +77,9 @@ void CDrawing::PrintOfHome() {
 
 //던전 그리기
 void CDrawing::PrintDungeon() {
+	//사냥터 출구 
     COORD cdExitTitle = { 3, 3 };
+
     PrintBuilding(cdExitDungeonStart, cdExitDungeonEnd);
     gotoxy(3, 2);
     cout << "출구";
@@ -93,28 +95,28 @@ void CDrawing::PrintSquare(COORD cdStartPos, COORD cdEndPos) {
         m_backPos.X = i;
         m_backPos.Y = cdStartPos.Y;
 		gotoxy(m_backPos.X, m_backPos.Y);
-		nArryMap[m_backPos.X][m_backPos.Y] = 1;
+		nArryMap[m_backPos.Y][m_backPos.X] = 1;
         cout << "*";
     }
 
     for (int j = cdStartPos.Y; j < cdEndPos.Y; j++) {
         m_backPos.Y = j;
 		gotoxy(m_backPos.X, m_backPos.Y);
-		nArryMap[m_backPos.X][m_backPos.Y] = 1;
+		nArryMap[m_backPos.Y][m_backPos.X] = 1;
         cout << "*";
     }
 
     for (int a = (cdEndPos.X - 1); a >= cdStartPos.X; a--) {
         m_backPos.X = a;
 		gotoxy(m_backPos.X, m_backPos.Y);
-		nArryMap[m_backPos.X][m_backPos.Y] = 1;
+		nArryMap[m_backPos.Y][m_backPos.X] = 1;
         cout << "*";
     }
 
     for (int b = (cdEndPos.Y - 1); b >= cdStartPos.Y; b--) {
         m_backPos.Y = b;
 		gotoxy(m_backPos.X, m_backPos.Y);
-		nArryMap[m_backPos.X][m_backPos.Y] = 1;
+		nArryMap[m_backPos.Y][m_backPos.X] = 1;
         cout << "*";
     }
 }
@@ -126,14 +128,14 @@ void CDrawing::PrintBuilding(COORD cdStartPos, COORD cdEndPos) {
         m_backPos.X = i;
         m_backPos.Y = cdStartPos.Y;
         gotoxy(m_backPos.X, m_backPos.Y);
-        nArryMap[m_backPos.X][m_backPos.Y] = 1;
+        nArryMap[m_backPos.Y][m_backPos.X] = 1;
         cout << "*";
     }
 
     for (int j = cdStartPos.Y; j < cdEndPos.Y; j++) {
         m_backPos.Y = j;
         gotoxy(m_backPos.X, m_backPos.Y);
-        nArryMap[m_backPos.X][m_backPos.Y] = 1;
+		nArryMap[m_backPos.Y][m_backPos.X] = 1;
         cout << "*";
     }
 
@@ -145,7 +147,7 @@ void CDrawing::PrintBuilding(COORD cdStartPos, COORD cdEndPos) {
             cout << " ";
         }
         else {
-            nArryMap[m_backPos.X][m_backPos.Y] = 1;
+			nArryMap[m_backPos.Y][m_backPos.X] = 1;
             cout << "*";
         }
         
@@ -154,61 +156,59 @@ void CDrawing::PrintBuilding(COORD cdStartPos, COORD cdEndPos) {
     for (int b = (cdEndPos.Y - 1); b >= cdStartPos.Y; b--) {
         m_backPos.Y = b;
         gotoxy(m_backPos.X, m_backPos.Y);
-        nArryMap[m_backPos.X][m_backPos.Y] = 1;
+		nArryMap[m_backPos.Y][m_backPos.X] = 1;
         cout << "*";
-
-        
     }
 }
 
-
-void CDrawing::SetMsgPos(COORD pos) {
-	m_cdMsgPos = pos;
-}
-
 void CDrawing::PrintOfCombatInfo(CUser* user) {
-    //유저정보 출력
-	m_cdMsgPos.Y += 1;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+	//유저 정보 위치 세팅 후 출력
+	COORD cdUserInfo = { 50, 9 };
+	int x = 50;
+	int y = 9;
+	gotoxy(x, y);
     cout << "[캐릭터 정보]";
-	m_cdMsgPos.Y += 1;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+	y += 1;
+	gotoxy(x, y);
     cout << "캐릭명: " << user->m_cName;
-	m_cdMsgPos.Y += 1;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+	y += 1;
+	gotoxy(x, y);
     cout << "체력 : " << user->GetUserHp();
-	m_cdMsgPos.Y += 1;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+	y += 1;
+	gotoxy(x, y);
     cout << "공격력 : " << user->GetUserDmg();
-	m_cdMsgPos.Y += 1;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+	y += 1;
+	gotoxy(x, y);
     cout << "레벨 : " << user->GetUserLvl();
 }
 
 void CDrawing::PrintOfCombatInfo(CMonster* monster) {
 	//몬스터 정보 출력
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+	int x = 20;
+	int y = 10;
+
+	gotoxy(x, y);
 	cout << "[몬스터 정보]";
-	m_cdMsgPos.Y += 1;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+	y += 1;
+	gotoxy(x, y);
 	cout << "이름 : " << monster->m_cName;
-	m_cdMsgPos.Y += 1;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+	y += 1;
+	gotoxy(x, y);
 	cout << "체력 : " << monster->GetMonsterHP();
-	m_cdMsgPos.Y += 1;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+	y += 1;
+	gotoxy(x, y);
 	cout << "공격력 : " << monster->GetMonsterAttack();
 }
 
-void CDrawing::PrintUserSkillList(CSkill* skill) {
+void CDrawing::PrintUserSkillList(CUser* user) {
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
     cout << "[스킬 목록]";
-    int* skillList = skill->GetSkillList();
+    int* skillList = user->GetSkillList();
     for (int i = 0; i < E_SKILL::MAX_SKILL_CNT; i++) {
         if (skillList[i] > -1) {
 			m_cdMsgPos.Y += 1;
             SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
-            cout << i << ". " << skill->GetSkillName(skillList[i]);
+            cout << i << ". " << user->GetSkillName(skillList[i]);
         }
     }
 }
@@ -275,6 +275,11 @@ void CDrawing::PrintOutInnMsg(CUser* user) {
 	cout << "2. 돌아가기";
 }
 
+void CDrawing::PrintOutCompleteMsg() {
+	gotoxy(cdSystemStart);
+	cout << "회복이 완료되었습니다, 아무키나 눌러 진행하세요.";
+}
+
 void CDrawing::gotoxy(int x, int y) {
 	COORD pos = { x, y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
@@ -284,11 +289,9 @@ void CDrawing::gotoxy(COORD pos) {
 }
 
 void CDrawing::ClearMsgArea() {
-    COORD start = { 10, 22 };
-    COORD end = { 79, 29 };
-
-    for(int j=start.Y; j<end.Y; j++){
-        for (int i = start.X; i < end.X; i++) {
+	
+    for(int j= cdSystemStart.Y; j< cdSystemEnd.Y; j++){
+        for (int i = cdSystemStart.X; i < cdSystemEnd.X; i++) {
             gotoxy(i, j);
             printf(" ");
         }

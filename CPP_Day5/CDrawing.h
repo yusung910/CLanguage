@@ -30,7 +30,7 @@ public:
     void PrintOfCombatInfo(CMonster* monster);
 
     //유저가 사용할 수 있는 스킬 정보를 출력한다.
-    void PrintUserSkillList(CSkill* skill);
+    void PrintUserSkillList(CUser* user);
 
 	//유저가 사용한 기술을 출력한다.
 	void PrintUserSkillAttack(CUser* user, CMonster* monster);
@@ -43,9 +43,6 @@ public:
 
     //던전 그리기
     void PrintDungeon();
-
-	//유저정보를 표시할 객체 세팅
-	void SetMsgPos(COORD pos);
 
     //플레이어가 위치하고 있는 건물을 가져온다.
     int GetUserPosBuild(COORD pos, int nCurrentMap);
@@ -63,29 +60,35 @@ public:
     //메세지 출력하는 구역을 초기화한다.
     void ClearMsgArea();
 
-    //출력하기 위한 위치를 저장하는 변수.
-    COORD m_cdMsgPos;
+	//상호작용이 완료되었을 때 메세지를 출력
+	void PrintOutCompleteMsg();
 
-    //여관 좌표
-    COORD cdInnStart = { 5, 10 };
-    COORD cdInnEnd = { 25, 20 };
-    
-
-    //상점좌표
-    COORD cdStoreStart = { 30, 10 };
-    COORD cdStoreEnd = { 50, 20 };
-
-    //사냥터 좌표
-    COORD cdDungeonStart = { 55, 10 };
-    COORD cdDungeonEnd = { 75, 20 };
-
-    //사냥터 출구 좌표
-    COORD cdExitDungeonStart = { 0, 0 };
-    COORD cdExitDungeonEnd = { 10, 10 };
-
-	int nArryMap[80][30];
+	//맵 지형을 저장한다.
+	int nArryMap[30][80];
 protected:
 private:
+	//출력하기 위한 위치를 저장하는 변수.
+	COORD m_cdMsgPos;
 
+	//여관 좌표
+	COORD cdInnStart = { 5, 10 };
+	COORD cdInnEnd = { 25, 20 };
+
+
+	//상점좌표
+	COORD cdStoreStart = { 30, 10 };
+	COORD cdStoreEnd = { 50, 20 };
+
+	//사냥터 좌표
+	COORD cdDungeonStart = { 55, 10 };
+	COORD cdDungeonEnd = { 75, 20 };
+
+	//사냥터 출구 좌표
+	COORD cdExitDungeonStart = { 0, 0 };
+	COORD cdExitDungeonEnd = { 10, 5 };
+
+	//시스템 메세지 출력 좌표
+	COORD cdSystemStart = { 10, 22 };
+	COORD cdSystemEnd = { 79, 29 };
 };
 #endif
