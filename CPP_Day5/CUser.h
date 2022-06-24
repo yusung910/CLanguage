@@ -79,6 +79,6 @@ private:
     //공격력
     int m_Damage;
     //캐릭터 x,y 
-    COORD m_nUserPos = {5,5};
+    COORD m_nUserPos;
 };
 #endif

@@ -24,23 +24,17 @@ void CBattle::DoBattle(CDrawing* drawingObj, CUser* user, CMonster* monster) {
 	//몬스터 정보를 초기화 한다.
 	monster->init();
 
-	//출력을 위해 임의로 생성한 몬스터와 유저 객체를
-	//동적캐스팅(dynamic_cast)해서 할당한다.
-	//user->getS
-	//CSkill* tmpUserSkillObj = dynamic_cast<CSkill*>(user);
-
 	drawingObj->PrintOfCombatInfo(monster);
-
-
 	drawingObj->PrintOfCombatInfo(user);
-	//전투 메세지 출력위치
-	COORD cdCombatMsgPos = { 50, 25 };
-	//시스템 메세지 출력 위치
-	COORD cdSystemMsgPos = { 15, 25 };
 
-	drawingObj->gotoxy(cdSystemMsgPos);
+	//전투 메세지 출력위치
+	//COORD cdCombatMsgPos = { 50, 25 };
+	//시스템 메세지 출력 위치
+	//COORD cdSystemMsgPos = { 15, 25 };
+
+	
 	//전투 여부를 묻는다.
-	cout << "싸우시겠습니까? (1. 전투, 2.도망가기) :";
+	drawingObj->PrintOutCombatStartMsg();
 
 	while (doFightFlag) {
 
@@ -54,8 +48,7 @@ void CBattle::DoBattle(CDrawing* drawingObj, CUser* user, CMonster* monster) {
 			drawingObj->PrintOfCombatInfo(monster);
 
 			//유저가 사용할 수 있는 기술 목록 출력
-			drawingObj->gotoxy(cdSystemMsgPos);
-			drawingObj->PrintUserSkillList(user);
+			drawingObj->PrintUserSkillList(user, false);
 
 			//스킬 선택하는 구문
 			int n_doUseSkillFlag = 1;
@@ -73,9 +66,7 @@ void CBattle::DoBattle(CDrawing* drawingObj, CUser* user, CMonster* monster) {
 				drawingObj->PrintOfCombatInfo(monster);
 
 				if (useSkill == NULL) {
-					SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cdSystemMsgPos);
-					cout << "사용할 수 없는 기술입니다. 다시 입력하여주세요.";
-					drawingObj->PrintUserSkillList(user);
+					drawingObj->PrintUserSkillList(user, (useSkill == NULL));
 				}
 				else {
 					//배경그리기
@@ -84,8 +75,6 @@ void CBattle::DoBattle(CDrawing* drawingObj, CUser* user, CMonster* monster) {
 					//플레이어가 사용한 공격 스킬을 세팅한다.
 					user->SetUsingSkill(n_useSkill);
 
-					//플레이어의 공격내용을 화면에 출력한다.
-					drawingObj->gotoxy(cdCombatMsgPos);
 					drawingObj->PrintUserSkillAttack(user, monster);
 
 					//몬스터의 체력을 감소한다.
@@ -101,13 +90,11 @@ void CBattle::DoBattle(CDrawing* drawingObj, CUser* user, CMonster* monster) {
 					drawingObj->PrintOfCombatInfo(monster);
 
 					//사용 기술 정보 출력
-					drawingObj->gotoxy(cdSystemMsgPos);
-					drawingObj->PrintUserSkillList(user);
+					drawingObj->PrintUserSkillList(user, false);
 
 					//플레이어 또는 몬스터의 체력 상태를 확인한다
 					if (user->GetUserHp() <= 0 && monster->GetMonsterHP() <= 0) {
 						//플레이어가 죽었을 경우.
-						drawingObj->gotoxy(cdSystemMsgPos);
 						drawingObj->PrintCombatRslt(user, monster);
 
 						//스킬 사용 종료
@@ -128,7 +115,6 @@ void CBattle::DoBattle(CDrawing* drawingObj, CUser* user, CMonster* monster) {
 						drawingObj->PrintOfCombatInfo(monster);
 
 						//전투 결과 출력
-						drawingObj->gotoxy(cdSystemMsgPos);
 						drawingObj->PrintCombatRslt(user, monster);
 
 						//스킬 사용 종료

@@ -30,7 +30,7 @@ public:
     void PrintOfCombatInfo(CMonster* monster);
 
     //유저가 사용할 수 있는 스킬 정보를 출력한다.
-    void PrintUserSkillList(CUser* user);
+    void PrintUserSkillList(CUser* user, BOOL bUseFlag);
 
 	//유저가 사용한 기술을 출력한다.
 	void PrintUserSkillAttack(CUser* user, CMonster* monster);
@@ -63,6 +63,9 @@ public:
 	//상호작용이 완료되었을 때 메세지를 출력
 	void PrintOutCompleteMsg();
 
+	//전투 시작 메세지 출력
+	void PrintOutCombatStartMsg();
+
 	//맵 지형을 저장한다.
 	int nArryMap[30][80];
 protected:
@@ -88,7 +91,7 @@ private:
 	COORD cdExitDungeonEnd = { 10, 5 };
 
 	//시스템 메세지 출력 좌표
-	COORD cdSystemStart = { 10, 22 };
+	COORD cdSystemStart = { 10, 15 };
 	COORD cdSystemEnd = { 79, 29 };
 };
 #endif

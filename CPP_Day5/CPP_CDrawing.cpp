@@ -200,14 +200,26 @@ void CDrawing::PrintOfCombatInfo(CMonster* monster) {
 	cout << "공격력 : " << monster->GetMonsterAttack();
 }
 
-void CDrawing::PrintUserSkillList(CUser* user) {
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+void CDrawing::PrintUserSkillList(CUser* user, BOOL bUseFlag) {
+	ClearMsgArea();
+
+	COORD cdMsgStart = cdSystemStart;
+	cdMsgStart.Y += 1;
+
+	gotoxy(cdMsgStart);
     cout << "[스킬 목록]";
+	if (bUseFlag) {
+		cdMsgStart.Y += 1;
+		gotoxy(cdMsgStart);
+		cout << "사용할 수 없는 기술입니다. 다시 입력하여주세요.";
+	}
+
     int* skillList = user->GetSkillList();
+
     for (int i = 0; i < E_SKILL::MAX_SKILL_CNT; i++) {
         if (skillList[i] > -1) {
-			m_cdMsgPos.Y += 1;
-            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+			cdMsgStart.Y += 1;
+			gotoxy(cdMsgStart);
             cout << i << ". " << user->GetSkillName(skillList[i]);
         }
     }
@@ -235,30 +247,38 @@ void CDrawing::PrintMonsterAttack(CUser* user, CMonster* monster) {
 }
 
 void CDrawing::PrintCombatRslt(CUser* user, CMonster* monster) {
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+
+	ClearMsgArea();
+
+
+	COORD cdMsgStart = cdSystemStart;
+	cdMsgStart.Y += 1;
+	gotoxy(cdMsgStart);
+
+	
 	cout << "[전투 결과]";
     if (monster->GetMonsterHP() <= 0) {
-		m_cdMsgPos.Y += 1;
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+		cdMsgStart.Y += 1;
+		gotoxy(cdMsgStart);
         cout << "[" << user->m_cName << "] 승리!";
-		m_cdMsgPos.Y += 1;
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+		cdMsgStart.Y += 1;
+		gotoxy(cdMsgStart);
         cout << "획득 경험치 : " << monster->GetMonsterExp();
-        m_cdMsgPos.Y += 1;
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+		cdMsgStart.Y += 1;
+		gotoxy(cdMsgStart);
         cout << "아무 키나 눌러 계속 진행하세요.";
     }
     else if (user->GetUserHp() <= 0) {
         //플레이어가 죽었을 경우
-		m_cdMsgPos.Y += 1;
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+		cdMsgStart.Y += 1;
+		gotoxy(cdMsgStart);
         cout << "[" << user->m_cName << "] 사망";
 
-		m_cdMsgPos.Y += 1;
-		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+		cdMsgStart.Y += 1;
+		gotoxy(cdMsgStart);
 		cout << "XXX 골드와 XXX 경험치를 잃어버렸습니다.";
-        m_cdMsgPos.Y += 1;
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), m_cdMsgPos);
+		cdMsgStart.Y += 1;
+		gotoxy(cdMsgStart);
         cout << "아무 키나 눌러주세요, 마을 여관으로 이동 됩니다.";
     }
 
@@ -280,6 +300,28 @@ void CDrawing::PrintOutCompleteMsg() {
 	cout << "회복이 완료되었습니다, 아무키나 눌러 진행하세요.";
 }
 
+void CDrawing::ClearMsgArea() {
+
+	for (int j = cdSystemStart.Y; j < cdSystemEnd.Y; j++) {
+		for (int i = cdSystemStart.X; i < cdSystemEnd.X; i++) {
+			gotoxy(i, j);
+			printf(" ");
+		}
+	}
+}
+
+void CDrawing::PrintOutCombatStartMsg() {
+	ClearMsgArea();
+	COORD cdMsgStart = cdSystemStart;
+	cdMsgStart.Y += 1;
+	gotoxy(cdMsgStart);
+
+	
+	cout << "싸우시겠습니까? (1. 전투, 2.도망가기) :";
+
+}
+
+
 void CDrawing::gotoxy(int x, int y) {
 	COORD pos = { x, y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
@@ -288,12 +330,3 @@ void CDrawing::gotoxy(COORD pos) {
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
 
-void CDrawing::ClearMsgArea() {
-	
-    for(int j= cdSystemStart.Y; j< cdSystemEnd.Y; j++){
-        for (int i = cdSystemStart.X; i < cdSystemEnd.X; i++) {
-            gotoxy(i, j);
-            printf(" ");
-        }
-    }
-}

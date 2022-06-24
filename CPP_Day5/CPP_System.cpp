@@ -51,18 +51,21 @@ void CSystem::GameBasicLoad() {
 
     //배경그리기
     drawingObj->SetBackground();
+	COORD n_initPos = {0,0};
 
     switch (n_currentBg) {
     case E_BACKGROUND_TYPE::VILLAGE:
     case E_BACKGROUND_TYPE::INN:
     case E_BACKGROUND_TYPE::STORE:
         drawingObj->PrintOfHome();
+		n_initPos = { 10,20 };
         break;
     case E_BACKGROUND_TYPE::DUNGEON:
-        drawingObj->PrintDungeon();
+		n_initPos = { 5,10 };
     }
 
-    drawingObj->gotoxy(user->GetUserPos());
+	user->SetUserPos(n_initPos);
+    drawingObj->gotoxy(n_initPos);
 
     user->Move();
 
