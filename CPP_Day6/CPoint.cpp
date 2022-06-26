@@ -16,7 +16,7 @@ CPoint::~CPoint() {
 }
 
 void CPoint::SetPos(int x, int y) {
-    COORD m_pos = { y, x };
+    COORD m_pos = { x, y };
     m_nPosX = x;
     m_nPosY = y;
     SetConsoleCursorPosition(m_nHandle, m_pos);

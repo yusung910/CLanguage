@@ -1,17 +1,13 @@
 #pragma once
-#include "CPoint.h"
-#include "CString.h"
+#include "CDrawing.h"
 
-class CSystem : CPoint, CString {
+class CSystem : CDrawing{
 public:
     //持失切
     CSystem();
     //社瑚切
     ~CSystem();
-
-    void PrintBorderLine();
 private:
-    int m_nScreenX;
-    int m_nScreenY;
+
 protected:
 };
