@@ -43,8 +43,8 @@ void CSystem::SelectedMainMenu() {
 			//플레이어가 엔터키를 눌렀을 경우
 			switch (nMainMenu) {
 			case E_MAIN_MENU::NEW_GAME:
-				//새로운 게임 시작
-				GameStart();
+				//새로운 게임 시작을 위한 데이터 생성
+                CreatePlayerData();
 				break;
 			case E_MAIN_MENU::CONTINUE_GAME:
 				//저장된 게임을 불러온다.
@@ -53,12 +53,27 @@ void CSystem::SelectedMainMenu() {
 				//제작자 내용을 출력
 				break;
 			}
+            doSelectedMenuFlag = 0;
 		}
 	}
 };
 
-void CSystem::GameStart() {
+void CSystem::CreatePlayerData() {
 	//시스템 메세지 출력 화면을 초기화한다.
 	ClearDisplay(E_DISPLAY::SYSTEM);
-	//cout << "게임을 시작합니다, 잠시만 기다려주세요...";
+    //플레이어 객체 생성
+    o_player = new CPlayer;
+    //플레이어 캐릭터 명을 입력.
+    PrintCreatePlayerMsg();
+    //임시로 캐릭터명을 저장할 배열을 생성
+    char c_tmpCharName[200];
+    scanf(" %s", c_tmpCharName);
+    //캐릭터명이 저장된 CString 클래스 생성
+    o_player->SetPlayerName(CString(c_tmpCharName));
+    //시스템 메세지를 클리어한다.
+    ClearDisplay(E_DISPLAY::SYSTEM);
+}
+
+void CSystem::LoadPlayerData() {
+
 }

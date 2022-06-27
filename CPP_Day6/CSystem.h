@@ -1,7 +1,9 @@
 #pragma once
 #include "CDrawing.h"
+#include "CMessage.h"
+#include "CPlayer.h"
 
-class CSystem : CDrawing{
+class CSystem : public CMessage{
 public:
     //생성자
     CSystem();
@@ -10,8 +12,10 @@ public:
 	//메인화면 메뉴 선택기능
 	void SelectedMainMenu();
 	//
-	void GameStart();
+	void CreatePlayerData();
+    void LoadPlayerData();
 private:
 
 protected:
+    CPlayer* o_player;
 };

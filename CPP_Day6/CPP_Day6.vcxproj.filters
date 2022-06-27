@@ -27,6 +27,15 @@
     <ClInclude Include="CDrawing.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="CUnit.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CMessage.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CPoint.cpp">
@@ -42,6 +51,15 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="CDrawing.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CUnit.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CMessage.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

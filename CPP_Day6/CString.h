@@ -13,8 +13,8 @@ public:
     int GetLength() const;
 
     void Display() const;
-private:
     int m_nLength;
     char* m_pChar;
-protected:
+
+private:
 };

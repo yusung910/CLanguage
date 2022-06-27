@@ -20,12 +20,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CDrawing.h" />
+    <ClInclude Include="CMessage.h" />
+    <ClInclude Include="CPlayer.h" />
+    <ClInclude Include="CUnit.h" />
     <ClInclude Include="CPoint.h" />
     <ClInclude Include="CString.h" />
     <ClInclude Include="CSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CDrawing.cpp" />
+    <ClCompile Include="CMessage.cpp" />
+    <ClCompile Include="CPlayer.cpp" />
+    <ClCompile Include="CUnit.cpp" />
     <ClCompile Include="CPoint.cpp" />
     <ClCompile Include="CString.cpp" />
     <ClCompile Include="CSystem.cpp" />
