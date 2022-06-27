@@ -15,7 +15,7 @@ CDrawing::CDrawing() {
 
     //2차원 배열의 지형을 기본값(LAND = 0)으로 세팅한다.
     for (int i = 0; i < m_nScreenY; i++) {
-        memset(m_nLend[i], 0, m_nScreenX);
+        memset(m_nLend[i], E_BACKGROUND::LAND, m_nScreenX);
     }
 };
 
@@ -83,10 +83,50 @@ void CDrawing::PrintDisplayRound() {
         m_nLend[j][0] = E_BACKGROUND::WALL;
         m_nLend[j][1] = E_BACKGROUND::WALL;
 
-        m_nLend[j][m_nScreenX] = E_BACKGROUND::WALL;
         m_nLend[j][m_nScreenX - 1] = E_BACKGROUND::WALL;
+        m_nLend[j][m_nScreenX - 2] = E_BACKGROUND::WALL;
     }
 }
+
+void CDrawing::PrintDisplayMenu() {
+	//메인 화면에서 플레이어가 선택할 수 있는 메뉴를 출력한다.
+	SetPos(GetStringCenterX("새로하기"), 23);
+	CString("새로하기").Display();
+	SetPos(GetStringCenterX("이어하기"), 24);
+	CString("이어하기").Display();
+	SetPos(GetStringCenterX("Credit"), 25);
+	CString("Credit").Display();
+};
+
+void CDrawing::PrintSelectedMenu(int n, bool bDrawingFlag) {
+
+	int n_arrowPosX = 0;
+	int n_arrowPosY = 0;
+
+	switch (n) {
+		case E_MAIN_MENU::NEW_GAME:
+			n_arrowPosX = GetStringCenterX("새로하기") - 4;
+			n_arrowPosY = 23;
+		break;
+		case E_MAIN_MENU::CONTINUE_GAME:
+			n_arrowPosX = GetStringCenterX("이어하기") - 4;
+			n_arrowPosY = 24;
+		break;
+		case E_MAIN_MENU::CREDIT:
+			n_arrowPosX = GetStringCenterX("Credit") - 4;
+			n_arrowPosY = 25;
+		break;
+	}
+
+	SetPos(n_arrowPosX, n_arrowPosY);
+	if (bDrawingFlag) {
+		cout << "◆";
+	}
+	else {
+		cout << "  ";
+	}
+	
+};
 
 void CDrawing::ClearDisplay(int n) {
     COORD cdClearStart;
@@ -108,4 +148,13 @@ void CDrawing::ClearDisplay(int n) {
             m_nLend[j][i] = E_BACKGROUND::LAND;
         }
     }
+}
+
+int CDrawing::GetStringCenterX(const char* s) {
+	int n_strLength = strlen(s);
+	return (m_nScreenX - n_strLength) / 2;
+}
+
+int CDrawing::GetStringCenterX(int n) {
+	return (m_nScreenX - n) / 2;
 }
