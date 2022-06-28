@@ -10,8 +10,3 @@ CPlayer::CPlayer() {
 CPlayer::~CPlayer() {
 
 }
-
-//
-void CPlayer::SetPlayerName(CString name) {
-    m_cName = name;
-}

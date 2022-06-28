@@ -15,3 +15,8 @@ CUnit::~CUnit() {
     //°´Ã¼ °¹¼ö °¨¼Ò
     m_nOrganismCnt--;
 }
+
+//
+void CUnit::SetName(CString name) {
+	m_cName = name;
+}

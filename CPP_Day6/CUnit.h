@@ -15,6 +15,10 @@ public:
 
     //按眉 积己 肮荐
     static int m_nOrganismCnt;
+
+	void SetName(CString name);
+	CString GetName() { return m_cName; };
+
 protected:
     //积疙仿
     int m_nHp;

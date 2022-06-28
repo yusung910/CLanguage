@@ -14,6 +14,7 @@ public:
 	//
 	void CreatePlayerData();
     void LoadPlayerData();
+
 private:
 
 protected:

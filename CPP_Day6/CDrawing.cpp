@@ -158,3 +158,89 @@ int CDrawing::GetStringCenterX(const char* s) {
 int CDrawing::GetStringCenterX(int n) {
 	return (m_nScreenX - n) / 2;
 }
+
+//마을을 그리는 함수
+void CDrawing::PrintVillageBackground() {
+	//여관 사각형 건물 그리기
+	PrintSquare({ 12, 6 }, { 26, 14 });
+	//문 그리기
+	PrintDoor({ 14, 14 }, { 24, 14 }, E_BACKGROUND::BUILD_INN);
+	//여관 타이틀 출력
+	SetPos(18, 8);
+	CString("여관").Display();
+
+	//상점
+	PrintSquare({ 31, 6 }, { 45, 14 });
+	//문 그리기
+	PrintDoor({ 33, 14 }, { 43, 14 }, E_BACKGROUND::BUILD_STORE);
+	//상점 타이틀 출력
+	SetPos(37, 8);
+	CString("상점").Display();
+
+	//던전
+	PrintSquare({ 50, 6 }, { 64, 14 });
+	//문 그리기
+	PrintDoor({ 52, 14 }, { 62, 14 }, E_BACKGROUND::BUILD_DUNGEON);
+	//던전 타이틀 출력
+	SetPos(56, 8);
+	CString("던전").Display();
+}
+
+void CDrawing::PrintSquare(COORD cdPosA, COORD cdPosB) {
+	COORD cdPointA = cdPosA;
+	COORD cdPointB = { cdPosB.X, cdPosA.Y };
+	COORD cdPointC = cdPosB;
+	COORD cdPointD = { cdPosA.X, cdPosB.Y };
+
+	PrintBorderLine(cdPointA, cdPointB, true);
+	PrintBorderLine(cdPointB, cdPointC, false);
+	PrintBorderLine(cdPointD, cdPointC, true);
+	PrintBorderLine(cdPointA, cdPointD, false);
+
+	PrintChar(cdPointA, CString("┌"), E_BACKGROUND::WALL);
+	PrintChar(cdPointB, CString("┐"), E_BACKGROUND::WALL);
+	PrintChar(cdPointC, CString("┘"), E_BACKGROUND::WALL);
+	PrintChar(cdPointD, CString("└"), E_BACKGROUND::WALL);
+}
+
+
+//직선을 그리는 함수
+//v_flag  true  :  가로선
+//v_flag  false : 세로선
+void CDrawing::PrintBorderLine(COORD cdPosA, COORD cdPosB, bool v_flag) {
+
+	int a = (v_flag) ? cdPosA.X : cdPosA.Y;
+	int b = (v_flag) ? cdPosB.X : cdPosB.Y;
+
+	int c = (v_flag) ? cdPosA.Y : cdPosA.X;
+
+	for (int i = a; i <= b; i++) {
+		if (v_flag) {
+			SetPos(i, c);
+			m_nLend[c][i] = E_BACKGROUND::WALL;
+			cout << "─";
+		}
+		else {
+			SetPos(c, i);
+			m_nLend[i][c] = E_BACKGROUND::WALL;
+			cout << "│";
+		}
+	}
+
+}
+
+void CDrawing::PrintChar(COORD pos, CString s, int n_bgType) {
+	SetPos(pos);
+	s.Display();
+	m_nLend[pos.Y][pos.X] = n_bgType;
+}
+
+void CDrawing::PrintDoor(COORD posA, COORD posB, int n_DoorType) {
+	for (int i = posA.X; i <= posB.X; i++) {
+		for (int j = posA.Y; j <= posB.Y; j++) {
+			SetPos(i, j);
+			cout << " ";
+			m_nLend[j][i] = n_DoorType;
+		}
+	}
+}
