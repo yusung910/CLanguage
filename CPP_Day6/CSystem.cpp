@@ -55,6 +55,11 @@ void CSystem::SelectedMainMenu() {
 
 				//처음 마을 화면을 그린다
 				PrintVillageBackground();
+                //플레이어의 취
+                o_player->SetPlayerPos({40, 18});
+                //플레이를 시작한다
+                PlayGame();
+
 
 				break;
 			case E_MAIN_MENU::CREDIT:
@@ -83,5 +88,50 @@ void CSystem::CreatePlayerData() {
 }
 
 void CSystem::LoadPlayerData() {
+
+}
+
+void CSystem::PlayGame() {
+
+    int nMoveChar = 1;
+
+    while (nMoveChar) {
+        //플레이어의 위치
+        COORD cdPlayerPos = o_player->GetPlayerPos();
+
+        int n_playX = cdPlayerPos.X;
+        int n_playY = cdPlayerPos.Y;
+
+        //사용자 입력 키
+        int inputKey = _getch();
+        if (GetAsyncKeyState(VK_UP) & 0x0001) {
+            n_playY -= 1;
+        }
+        if (GetAsyncKeyState(VK_DOWN) & 0x0001) {
+            n_playY += 1;
+        }
+        if (GetAsyncKeyState(VK_LEFT) & 0x0001) {
+            n_playX -= 1;
+        }
+        if (GetAsyncKeyState(VK_RIGHT) & 0x0001) {
+            n_playX += 1;
+        }
+
+        if (m_nLend[n_playY][n_playX] != E_BACKGROUND::WALL) {
+            COORD cdNextPos = { n_playX, n_playY };
+            o_player->SetPlayerPos(cdNextPos);
+            MovePlayer(cdPlayerPos, cdNextPos);
+        }
+    }
+}
+
+void CSystem::MovePlayer(COORD cdPrevPos, COORD cdNextPos) {
+    //이동하기 전 위치 값을 매개변수로 받아 지운다
+    if (m_nLend[cdPrevPos.Y][cdPrevPos.X] != E_BACKGROUND::WALL) {
+        SetPos(cdPrevPos);
+        cout << "  ";
+        SetPos(cdNextPos);
+        cout << "■";
+    }
 
 }

@@ -7,11 +7,11 @@ CDrawing::CDrawing() {
 
     //플레이 영역 좌표 설정
     m_cdPlayScreenStart = { 2, 1 };
-    m_cdPlayScreenEnd = { 77, 19 };
+    m_cdPlayScreenEnd = { 76, 19 };
 
     //시스템 메세지 영역 좌표 설정
     m_nSystemScreenStart = { 2, 21 };
-    m_nSystemScreenEnd = { 77, 28 };
+    m_nSystemScreenEnd = { 76, 28 };
 
     //2차원 배열의 지형을 기본값(LAND = 0)으로 세팅한다.
     for (int i = 0; i < m_nScreenY; i++) {
@@ -85,6 +85,7 @@ void CDrawing::PrintDisplayRound() {
 
         m_nLend[j][m_nScreenX - 1] = E_BACKGROUND::WALL;
         m_nLend[j][m_nScreenX - 2] = E_BACKGROUND::WALL;
+        m_nLend[j][m_nScreenX - 3] = E_BACKGROUND::WALL;
     }
 }
 
@@ -164,7 +165,7 @@ void CDrawing::PrintVillageBackground() {
 	//여관 사각형 건물 그리기
 	PrintSquare({ 12, 6 }, { 26, 14 });
 	//문 그리기
-	PrintDoor({ 14, 14 }, { 24, 14 }, E_BACKGROUND::BUILD_INN);
+	PrintDoor({ 14, 14 }, { 23, 14 }, E_BACKGROUND::BUILD_INN);
 	//여관 타이틀 출력
 	SetPos(18, 8);
 	CString("여관").Display();
@@ -172,7 +173,7 @@ void CDrawing::PrintVillageBackground() {
 	//상점
 	PrintSquare({ 31, 6 }, { 45, 14 });
 	//문 그리기
-	PrintDoor({ 33, 14 }, { 43, 14 }, E_BACKGROUND::BUILD_STORE);
+	PrintDoor({ 33, 14 }, { 42, 14 }, E_BACKGROUND::BUILD_STORE);
 	//상점 타이틀 출력
 	SetPos(37, 8);
 	CString("상점").Display();
@@ -180,7 +181,7 @@ void CDrawing::PrintVillageBackground() {
 	//던전
 	PrintSquare({ 50, 6 }, { 64, 14 });
 	//문 그리기
-	PrintDoor({ 52, 14 }, { 62, 14 }, E_BACKGROUND::BUILD_DUNGEON);
+	PrintDoor({ 52, 14 }, { 61, 14 }, E_BACKGROUND::BUILD_DUNGEON);
 	//던전 타이틀 출력
 	SetPos(56, 8);
 	CString("던전").Display();
@@ -192,10 +193,10 @@ void CDrawing::PrintSquare(COORD cdPosA, COORD cdPosB) {
 	COORD cdPointC = cdPosB;
 	COORD cdPointD = { cdPosA.X, cdPosB.Y };
 
-	PrintBorderLine(cdPointA, cdPointB, true);
-	PrintBorderLine(cdPointB, cdPointC, false);
-	PrintBorderLine(cdPointD, cdPointC, true);
-	PrintBorderLine(cdPointA, cdPointD, false);
+	PrintBorderLine(cdPointA, cdPointB, 1);
+	PrintBorderLine(cdPointB, cdPointC, 2);
+	PrintBorderLine(cdPointD, cdPointC, 3);
+	PrintBorderLine(cdPointA, cdPointD, 4);
 
 	PrintChar(cdPointA, CString("┌"), E_BACKGROUND::WALL);
 	PrintChar(cdPointB, CString("┐"), E_BACKGROUND::WALL);
@@ -204,25 +205,42 @@ void CDrawing::PrintSquare(COORD cdPosA, COORD cdPosB) {
 }
 
 
-//직선을 그리는 함수
-//v_flag  true  :  가로선
-//v_flag  false : 세로선
-void CDrawing::PrintBorderLine(COORD cdPosA, COORD cdPosB, bool v_flag) {
+//사각형의 직선을 그리는 함수
+//n_side 그려질 면의 번호
+void CDrawing::PrintBorderLine(COORD cdPosA, COORD cdPosB, int n_side) {
 
-	int a = (v_flag) ? cdPosA.X : cdPosA.Y;
-	int b = (v_flag) ? cdPosB.X : cdPosB.Y;
+	int a = (n_side == 1 || n_side == 3) ? cdPosA.X : cdPosA.Y;
+	int b = (n_side == 1 || n_side == 3) ? cdPosB.X : cdPosB.Y;
 
-	int c = (v_flag) ? cdPosA.Y : cdPosA.X;
+	int c = (n_side == 1 || n_side == 3) ? cdPosA.Y : cdPosA.X;
+    int c_1;
 
+    switch (n_side) {
+    case 1:
+        c_1 = c + 1;
+        break;
+    case 2:
+        c_1 = c + 1;
+        break;
+    case 3:
+        c_1 = c - 1;
+        break;
+    case 4:
+        c_1 = c - 1;
+        break;
+    }
+    
 	for (int i = a; i <= b; i++) {
-		if (v_flag) {
+		if (n_side == 1 || n_side == 3) {
 			SetPos(i, c);
 			m_nLend[c][i] = E_BACKGROUND::WALL;
+            m_nLend[c_1][i] = E_BACKGROUND::WALL;
 			cout << "─";
 		}
 		else {
 			SetPos(c, i);
 			m_nLend[i][c] = E_BACKGROUND::WALL;
+            m_nLend[i][c_1] = E_BACKGROUND::WALL;
 			cout << "│";
 		}
 	}
@@ -232,15 +250,15 @@ void CDrawing::PrintBorderLine(COORD cdPosA, COORD cdPosB, bool v_flag) {
 void CDrawing::PrintChar(COORD pos, CString s, int n_bgType) {
 	SetPos(pos);
 	s.Display();
-	m_nLend[pos.Y][pos.X] = n_bgType;
 }
 
 void CDrawing::PrintDoor(COORD posA, COORD posB, int n_DoorType) {
 	for (int i = posA.X; i <= posB.X; i++) {
 		for (int j = posA.Y; j <= posB.Y; j++) {
 			SetPos(i, j);
-			cout << " ";
+			cout << "  ";
 			m_nLend[j][i] = n_DoorType;
 		}
 	}
+    m_nLend[posA.Y][posA.X] = E_BACKGROUND::WALL;
 }

@@ -47,7 +47,7 @@ public:
 	//다른 함수들을 이용한 스퀘어 그리기 함수
 	void PrintSquare(COORD cdPosA, COORD cdPosB);
 	//v_flag에 따라 a,b 값에 해당하는 가로선 또는 세로선을 그린다
-	void PrintBorderLine(COORD cdPosA, COORD cdPosB, bool v_flag);
+	void PrintBorderLine(COORD cdPosA, COORD cdPosB, int n_side);
 	void PrintChar(COORD pos, CString s, int n_bgType);
 	//일부 영역에 다른 맵으로 이동할 문을 그린다.
 	void PrintDoor(COORD posA, COORD posB, int n_DoorType);

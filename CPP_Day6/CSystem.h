@@ -11,9 +11,14 @@ public:
     ~CSystem();
 	//메인화면 메뉴 선택기능
 	void SelectedMainMenu();
-	//
+	//플레이어 캐릭터 생성
 	void CreatePlayerData();
+    //저장 데이터 불러오기
     void LoadPlayerData();
+    //게임 플레이 시작
+    void PlayGame();
+    //플레이어 이동
+    void MovePlayer(COORD cdPrevPos, COORD cdNextPos);
 
 private:
 

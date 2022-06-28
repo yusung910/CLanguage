@@ -1,12 +1,13 @@
 #pragma once
 #include <windows.h>
 #include "CString.h"
+#include "CPoint.h"
 enum E_UNIT_TYPE {
     E_PLAYER = 1,
     E_NPC,
     E_MONSTER
 };
-class CUnit {
+class CUnit : public CPoint {
 public:
     //»ý¼ºÀÚ
     CUnit();
