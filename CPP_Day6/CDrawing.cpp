@@ -162,6 +162,7 @@ int CDrawing::GetStringCenterX(int n) {
 
 //마을을 그리는 함수
 void CDrawing::PrintVillageBackground() {
+	PrintDisplayRound();
 	//여관 사각형 건물 그리기
 	PrintSquare({ 12, 6 }, { 26, 14 });
 	//문 그리기

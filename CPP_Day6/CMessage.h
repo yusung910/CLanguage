@@ -1,8 +1,9 @@
 #pragma once
 #include "CDrawing.h"
 #include "CPlayer.h"
+#include "CDungeon.h"
 
-class CMessage : public CDrawing
+class CMessage : public CDungeon
 {
 public:
     //»ý¼ºÀÚ

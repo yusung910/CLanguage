@@ -55,8 +55,12 @@ void CSystem::SelectedMainMenu() {
 
 				//처음 마을 화면을 그린다
 				PrintVillageBackground();
-                //플레이어의 취
+
+                //플레이어의 위치
                 o_player->SetPlayerPos({40, 18});
+
+				MovePlayer({ 39, 18 }, { 40, 18 });
+
                 //플레이를 시작한다
                 PlayGame();
 
@@ -121,6 +125,36 @@ void CSystem::PlayGame() {
             COORD cdNextPos = { n_playX, n_playY };
             o_player->SetPlayerPos(cdNextPos);
             MovePlayer(cdPlayerPos, cdNextPos);
+
+			switch (m_nLend[n_playY][n_playX]) {
+			case E_BACKGROUND::BUILD_STORE:
+				break;
+			case E_BACKGROUND::BUILD_INN:
+				break;
+			case E_BACKGROUND::BUILD_DUNGEON:
+				//던전 진입 시 게임 화면을 초기화
+				ClearDisplay(E_DISPLAY::GAME);
+				//던전 맵을 그린다.
+				PrintDungeonMap();
+
+				MovePlayer(cdPlayerPos, { 4, 4 });
+				o_player->SetPlayerPos({ 4, 4 });
+
+				m_nDungeonLvl++;
+				break;
+			case E_BACKGROUND::PREV_DUNGEON_LVL:
+				m_nDungeonLvl--;
+				if (m_nDungeonLvl == 0) {
+					PrintVillageBackground();
+					MovePlayer(cdPlayerPos, { 40, 18 });
+					o_player->SetPlayerPos({ 40, 18 });
+				}
+				break;
+			case E_BACKGROUND::NEXT_DUNGEON_LVL:
+				m_nDungeonLvl++;
+				break;
+			}
+
         }
     }
 }
