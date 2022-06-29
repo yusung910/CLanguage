@@ -16,6 +16,7 @@ enum E_BACKGROUND {
 enum E_DISPLAY {
     GAME = 1,
     SYSTEM,
+    MAP_TITLE
 };
 
 enum E_MAIN_MENU {
@@ -60,15 +61,19 @@ public:
     //맵 지형이 저장될 2차원 배열
     int m_nLend[30][80];
     //화면 X 값
-    int m_nScreenX;
+    int m_nScreenX = 80;
     //화면 Y 값
-    int m_nScreenY;
+    int m_nScreenY = 30;
     //게임 플레이 화면 시작
-    COORD m_cdPlayScreenStart;
+    COORD m_cdPlayScreenStart = { 2, 1 };
     //게임 플레이 화면 종료
-    COORD m_cdPlayScreenEnd;
+    COORD m_cdPlayScreenEnd = { 76, 19 };
     //시스템 메시지 화면 시작
-    COORD m_nSystemScreenStart;
+    COORD m_nSystemScreenStart = { 2, 21 };
     //시스템 메시지 화면 종료
-    COORD m_nSystemScreenEnd;
+    COORD m_nSystemScreenEnd = { 76, 28 };
+
+    //맵 타이틀 영역 
+    COORD m_nMapTitleStart = { 2, 21 };
+    COORD m_nMapTitleEnd = { 76, 21 };
 };

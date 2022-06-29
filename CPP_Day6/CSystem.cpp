@@ -61,11 +61,12 @@ void CSystem::SelectedMainMenu() {
 
 				MovePlayer({ 39, 18 }, { 40, 18 });
 
+                //플레이어의 기본 정보를 출력한다
+                PrintPlayerInfoMsg(o_player);
+
                 //플레이를 시작한다
                 PlayGame();
-
-
-				break;
+                break;
 			case E_MAIN_MENU::CREDIT:
 				//제작자 내용을 출력
 				break;
@@ -89,6 +90,7 @@ void CSystem::CreatePlayerData() {
     o_player->SetName(CString(c_tmpCharName));
     //시스템 메세지를 클리어한다.
     ClearDisplay(E_DISPLAY::SYSTEM);
+
 }
 
 void CSystem::LoadPlayerData() {
@@ -132,29 +134,54 @@ void CSystem::PlayGame() {
 			case E_BACKGROUND::BUILD_INN:
 				break;
 			case E_BACKGROUND::BUILD_DUNGEON:
+                //던전 레벨 증가
+                m_nDungeonLvl++;
+
 				//던전 진입 시 게임 화면을 초기화
 				ClearDisplay(E_DISPLAY::GAME);
-				//던전 맵을 그린다.
-				PrintDungeonMap();
 
 				MovePlayer(cdPlayerPos, { 4, 4 });
 				o_player->SetPlayerPos({ 4, 4 });
 
-				m_nDungeonLvl++;
+                //던전 맵을 그린다.
+                PrintDungeonMap();
 				break;
 			case E_BACKGROUND::PREV_DUNGEON_LVL:
+                //던전 레벨 감소
 				m_nDungeonLvl--;
 				if (m_nDungeonLvl == 0) {
 					PrintVillageBackground();
-					MovePlayer(cdPlayerPos, { 40, 18 });
+					MovePlayer(cdNextPos, { 40, 18 });
 					o_player->SetPlayerPos({ 40, 18 });
-				}
+                }
+                else {
+                    MovePlayer(cdPlayerPos, { 4, 4 });
+                    o_player->SetPlayerPos({ 4, 4 });
+                    //던전 맵을 그린다.
+                    PrintDungeonMap();
+                }
 				break;
 			case E_BACKGROUND::NEXT_DUNGEON_LVL:
-				m_nDungeonLvl++;
+                //던전 진입 시 게임 화면을 초기화
+                ClearDisplay(E_DISPLAY::GAME);
+                m_nDungeonLvl++;
+                MovePlayer(cdPlayerPos, { 4, 4 });
+                o_player->SetPlayerPos({ 4, 4 });
+                //던전 맵을 그린다.
+                PrintDungeonMap();
 				break;
 			}
 
+        }
+
+        //던전에 있을 경우 몬스터를 일정 확률로 생성한다
+        if (m_nDungeonLvl > 0) {
+            int n_mobGenProp = rand() % 100;
+
+            if (n_mobGenProp < 10) {
+                //10퍼센트 확률로 몬스터 객체를 생성
+                CMonster* monster = new CMonster(m_nDungeonLvl);
+            }
         }
     }
 }

@@ -1,19 +1,7 @@
 #include "CDrawing.h"
 
 CDrawing::CDrawing() {
-
-    m_nScreenX = 80;
-    m_nScreenY = 30;
-
-    //플레이 영역 좌표 설정
-    m_cdPlayScreenStart = { 2, 1 };
-    m_cdPlayScreenEnd = { 76, 19 };
-
-    //시스템 메세지 영역 좌표 설정
-    m_nSystemScreenStart = { 2, 21 };
-    m_nSystemScreenEnd = { 76, 28 };
-
-    //2차원 배열의 지형을 기본값(LAND = 0)으로 세팅한다.
+//2차원 배열의 지형을 기본값(LAND = 0)으로 세팅한다.
     for (int i = 0; i < m_nScreenY; i++) {
         memset(m_nLend[i], E_BACKGROUND::LAND, m_nScreenX);
     }
@@ -141,6 +129,10 @@ void CDrawing::ClearDisplay(int n) {
         cdClearStart = m_nSystemScreenStart;
         cdClearEnd = m_nSystemScreenEnd;
     }
+    else if (n == E_DISPLAY::MAP_TITLE) {
+        cdClearStart = m_nMapTitleStart;
+        cdClearEnd = m_nMapTitleEnd;
+    }
 
     for (int i = cdClearStart.X; i <= cdClearEnd.X; i++) {
         for (int j = cdClearStart.Y; j <= cdClearEnd.Y; j++) {
@@ -186,6 +178,11 @@ void CDrawing::PrintVillageBackground() {
 	//던전 타이틀 출력
 	SetPos(56, 8);
 	CString("던전").Display();
+
+    //시스템메세지 영역에 현재 위치를 출력
+    ClearDisplay(E_DISPLAY::MAP_TITLE);
+    SetPos(10, 21);
+    cout << "현재 위치 : 마을";
 }
 
 void CDrawing::PrintSquare(COORD cdPosA, COORD cdPosB) {

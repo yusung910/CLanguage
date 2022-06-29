@@ -2,6 +2,7 @@
 #include "CDrawing.h"
 #include "CMessage.h"
 #include "CPlayer.h"
+#include "CMonster.h"
 
 class CSystem : public CMessage{
 public:
