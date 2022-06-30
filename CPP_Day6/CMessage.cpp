@@ -14,12 +14,12 @@ void CMessage::PrintCreatePlayerMsg() {
 void CMessage::PrintPlayerInfoMsg(CPlayer* player) {
     int* aPlayerStat = player->GetPlayerStat();
     int* aPlayerInfo = player->GetUnitInfo();
-    SetPos(10, 23);
-    cout << "캐릭명 : ";
+    SetPos(10, 22);
+    cout << "이름 : ";
     player->GetName().Display();
     
     for (int i = 0; i < E_PLAYER_STAT::E_STAT_CNT; i++) {
-        SetPos(10, (24+i));
+        SetPos(10, (23+i));
         switch (i) {
         case E_PLAYER_STAT::E_STR:
             cout << "힘 : ";
@@ -33,6 +33,12 @@ void CMessage::PrintPlayerInfoMsg(CPlayer* player) {
         case E_PLAYER_STAT::E_LIFE:
             cout << "생명력 : ";
             break;
+		case E_PLAYER_STAT::E_EXP:
+			cout << "경험치 : ";
+			break;
+		case E_PLAYER_STAT::E_GOLD:
+			cout << "소지금 : ";
+			break;
         }
         cout << aPlayerStat[i];
     }
@@ -41,6 +47,9 @@ void CMessage::PrintPlayerInfoMsg(CPlayer* player) {
     for (int j = 0; j < E_UNIT_INFO::E_INFO_CNT; j++) {
         SetPos(50, (23 + j));
         switch (j) {
+		case E_UNIT_INFO::E_LVL:
+			cout << "레벨 : ";
+			break;
         case E_UNIT_INFO::E_HP:
             cout << "체력 : ";
             break;

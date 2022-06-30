@@ -9,8 +9,9 @@ enum E_UNIT_TYPE {
 };
 
 enum E_UNIT_INFO {
+	E_LVL = 0, 
     //생명력
-    E_HP = 0,
+    E_HP,
     //최대 생명력
     E_MAX_HP,
     //마나

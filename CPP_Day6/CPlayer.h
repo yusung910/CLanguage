@@ -6,6 +6,8 @@ enum E_PLAYER_STAT {
     E_DEX,
     E_INT,
     E_LIFE,
+	E_EXP,
+	E_GOLD,
     E_STAT_CNT,
 };
 
@@ -35,6 +37,7 @@ protected:
     int m_nStat[E_PLAYER_STAT::E_STAT_CNT];
     //캐릭터의 클래스
     int m_nPlayerClass;
+
     //캐릭터의 위치
     COORD cdPosPlayer;
 

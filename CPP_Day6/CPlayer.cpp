@@ -4,13 +4,25 @@
 CPlayer::CPlayer() {
     //플레이어의 스텟을 5로 초기화 한다.
     for (int i = 0; i < E_PLAYER_STAT::E_STAT_CNT; i++) {
-        m_nStat[i] = 5;
+		switch (i) {
+
+		case E_PLAYER_STAT::E_GOLD:
+		case E_PLAYER_STAT::E_EXP:
+			m_nStat[i] = 0;
+			break;
+		default:
+			m_nStat[i] = 5;
+			break;
+		}
     }
 
     //플레이어의 기본 정보를 세팅한다.
     for (int j = 0; j < E_UNIT_INFO::E_INFO_CNT; j++) {
         int n = 0;
         switch (j) {
+		case E_UNIT_INFO::E_LVL:
+			n = 1;
+			break;
         case E_UNIT_INFO::E_HP:
         case E_UNIT_INFO::E_MAX_HP:
             n = 100;

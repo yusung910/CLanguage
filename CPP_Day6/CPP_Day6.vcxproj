@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CCombat.h" />
     <ClInclude Include="CDrawing.h" />
     <ClInclude Include="CDungeon.h" />
     <ClInclude Include="CMessage.h" />
@@ -30,6 +31,7 @@
     <ClInclude Include="CSystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CCombat.cpp" />
     <ClCompile Include="CDrawing.cpp" />
     <ClCompile Include="CDungeon.cpp" />
     <ClCompile Include="CMessage.cpp" />

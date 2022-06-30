@@ -16,6 +16,9 @@ void CMonster::init() {
     for (int j = 0; j < E_UNIT_INFO::E_INFO_CNT; j++) {
         int n = 0;
         switch (j) {
+		case E_UNIT_INFO::E_LVL:
+			n = 1;
+			break;
         case E_UNIT_INFO::E_HP:
             n = 30;
             break;
@@ -33,7 +36,7 @@ void CMonster::init() {
     //몬스터의 기술을 초기화한다.
     m_nSkillList = new int[E_MONSTER_SKILL::SKILL_CNT];
     memset(m_nSkillList, NULL, E_MONSTER_SKILL::SKILL_CNT);
-    m_nSkillList[0] = E_MONSTER_SKILL::BASIC_ATTACK;
+    m_nSkillList[0] = E_MONSTER_SKILL::M_BASIC_ATTACK;
 
     SetMonsterType();
 }

@@ -178,9 +178,26 @@ void CSystem::PlayGame() {
         if (m_nDungeonLvl > 0) {
             int n_mobGenProp = rand() % 100;
 
-            if (n_mobGenProp < 10) {
+            if (n_mobGenProp < 5) {
+				//이동 중지
+				nMoveChar = 0;
+
                 //10퍼센트 확률로 몬스터 객체를 생성
                 CMonster* monster = new CMonster(m_nDungeonLvl);
+
+				//전투 실행한다
+				nMoveChar = BeginCombat(o_player, monster);
+
+				ClearDisplay(E_DISPLAY::GAME);
+				ClearDisplay(E_DISPLAY::SYSTEM);
+
+				//던전 맵을 그린다.
+				PrintDungeonMap();
+
+				//플레이어의 기본 정보를 출력한다
+				PrintPlayerInfoMsg(o_player);
+
+				MovePlayer(cdPlayerPos, cdPlayerPos);
             }
         }
     }

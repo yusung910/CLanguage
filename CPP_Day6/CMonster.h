@@ -24,7 +24,7 @@ enum E_3_MONSTER {
 };
 
 enum E_MONSTER_SKILL {
-    BASIC_ATTACK = 0,
+    M_BASIC_ATTACK = 0,
     SHOOT_ARROW,
     SKILL_CNT
 };

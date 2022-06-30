@@ -1,10 +1,10 @@
 #pragma once
 #include "CDrawing.h"
-#include "CMessage.h"
 #include "CPlayer.h"
 #include "CMonster.h"
+#include "CCombat.h"
 
-class CSystem : public CMessage{
+class CSystem : public CCombat{
 public:
     //»ý¼ºÀÚ
     CSystem();
