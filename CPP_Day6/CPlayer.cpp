@@ -41,7 +41,12 @@ CPlayer::CPlayer() {
 
     //플레이어의 기술 목록을 세팅
     m_nSkillList = new int[E_PLAYER_SKILL::PLAYER_SKILL_CNT];
-    memset(m_nSkillList, NULL, E_PLAYER_SKILL::PLAYER_SKILL_CNT);
+
+    //플레이어가 갖고 있는 기술 목록을 -1로 초기화한다. 
+    for (int i = 0; i < E_PLAYER_SKILL::PLAYER_SKILL_CNT; i++) {
+        m_nSkillList[i] = -1;
+    }
+
     m_nSkillList[0] = E_PLAYER_SKILL::ESCAPE;
     m_nSkillList[1] = E_PLAYER_SKILL::BASIC_ATTACK;
 }
@@ -65,4 +70,25 @@ COORD CPlayer::GetPlayerPos() {
 
 int* CPlayer::GetPlayerStat() {
     return m_nStat;
+}
+
+CString* CPlayer::GetPlayerSkillNameList() {
+    return sSkillNameList;
+}
+
+int CPlayer::GetDamage(int m_UseSkill) {
+    int n_RetDamage = m_nStat[E_UNIT_INFO::E_DAMAGE];
+
+    if (m_UseSkill == E_PLAYER_SKILL::BASIC_ATTACK) {
+        n_RetDamage += 1;
+    }
+    else if (m_UseSkill == E_PLAYER_SKILL::BASH) {
+        n_RetDamage += 10;
+
+    }
+    else if (m_UseSkill == E_PLAYER_SKILL::DOUBLE_ATTACK) {
+        n_RetDamage += 15;
+    }
+    
+    return n_RetDamage;
 }

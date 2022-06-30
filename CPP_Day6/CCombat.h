@@ -17,4 +17,11 @@ public:
 	int BeginCombat(CPlayer* player, CMonster* monster);
 	//전투 메뉴 선택
 	void SelectCombatMenu();
+    //스킬 선택
+    void SelectPlayerSkill();
+    
+    //플레이어 객체
+    CPlayer* o_player;
+    //몬스터 객체
+    CMonster* o_monster;
 };

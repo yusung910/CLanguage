@@ -98,3 +98,7 @@ void CMonster::SetMonsterType() {
 
     SetName(monsterNm);
 }
+
+int CMonster::GetDamage(int m_UseSkill) {
+    return 3;
+}

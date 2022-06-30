@@ -37,16 +37,26 @@ public:
 
     //유닛 세부 정보를 리턴한다
     int* GetUnitInfo();
+
+    //유닛의 스킬 목록을 리턴한다
+    int* GetUnitSkillList();
+
     //유닛 이름을 리턴한다.
 	CString GetName() { return m_cName; };
 
 protected:
     //유닛 타입
     int m_nUnitType;
+
     //유닛의 기본 정보가 저장된 배열
     int m_nUnitInfo[E_UNIT_INFO::E_INFO_CNT];
+
     //유닛 기술 정보가 저장된 배열
     int* m_nSkillList;
+    
+    //유닛별로 사용 기술을 매개변수로 받아 공격력을 계산하여 리턴한다
+    virtual int GetDamage(int m_UseSkill) = 0;
+
     //객체의 이름
     CString m_cName;
 private:

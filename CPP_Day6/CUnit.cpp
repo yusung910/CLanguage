@@ -26,3 +26,7 @@ void CUnit::SetName(CString name) {
 int* CUnit::GetUnitInfo() {
     return m_nUnitInfo;
 }
+
+int* CUnit::GetUnitSkillList() {
+    return m_nSkillList;
+}

@@ -9,13 +9,17 @@ CCombat::~CCombat() {
 }
 
 int CCombat::BeginCombat(CPlayer* player, CMonster* monster) {
+    //플레이어 객체를 저장
+    o_player = player;
+    //몬스터 객체를 저장
+    o_monster = monster;
 
 	//플레이어 정보
-	int* aPlayerInfo = player->GetUnitInfo();
+	int* aPlayerInfo = o_player->GetUnitInfo();
 	//플레이어 스탯
-	int* aPlayerStat = player->GetPlayerStat();
+	int* aPlayerStat = o_player->GetPlayerStat();
 	//몬스터 정보
-	int* aMonsterInfo = monster->GetUnitInfo();
+	int* aMonsterInfo = o_monster->GetUnitInfo();
 	//플레이어 정보 위치
 	int n_PlayerInfoX = 15;
 	int n_PlayerInfoY = 3;
@@ -73,6 +77,7 @@ int CCombat::BeginCombat(CPlayer* player, CMonster* monster) {
 
 	//플레이어가 선택할 수 있는 기능을 실행한다.
 	SelectCombatMenu();
+
 	return 1;
 }
 
@@ -122,11 +127,79 @@ void CCombat::SelectCombatMenu() {
 		//메뉴 선택 후 엔터키 누를 경우
 		if (GetAsyncKeyState(VK_RETURN)) {
 			if (n_SelectFightMenu == E_BATTLE_MENU::BEGIN) {
-
+                ClearDisplay(E_DISPLAY::SYSTEM);
+                n_DoFightSelect = 0;
+                SelectPlayerSkill();
 			}
 			else if (n_SelectFightMenu == E_BATTLE_MENU::RUN) {
 				n_DoFightSelect = 0;
 			}
 		}
 	}
+}
+
+void CCombat::SelectPlayerSkill() {
+    //스킬 선택 진행 while 플래그
+    int doPlayerSkillFlag = 1;
+    //플레이어 스킬
+    int nPlayerSkill = E_PLAYER_SKILL::ESCAPE;
+    //플레이어의 마지막 스킬
+    int nEndPlayerSkill;
+    //플레이어가 소유하고 있는 기술 목록
+    int* n_UserSkillList = o_player->GetUnitSkillList();
+    //플레이어 스킬명이 저장 되어있는 변수
+    CString* s_UserSkillNmList = o_player->GetPlayerSkillNameList();
+
+    SetPos(10, 22);
+    cout << "[스킬목록]";
+    //플레이어의 사용 가능한 기술 목록을 출력한다.
+    for (int i = 0; i < E_PLAYER_SKILL::PLAYER_SKILL_CNT; i++) {
+        if (n_UserSkillList[i] > -1) {
+
+            if (i == 0) {
+                SetPos(10, (23 + i));
+                cout << "→";
+            }
+
+            SetPos(12, (23 + i));
+            s_UserSkillNmList[i].Display();
+
+
+            //플레이어가 갖고 있는 마지막 스킬넘버를 저장한다.
+            nEndPlayerSkill = i;
+        }
+    }
+    
+    while (doPlayerSkillFlag) {
+
+        int nInput = _getch();
+
+        //사용자가 입력한 방향키에 따라 스킬 선택 메뉴를 움직인다.
+        if (GetAsyncKeyState(VK_UP) & 0x0001) {
+            nPlayerSkill = (nPlayerSkill > E_PLAYER_SKILL::ESCAPE) ? nPlayerSkill -= 1 : E_PLAYER_SKILL::ESCAPE;
+        }
+
+        if (GetAsyncKeyState(VK_DOWN) & 0x0001) {
+            nPlayerSkill = (nPlayerSkill < nEndPlayerSkill) ? nPlayerSkill += 1 : nEndPlayerSkill;
+        }
+
+        //플레이어가 선택한 스킬에 화살표를 표시한다.
+        for (int a = 0; a < E_PLAYER_SKILL::PLAYER_SKILL_CNT; a++) {
+            SetPos(10, (23 + a));
+            cout << "  ";
+            if (n_UserSkillList[a] > -1 && n_UserSkillList[a] == nPlayerSkill) {
+                SetPos(10, (23 + a));
+                cout << "→";
+            }
+        }
+
+        if (GetAsyncKeyState(VK_RETURN)) {
+            if (nPlayerSkill == E_PLAYER_SKILL::ESCAPE) {
+                doPlayerSkillFlag = 0;
+            }
+            else {
+
+            }
+        }
+    }
 }

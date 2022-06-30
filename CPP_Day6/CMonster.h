@@ -41,4 +41,7 @@ public:
     int nDungeonLvl;
     //몬스터 타입
     int nMonsterType;
+    //몬스터의 공격력을 계산한다
+    int GetDamage(int m_UseSkill);
+
 };
