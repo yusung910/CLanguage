@@ -77,14 +77,16 @@ CString* CPlayer::GetPlayerSkillNameList() {
 }
 
 int CPlayer::GetDamage(int m_UseSkill) {
-    int n_RetDamage = m_nStat[E_UNIT_INFO::E_DAMAGE];
+    int n_RetDamage = m_nUnitInfo[E_UNIT_INFO::E_DAMAGE];
+
+	//기본데미지는 힘 스텟을 더한다
+	n_RetDamage = n_RetDamage + m_nStat[E_PLAYER_STAT::E_STR];
 
     if (m_UseSkill == E_PLAYER_SKILL::BASIC_ATTACK) {
         n_RetDamage += 1;
     }
     else if (m_UseSkill == E_PLAYER_SKILL::BASH) {
         n_RetDamage += 10;
-
     }
     else if (m_UseSkill == E_PLAYER_SKILL::DOUBLE_ATTACK) {
         n_RetDamage += 15;

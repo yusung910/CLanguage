@@ -8,18 +8,20 @@ CCombat::CCombat() {
 CCombat::~CCombat() {
 }
 
-int CCombat::BeginCombat(CPlayer* player, CMonster* monster) {
+void CCombat::initCombat(CPlayer* player, CMonster* monster) {
     //플레이어 객체를 저장
     o_player = player;
     //몬스터 객체를 저장
     o_monster = monster;
+}
 
+void CCombat::PrintCombatInfo() {
 	//플레이어 정보
-	int* aPlayerInfo = o_player->GetUnitInfo();
+	unsigned int* aPlayerInfo = o_player->GetUnitInfo();
 	//플레이어 스탯
 	int* aPlayerStat = o_player->GetPlayerStat();
 	//몬스터 정보
-	int* aMonsterInfo = o_monster->GetUnitInfo();
+	unsigned int* aMonsterInfo = o_monster->GetUnitInfo();
 	//플레이어 정보 위치
 	int n_PlayerInfoX = 15;
 	int n_PlayerInfoY = 3;
@@ -57,7 +59,7 @@ int CCombat::BeginCombat(CPlayer* player, CMonster* monster) {
 
 	SetPos(n_MonsterInfoX, (n_MonsterInfoY + 1));
 	cout << "이름 : ";
-	monster->GetName().Display();
+	o_monster->GetName().Display();
 
 	SetPos(n_MonsterInfoX, (n_MonsterInfoY + 2));
 	cout << "레벨 : ";
@@ -74,14 +76,9 @@ int CCombat::BeginCombat(CPlayer* player, CMonster* monster) {
 	SetPos(n_MonsterInfoX, (n_MonsterInfoY + 5));
 	cout << "공격력 : ";
 	cout << aMonsterInfo[E_UNIT_INFO::E_DAMAGE];
-
-	//플레이어가 선택할 수 있는 기능을 실행한다.
-	SelectCombatMenu();
-
-	return 1;
 }
 
-void CCombat::SelectCombatMenu() {
+int CCombat::StartCombat() {
 
 	//시스템 메세지 영역 초기화
 	ClearDisplay(E_DISPLAY::SYSTEM);
@@ -125,7 +122,7 @@ void CCombat::SelectCombatMenu() {
 		}
 
 		//메뉴 선택 후 엔터키 누를 경우
-		if (GetAsyncKeyState(VK_RETURN)) {
+		if (GetAsyncKeyState(VK_RETURN) & 0x8000) {
 			if (n_SelectFightMenu == E_BATTLE_MENU::BEGIN) {
                 ClearDisplay(E_DISPLAY::SYSTEM);
                 n_DoFightSelect = 0;
@@ -136,6 +133,8 @@ void CCombat::SelectCombatMenu() {
 			}
 		}
 	}
+
+	return 1;
 }
 
 void CCombat::SelectPlayerSkill() {
@@ -193,12 +192,60 @@ void CCombat::SelectPlayerSkill() {
             }
         }
 
-        if (GetAsyncKeyState(VK_RETURN)) {
+        if (GetAsyncKeyState(VK_RETURN) & 0x8000) {
             if (nPlayerSkill == E_PLAYER_SKILL::ESCAPE) {
                 doPlayerSkillFlag = 0;
             }
             else {
+				//플레이어의 공격력
+				int n_playerDmg = o_player->GetDamage(doPlayerSkillFlag);
+				//몬스터의 데미지
+				int n_monsterDmg = o_monster->GetDamage(doPlayerSkillFlag);
+				//플레이어의 체력
+				unsigned int n_playerHp = (o_player->GetUnitHp() - n_monsterDmg) < 0 ? 0 : o_player->GetUnitHp() - n_monsterDmg;
+				//몬스터의 체력
+				unsigned int n_monsterHp = (o_monster->GetUnitHp() - n_playerDmg) < 0 ? 0 : o_monster->GetUnitHp() - n_playerDmg;
 
+				int n_logStartX = 10;
+				int n_logStartY = 13;
+
+				//몬스터의 체력에 플레이어 데미지를 빼고 저장
+				o_monster->SetUnitHp(n_monsterHp);
+				//플레이어의 체력에 몬스터 데미지를 빼고 저장
+				o_player->SetUnitHp(n_playerHp);
+
+				//전투 정보를 출력
+				PrintCombatInfo();
+
+				//전투로그 출력
+				SetPos(n_logStartX, n_logStartY);
+				cout << "[전투 기록]";
+
+				n_logStartY++;
+				SetPos(n_logStartX, n_logStartY);
+				cout << "\'";
+				o_player->GetName().Display();
+				cout << "\'의 [";
+				s_UserSkillNmList[nPlayerSkill].Display();
+				cout << "]";
+
+				n_logStartY++;
+				SetPos(n_logStartX, n_logStartY);
+				cout << n_playerDmg << " 데미지 를 [";
+				o_monster->GetName().Display();
+				cout << "]에게 입혔습니다.";
+
+				n_logStartY++;
+				SetPos(n_logStartX, n_logStartY);
+				cout << "\'";
+				o_monster->GetName().Display();
+				cout << "\' 공격!";
+
+				n_logStartY++;
+				SetPos(n_logStartX, n_logStartY);
+				cout << "\'";
+				o_player->GetName().Display();
+				cout << "\'에게 "<< n_monsterDmg << " 데미지를 입혔습니다.";
             }
         }
     }

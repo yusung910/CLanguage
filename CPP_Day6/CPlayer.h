@@ -36,6 +36,8 @@ public:
     //플레이어의 기술명 목록을 리턴한다
     CString* GetPlayerSkillNameList();
 
+	//데미지를 계산한다.
+	int GetDamage(int m_UseSkill);
 protected:
 
     //플레이어 스탯 배열
@@ -44,8 +46,6 @@ protected:
     //캐릭터의 클래스
     int m_nPlayerClass;
 
-    //데미지를 계산한다.
-    int GetDamage(int m_UseSkill);
 
     //캐릭터의 위치
     COORD cdPosPlayer;

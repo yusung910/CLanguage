@@ -13,7 +13,7 @@ void CMessage::PrintCreatePlayerMsg() {
 
 void CMessage::PrintPlayerInfoMsg(CPlayer* player) {
     int* aPlayerStat = player->GetPlayerStat();
-    int* aPlayerInfo = player->GetUnitInfo();
+    unsigned int* aPlayerInfo = player->GetUnitInfo();
     SetPos(10, 22);
     cout << "ÀÌ¸§ : ";
     player->GetName().Display();

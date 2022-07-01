@@ -102,104 +102,113 @@ void CSystem::PlayGame() {
     int nMoveChar = 1;
 
     while (nMoveChar) {
-        //플레이어의 위치
-        COORD cdPlayerPos = o_player->GetPlayerPos();
+		bool bMovingFlag = false;
+		unsigned long Timer = GetTickCount();
 
-        int n_playX = cdPlayerPos.X;
-        int n_playY = cdPlayerPos.Y;
+		if(GetTickCount() >= Timer + (1000/600)) {
+			//플레이어의 위치
+			COORD cdPlayerPos = o_player->GetPlayerPos();
 
-        //사용자 입력 키
-        int inputKey = _getch();
-        if (GetAsyncKeyState(VK_UP) & 0x0001) {
-            n_playY -= 1;
-        }
-        if (GetAsyncKeyState(VK_DOWN) & 0x0001) {
-            n_playY += 1;
-        }
-        if (GetAsyncKeyState(VK_LEFT) & 0x0001) {
-            n_playX -= 1;
-        }
-        if (GetAsyncKeyState(VK_RIGHT) & 0x0001) {
-            n_playX += 1;
-        }
+			int n_playX = cdPlayerPos.X;
+			int n_playY = cdPlayerPos.Y;
 
-        if (m_nLend[n_playY][n_playX] != E_BACKGROUND::WALL) {
-            COORD cdNextPos = { n_playX, n_playY };
-            o_player->SetPlayerPos(cdNextPos);
-            MovePlayer(cdPlayerPos, cdNextPos);
-
-			switch (m_nLend[n_playY][n_playX]) {
-			case E_BACKGROUND::BUILD_STORE:
-				break;
-			case E_BACKGROUND::BUILD_INN:
-				break;
-			case E_BACKGROUND::BUILD_DUNGEON:
-                //던전 레벨 증가
-                m_nDungeonLvl++;
-
-				//던전 진입 시 게임 화면을 초기화
-				ClearDisplay(E_DISPLAY::GAME);
-
-				MovePlayer(cdPlayerPos, { 4, 4 });
-				o_player->SetPlayerPos({ 4, 4 });
-
-                //던전 맵을 그린다.
-                PrintDungeonMap();
-				break;
-			case E_BACKGROUND::PREV_DUNGEON_LVL:
-                //던전 레벨 감소
-				m_nDungeonLvl--;
-				if (m_nDungeonLvl == 0) {
-					PrintVillageBackground();
-					MovePlayer(cdNextPos, { 40, 18 });
-					o_player->SetPlayerPos({ 40, 18 });
-                }
-                else {
-                    MovePlayer(cdPlayerPos, { 4, 4 });
-                    o_player->SetPlayerPos({ 4, 4 });
-                    //던전 맵을 그린다.
-                    PrintDungeonMap();
-                }
-				break;
-			case E_BACKGROUND::NEXT_DUNGEON_LVL:
-                //던전 진입 시 게임 화면을 초기화
-                ClearDisplay(E_DISPLAY::GAME);
-                m_nDungeonLvl++;
-                MovePlayer(cdPlayerPos, { 4, 4 });
-                o_player->SetPlayerPos({ 4, 4 });
-                //던전 맵을 그린다.
-                PrintDungeonMap();
-				break;
+			//사용자 입력 키
+			if (GetAsyncKeyState(VK_UP) & 0x8001) {
+				n_playY -= 1;
+				bMovingFlag = true;
+			}
+			if (GetAsyncKeyState(VK_DOWN) & 0x8001) {
+				n_playY += 1;
+				bMovingFlag = true;
+			}
+			if (GetAsyncKeyState(VK_LEFT) & 0x8001) {
+				n_playX -= 1;
+				bMovingFlag = true;
+			}
+			if (GetAsyncKeyState(VK_RIGHT) & 0x8001) {
+				n_playX += 1;
+				bMovingFlag = true;
 			}
 
-        }
+			if (m_nLend[n_playY][n_playX] != E_BACKGROUND::WALL) {
+				COORD cdNextPos = { n_playX, n_playY };
+				o_player->SetPlayerPos(cdNextPos);
+				MovePlayer(cdPlayerPos, cdNextPos);
 
-        //던전에 있을 경우 몬스터를 일정 확률로 생성한다
-        if (m_nDungeonLvl > 0) {
-            int n_mobGenProp = rand() % 100;
+				switch (m_nLend[n_playY][n_playX]) {
+				case E_BACKGROUND::BUILD_STORE:
+					break;
+				case E_BACKGROUND::BUILD_INN:
+					break;
+				case E_BACKGROUND::BUILD_DUNGEON:
+					//던전 레벨 증가
+					m_nDungeonLvl++;
 
-            if (n_mobGenProp < 5) {
-				//이동 중지
-				nMoveChar = 0;
+					//던전 진입 시 게임 화면을 초기화
+					ClearDisplay(E_DISPLAY::GAME);
 
-                //10퍼센트 확률로 몬스터 객체를 생성
-                CMonster* monster = new CMonster(m_nDungeonLvl);
+					MovePlayer(cdPlayerPos, { 4, 4 });
+					o_player->SetPlayerPos({ 4, 4 });
 
-				//전투 실행한다
-				nMoveChar = BeginCombat(o_player, monster);
+					//던전 맵을 그린다.
+					PrintDungeonMap();
+					break;
+				case E_BACKGROUND::PREV_DUNGEON_LVL:
+					//던전 레벨 감소
+					m_nDungeonLvl--;
+					if (m_nDungeonLvl == 0) {
+						PrintVillageBackground();
+						MovePlayer(cdNextPos, { 40, 18 });
+						o_player->SetPlayerPos({ 40, 18 });
+					}
+					else {
+						MovePlayer(cdPlayerPos, { 4, 4 });
+						o_player->SetPlayerPos({ 4, 4 });
+						//던전 맵을 그린다.
+						PrintDungeonMap();
+					}
+					break;
+				case E_BACKGROUND::NEXT_DUNGEON_LVL:
+					//던전 진입 시 게임 화면을 초기화
+					ClearDisplay(E_DISPLAY::GAME);
+					m_nDungeonLvl++;
+					MovePlayer(cdPlayerPos, { 4, 4 });
+					o_player->SetPlayerPos({ 4, 4 });
+					//던전 맵을 그린다.
+					PrintDungeonMap();
+					break;
+				}
 
-				ClearDisplay(E_DISPLAY::GAME);
-				ClearDisplay(E_DISPLAY::SYSTEM);
+			}
 
-				//던전 맵을 그린다.
-				PrintDungeonMap();
+			//던전에 있을 경우 몬스터를 일정 확률로 생성한다
+			if (m_nDungeonLvl > 0) {
+				int n_mobGenProp = rand() % 100;
 
-				//플레이어의 기본 정보를 출력한다
-				PrintPlayerInfoMsg(o_player);
+				if (n_mobGenProp < 5 && bMovingFlag) {
+					//이동 중지
+					nMoveChar = 0;
 
-				MovePlayer(cdPlayerPos, cdPlayerPos);
-            }
-        }
+					//10퍼센트 확률로 몬스터 객체를 생성
+					CMonster* monster = new CMonster(m_nDungeonLvl);
+					//전투를 실행하기 위한 초기화
+					initCombat(o_player, monster);
+					//전투에 필요한 정보를 출력
+					PrintCombatInfo();
+					//전투 실행한다
+					nMoveChar = StartCombat();
+
+					ClearDisplay(E_DISPLAY::GAME);
+					ClearDisplay(E_DISPLAY::SYSTEM);
+
+					//던전 맵을 그린다.
+					PrintDungeonMap();
+
+					//플레이어의 기본 정보를 출력한다
+					PrintPlayerInfoMsg(o_player);
+				}
+			}
+		}
     }
 }
 

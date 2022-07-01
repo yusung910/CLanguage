@@ -1,4 +1,4 @@
-#pragma once
+#pragma comment(lib, "winmm.lib")
 #include "CDrawing.h"
 #include "CPlayer.h"
 #include "CMonster.h"

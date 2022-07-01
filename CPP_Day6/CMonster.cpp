@@ -100,5 +100,5 @@ void CMonster::SetMonsterType() {
 }
 
 int CMonster::GetDamage(int m_UseSkill) {
-    return 3;
+    return m_nUnitInfo[E_UNIT_INFO::E_DAMAGE];
 }

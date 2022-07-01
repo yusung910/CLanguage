@@ -13,10 +13,12 @@ public:
 	//소멸자
 	~CCombat();
 
-	//전투 시작 전
-	int BeginCombat(CPlayer* player, CMonster* monster);
+	//전투 시작 초기화
+	void initCombat(CPlayer* player, CMonster* monster);
+	//전투에 필요한 정보를 출력한다.
+	void PrintCombatInfo();
 	//전투 메뉴 선택
-	void SelectCombatMenu();
+	int StartCombat();
     //스킬 선택
     void SelectPlayerSkill();
     

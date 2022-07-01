@@ -36,10 +36,19 @@ public:
 	void SetName(CString name);
 
     //유닛 세부 정보를 리턴한다
-    int* GetUnitInfo();
+    unsigned int* GetUnitInfo();
 
     //유닛의 스킬 목록을 리턴한다
     int* GetUnitSkillList();
+
+	//유닛의 체력을 세팅한다
+	void SetUnitHp(int n);
+	//유닛의 체력을 리턴한다
+	int GetUnitHp();
+	//유닛의 마나를 세팅한다.
+	void SetUnitMana(int n);
+	//유닛의 마나를 리턴한다
+	int GetUnitMana();
 
     //유닛 이름을 리턴한다.
 	CString GetName() { return m_cName; };
@@ -49,7 +58,7 @@ protected:
     int m_nUnitType;
 
     //유닛의 기본 정보가 저장된 배열
-    int m_nUnitInfo[E_UNIT_INFO::E_INFO_CNT];
+    unsigned int m_nUnitInfo[E_UNIT_INFO::E_INFO_CNT];
 
     //유닛 기술 정보가 저장된 배열
     int* m_nSkillList;
