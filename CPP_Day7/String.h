@@ -15,7 +15,15 @@ public:
 	~String();
 
 	const String& operator=(const String& s);
+	const String& operator=(const char* chr);
 
+	const String operator+(const String& s) const;
+	const String operator+(const char* chr) const;
+
+	int operator==(const String& s) const;
+	int operator==(const char* chr) const;
+
+	void Display();
 protected:
 
 private:

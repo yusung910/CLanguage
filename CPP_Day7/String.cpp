@@ -32,6 +32,7 @@ String::String(char ch, int n) {
 	m_tmpChr[n] = '\0';
 }
 
+//소멸자
 String::~String() {
 	if (m_tmpChr != NULL) {
 		delete m_tmpChr;
@@ -39,7 +40,76 @@ String::~String() {
 	}
 }
 
-
+//대입연산자
+//String 객체를 매개변수로 전달 받아 복사 한 후 리턴한다.
 const String& String::operator=(const String& s) {
 	if (&s == this) return *this;
+	if (m_tmpChr) {
+		delete m_tmpChr;
+		m_tmpChr = NULL;
+	}
+
+	m_nChrLength = s.m_nChrLength;
+	m_tmpChr = new char[s.m_nChrLength + 1];
+	::strcpy(m_tmpChr, s.m_tmpChr);
+
+	return *this;
+}
+//대입연산자
+//char 값을 매개변수로 전달받아 복사한 후 리턴한다.
+const String& String::operator=(const char* chr) {
+	if (m_tmpChr) {
+		delete m_tmpChr;
+		m_tmpChr = NULL;
+	}
+
+	m_nChrLength = strlen(chr);
+	m_tmpChr = new char[m_nChrLength + 1];
+	::strcpy(m_tmpChr, chr);
+
+	return *this;
+}
+
+//+연산을 통해 문자열을 합친다.
+const String String::operator+(const String& s) const
+{
+	char* buf = new char[m_nChrLength + s.m_nChrLength + 1];
+	::strcpy(buf, m_tmpChr);
+	::strcat(buf, s.m_tmpChr);
+
+	String retVal(buf);
+	delete[] buf;
+
+	return retVal;
+}
+//+연산을 통해 String 객체와 char 매개변수를 합친다.
+const String String::operator+(const char* chr) const
+{
+	char* buf = new char[m_nChrLength + strlen(chr) + 1];
+	::strcpy(buf, m_tmpChr);
+	::strcat(buf, chr);
+
+	String retVal(buf);
+	delete[] buf;
+
+	return retVal;
+}
+
+
+int String::operator==(const String& s) const
+{
+	//비교연산
+	//문자열 두개를 비교하여 결과 값을 리턴한다
+	//대소문자를 구분한다.
+	return strcmp(m_tmpChr, s.m_tmpChr) == 0;
+}
+
+int String::operator==(const char* chr) const
+{
+	return strcmp(m_tmpChr, chr) == 0;
+}
+
+//문자열을 출력하는 함수
+void String::Display() {
+	cout << m_tmpChr;
 }
