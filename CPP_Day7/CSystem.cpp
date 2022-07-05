@@ -58,44 +58,30 @@ void CSystem::InitBasicDisplayArea() {
     //오른쪽 아래
     m_nBackground[m_nDisplayY - 1][m_nDisplayX - 1] = E_BG_TILE::WALL_RIGHT_BOTTOM;
 
+	//화면 분할 메세지 영역 그리기
+	for (int e = 1; e < 149; e++) {
+		m_nBackground[34][e] = E_BG_TILE::WALL;
+		m_nBackground[35][e] = E_BG_TILE::WALL_HORIZONTAL;
+	}
+
+	int n_splitX = 115;
+	for (int f = 0; f < 50; f++) {
+		if (f < 35) {
+			m_nBackground[f][n_splitX - 1] = E_BG_TILE::WALL;
+		}
+		m_nBackground[f][n_splitX] = E_BG_TILE::WALL_VERTICAL;
+	}
+	m_nBackground[0][n_splitX] = E_BG_TILE::WALL_TYPE_D;
+	m_nBackground[49][n_splitX] = E_BG_TILE::WALL_TYPE_C;
+
 
     //배경 출력
     for (int i = 0; i < m_nDisplayX; i++) {
         for (int j = 0; j < m_nDisplayY; j++) {
-            switch (m_nBackground[j][i]) {
-            //case E_BG_TILE::LAND :
-            //    PrintString(i, j, "0");
-            //    break;
-            //case E_BG_TILE::WALL:
-            //    PrintString(i, j, "1");
-            //    break;
-            case E_BG_TILE::WALL_VERTICAL:
-                PrintString(i, j, "│");
-                //PrintString(i, j, "2");
-                break;
-            case E_BG_TILE::WALL_HORIZONTAL:
-                PrintString(i, j, "─");
-                //PrintString(i, j, "3");
-                break;
-            case E_BG_TILE::WALL_LEFT_TOP:
-                PrintString(i, j, "┌");
-                //PrintString(i, j, "4");
-                break;
-            case E_BG_TILE::WALL_RIGHT_TOP:
-                PrintString(i, j, "┐");
-                //PrintString(i, j, "5");
-                break;
-            case E_BG_TILE::WALL_LEFT_BOTTOM:
-                PrintString(i, j, "└");
-                //PrintString(i, j, "6");
-                break;
-            case E_BG_TILE::WALL_RIGHT_BOTTOM:
-                PrintString(i, j, "┘");
-                //PrintString(i, j, "7");
-                break;
-            }
+			PrintCtnt(i, j, m_nBackground[j][i]);
         }
     }
+
     SetPos(10, 10);
     Locate();
     _getch();

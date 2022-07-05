@@ -50,6 +50,16 @@ void String::SetString(const char* s) {
     ::strcpy(m_tmpChr, s);
 }
 
+//문자셋
+void String::SetString(char chr, int n) {
+	m_nChrLength = n;
+	//매개변수의 문자열 길이 + 1만큼 char 객체 생성
+	m_tmpChr = new char[n + 1];
+	//문자를 복사하여 저장한다.
+	::memset(m_tmpChr, chr, n);
+	m_tmpChr[n] = '\0';
+}
+
 //대입연산자
 //String 객체를 매개변수로 전달 받아 복사 한 후 리턴한다.
 const String& String::operator=(const String& s) {

@@ -16,7 +16,7 @@ public:
 
     //문자열 세팅
     void SetString(const char* s);
-
+	void SetString(char chr, int n);
     //대입연산
 	const String& operator=(const String& s);
 	const String& operator=(const char* chr);
@@ -24,8 +24,6 @@ public:
     //문자열 합치기
 	const String operator+(const String& s) const;
 	const String operator+(const char* chr) const;
-
-    
 
     //전역함수
     friend String operator+(const char* s1, const String& s2);
