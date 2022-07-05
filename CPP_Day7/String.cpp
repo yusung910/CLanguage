@@ -60,6 +60,11 @@ void String::SetString(char chr, int n) {
 	m_tmpChr[n] = '\0';
 }
 
+//char
+char* String::GetString() {
+    return m_tmpChr;
+}
+
 //대입연산자
 //String 객체를 매개변수로 전달 받아 복사 한 후 리턴한다.
 const String& String::operator=(const String& s) {

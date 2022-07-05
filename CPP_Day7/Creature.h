@@ -8,7 +8,7 @@ enum E_CREATURE_BASIC_STAT {
 	LEVEL,
 	STAT_CNT,
 };
-class Creature {
+class Creature : public String{
 public:
 	//»ý¼ºÀÚ
 	Creature();

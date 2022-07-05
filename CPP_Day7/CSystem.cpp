@@ -3,12 +3,99 @@
 CSystem::CSystem() {
     //시스템 생성자
     system("mode con: cols=151 lines=50");
-    //화면 영역이 저장된 2차원 배열을 초기화한다.
-    InitBasicDisplayArea();
+
+    //메인 메뉴 
+    ShowMainMenu();
 }
 
 CSystem::~CSystem() {
     //시스템 소멸자
+}
+
+void CSystem::ShowMainMenu() {
+    //커서 숨기기
+    HideConsoleCursor();
+    //반복문 플래그
+    int doSelectMainMenu = 1;
+    //메인 선택메뉴
+    int selectedMainMenu = 0;
+
+    while (doSelectMainMenu) {
+        unsigned long Timer = GetTickCount();
+
+        if (GetTickCount() >= Timer + (1000 / 600)) {
+
+            PrintCtntCenter(12, String("Game Title!!"));
+            PrintCtntCenter(38, String("새로시작"));
+            PrintCtntCenter(39, String("계속하기"));
+            PrintCtntCenter(40, String("Credit"));
+
+            if (GetAsyncKeyState(VK_UP) & 0x0001) {
+                selectedMainMenu = (selectedMainMenu > E_MAIN_MENU::E_NEW_START) ? selectedMainMenu -= 1 : E_MAIN_MENU::E_NEW_START;
+            }
+            if (GetAsyncKeyState(VK_DOWN) & 0x0001) {
+                selectedMainMenu = (selectedMainMenu < E_MAIN_MENU::E_CREDIT) ? selectedMainMenu += 1 : E_MAIN_MENU::E_CREDIT;
+            }
+
+            PrintCtnt(68, 38, "  ");
+            PrintCtnt(68, 39, "  ");
+            PrintCtnt(69, 40, "  ");
+
+            switch (selectedMainMenu) {
+            case E_MAIN_MENU::E_NEW_START:
+                PrintCtnt(68, 38, "■");
+                break;
+            case E_MAIN_MENU::E_CONTINUE:
+                PrintCtnt(68, 39, "■");
+                break;
+            case E_MAIN_MENU::E_CREDIT:
+                PrintCtnt(69, 40, "■");
+                break;
+            }
+
+            if (GetAsyncKeyState(VK_RETURN)) {
+                //반복문 중단
+                doSelectMainMenu = 0;
+                switch (selectedMainMenu) {
+                case E_MAIN_MENU::E_NEW_START:
+                    //플레이어 생성
+                    CreatePlayerObject();
+                    break;
+                case E_MAIN_MENU::E_CONTINUE:
+                    break;
+                case E_MAIN_MENU::E_CREDIT:
+                    break;
+                }
+            }
+        }
+    }
+}
+
+void CSystem::CreatePlayerObject() {
+    char chr[200];
+    m_player = new Player;
+
+    ShowConsoleCursor();
+
+    //화면 클리어
+    DisplayClear();
+    //메뉴선택화면에서 입력된 enter값 때문에 입력 버퍼 클리어
+    getchar();
+
+    PrintCtntCenter(24, "플레이어 이름을 입력하여 주세요: ");
+    scanf(" %s", &chr);
+
+    //플레이어 객체 생성
+    m_player->SetName(chr);
+
+    //커서 숨기기
+    HideConsoleCursor();
+
+    //플레이어 생성 후 클리어
+    DisplayClear();
+
+    //게임 플레이 영역을 그린다.
+    InitBasicDisplayArea();
 }
 
 void CSystem::InitBasicDisplayArea() {
@@ -82,7 +169,19 @@ void CSystem::InitBasicDisplayArea() {
         }
     }
 
-    SetPos(10, 10);
-    Locate();
-    _getch();
+    //플레이어 정보 출력
+    PrintPlayerInfo(m_player);
+}
+
+
+void CSystem::PlayGame() {
+    int doPlayFlag = 1;
+    
+    while (doPlayFlag) {
+        unsigned long Timer = GetTickCount();
+
+        if (GetTickCount() >= Timer + (1000 / 600)) {
+
+        }
+    }
 }

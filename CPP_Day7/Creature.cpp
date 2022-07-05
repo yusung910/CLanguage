@@ -9,7 +9,6 @@ Creature::Creature() {
 
 //¼Ò¸êÀÚ
 Creature::~Creature() {
-	n_sName = NULL;
 	n_CreatureCnt--;
 }
 

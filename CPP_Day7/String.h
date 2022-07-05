@@ -17,6 +17,9 @@ public:
     //문자열 세팅
     void SetString(const char* s);
 	void SetString(char chr, int n);
+    //문자열 겟
+    char* GetString();
+
     //대입연산
 	const String& operator=(const String& s);
 	const String& operator=(const char* chr);

@@ -4,7 +4,6 @@ Drawing::Drawing() {
     m_Handle = GetStdHandle(STD_OUTPUT_HANDLE);
 
     if (m_Handle == INVALID_HANDLE_VALUE) cout << "Err, INVALID_HANDLE_VALUE\n";
-
 };
 
 Drawing::Drawing(HANDLE hd) {
@@ -19,6 +18,30 @@ void Drawing::Locate() {
     COORD cdPos = { n_posX, n_posY };
 
     SetConsoleCursorPosition(m_Handle, cdPos);
+}
+
+void Drawing::Locate(int x, int y) {
+    COORD cdPos = { x, y };
+
+    SetConsoleCursorPosition(m_Handle, cdPos);
+}
+
+void Drawing::HideConsoleCursor() {
+    //커서 숨기기
+    cursorInfo.dwSize = 1; //커서 굵기 (1 ~ 100)
+    cursorInfo.bVisible = FALSE; //커서 Visible TRUE(보임) FALSE(숨김)
+
+    //커서 세팅
+    SetConsoleCursorInfo(m_Handle, &cursorInfo);
+}
+
+void Drawing::ShowConsoleCursor() {
+    //커서 숨기기
+    cursorInfo.dwSize = 1; //커서 굵기 (1 ~ 100)
+    cursorInfo.bVisible = TRUE; //커서 Visible TRUE(보임) FALSE(숨김)
+
+    //커서 세팅
+    SetConsoleCursorInfo(m_Handle, &cursorInfo);
 }
 
 void Drawing::PrintCtnt(int x, int y) {
@@ -108,4 +131,31 @@ void Drawing::ClearArea(int n) {
 			m_nBackground[j][i] = E_BG_TILE::LAND;
 		}
 	}
+}
+
+void Drawing::PrintCtntCenter(int y, String s) {
+    int x = (m_nDisplayX - s.GetLength()) / 2;
+    PrintCtnt(x, y, s.GetString());
+}
+
+void Drawing::DisplayClear() {
+    system("cls");
+}
+
+
+void Drawing::PrintPlayerInfo(Player* player) {
+    int* pBasicStat = player->GetBasicStat();
+    Locate(118, 39);
+    cout << "이름 : ";
+    player->DisplayName();
+    Locate(118, 40);
+    cout << "레벨 : " << pBasicStat[E_CREATURE_BASIC_STAT::LEVEL];
+    Locate(118, 41);
+    cout << "체력 : " << pBasicStat[E_CREATURE_BASIC_STAT::HP];
+    Locate(118, 42);
+    cout << "마나 : " << pBasicStat[E_CREATURE_BASIC_STAT::MANA];
+    Locate(118, 43);
+    cout << "경험치 : " << player->GetExp();
+    Locate(118, 44);
+    cout << "소지금 : " << player->GetGold();
 }
