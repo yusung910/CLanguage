@@ -168,7 +168,7 @@ void CSystem::InitBasicDisplayArea() {
 			PrintCtnt(i, j, m_nBackground[j][i]);
         }
     }
-	_getch();
+
     //플레이어 정보 출력
     PrintPlayerInfo(m_player);
 	//게임 시작
@@ -177,6 +177,7 @@ void CSystem::InitBasicDisplayArea() {
 
 
 void CSystem::PlayGame() {
+
     int doPlayFlag = 1;
 	//캐릭터 초기 위치 세팅
 	m_player->SetPlayerPos(35, 25);
@@ -186,15 +187,15 @@ void CSystem::PlayGame() {
 	MovingPlayerIcon(cdPlayerPos);
 
     while (doPlayFlag) {
-		cdPlayerPos = m_player->GetPlayerPos();
-
-		int n_PlayerPosX = cdPlayerPos.X;
-		int n_PlayerPosY = cdPlayerPos.Y;
-
         unsigned long Timer = GetTickCount();
 
+		cdPlayerPos = m_player->GetPlayerPos();
+
         if (GetTickCount() >= Timer + (1000 / m_nFrame)) {
-			
+            //초당 매번 캐릭터의 위치를 가져와야 함
+            int n_PlayerPosX = cdPlayerPos.X;
+            int n_PlayerPosY = cdPlayerPos.Y;
+
 			//사용자 입력 키
 			if (GetAsyncKeyState(VK_UP) & 0x8001) {
 				n_PlayerPosY -= 1;

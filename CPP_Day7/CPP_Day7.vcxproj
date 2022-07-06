@@ -127,6 +127,8 @@
   <ItemGroup>
     <ClInclude Include="Creature.h" />
     <ClInclude Include="Drawing.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="Skill.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="String.h" />
@@ -136,6 +138,8 @@
     <ClCompile Include="Creature.cpp" />
     <ClCompile Include="Drawing.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Skill.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="String.cpp" />

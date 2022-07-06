@@ -3,13 +3,13 @@
 #include <conio.h>
 #include "Drawing.h"
 #include "Player.h"
+#include "Skill.h"
 
 enum E_MAIN_MENU {
     E_NEW_START = 0,
     E_CONTINUE,
     E_CREDIT,
 };
-
 class CSystem : public Drawing {
 public:
     //»ý¼ºÀÚ
