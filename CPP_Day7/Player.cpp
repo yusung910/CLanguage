@@ -71,3 +71,16 @@ void Player::SetBasicStat(int* nList) {
 int* Player::GetBasicStat() {
     return n_lPlayerBasicStat;
 }
+
+void Player::SetPlayerPos(COORD pos) {
+	m_PlayerPos = pos;
+}
+
+void Player::SetPlayerPos(int x, int y) {
+	COORD tmpPos = { x, y };
+	m_PlayerPos = tmpPos;
+}
+
+COORD Player::GetPlayerPos() {
+	return m_PlayerPos;
+}

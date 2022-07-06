@@ -1,4 +1,5 @@
 #pragma once
+#include <windows.h>
 #include "String.h"
 //플레이어, 몬스터 등 생명체 클래스
 enum E_CREATURE_BASIC_STAT {

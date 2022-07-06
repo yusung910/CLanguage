@@ -42,6 +42,12 @@ public:
     int* GetBasicStat();
 	//플레이어 이름 세팅
 	void SetName(String s);
+
+	//플레이어 위치 값 set, get
+	void SetPlayerPos(COORD pos);
+	void SetPlayerPos(int x, int y);
+
+	COORD GetPlayerPos();
 protected:
 
 	//초기 소지 골드
@@ -65,6 +71,7 @@ protected:
     //플레이어 스킬 이름
     String m_lPlayerSkillName[E_PLAYER_BASIC_SKILL::P_BASIC_SKILL_CNT];
 
+	COORD m_PlayerPos;
 private:
 };
 #endif

@@ -36,6 +36,7 @@ public:
     //커서 위치
     void Locate(void);
     void Locate(int x, int y);
+	void Locate(COORD pos);
 
     //커서 숨기기
     void HideConsoleCursor();
@@ -58,10 +59,16 @@ public:
 	//구역별로 화면을 클리어하는 함수
 	void ClearArea(int n);
     void DisplayClear();
-protected:
 
+	//플래이어 아이콘을 이동한다
+	void MovingPlayerIcon(COORD pos);
+	void MovingPlayerIcon(COORD prevPos, COORD nextPos);
+protected:
+	//배경 정보
 	int m_nBackground[50][150];
+	//화면 x
 	int m_nDisplayX = 150;
+	//화면 y
 	int m_nDisplayY = 50;
 
 	COORD cdArea1Start = {2,2};

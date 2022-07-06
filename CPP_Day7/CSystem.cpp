@@ -23,7 +23,7 @@ void CSystem::ShowMainMenu() {
     while (doSelectMainMenu) {
         unsigned long Timer = GetTickCount();
 
-        if (GetTickCount() >= Timer + (1000 / 600)) {
+        if (GetTickCount() >= Timer + (1000 / m_nFrame)) {
 
             PrintCtntCenter(12, String("Game Title!!"));
             PrintCtntCenter(38, String("새로시작"));
@@ -168,20 +168,52 @@ void CSystem::InitBasicDisplayArea() {
 			PrintCtnt(i, j, m_nBackground[j][i]);
         }
     }
-
+	_getch();
     //플레이어 정보 출력
     PrintPlayerInfo(m_player);
+	//게임 시작
+	PlayGame();
 }
 
 
 void CSystem::PlayGame() {
     int doPlayFlag = 1;
-    
+	//캐릭터 초기 위치 세팅
+	m_player->SetPlayerPos(35, 25);
+	COORD cdPlayerPos = m_player->GetPlayerPos();
+
+	//플레이어 아이콘 생성	
+	MovingPlayerIcon(cdPlayerPos);
+
     while (doPlayFlag) {
+		cdPlayerPos = m_player->GetPlayerPos();
+
+		int n_PlayerPosX = cdPlayerPos.X;
+		int n_PlayerPosY = cdPlayerPos.Y;
+
         unsigned long Timer = GetTickCount();
 
-        if (GetTickCount() >= Timer + (1000 / 600)) {
+        if (GetTickCount() >= Timer + (1000 / m_nFrame)) {
+			
+			//사용자 입력 키
+			if (GetAsyncKeyState(VK_UP) & 0x8001) {
+				n_PlayerPosY -= 1;
+			}
+			if (GetAsyncKeyState(VK_DOWN) & 0x8001) {
+				n_PlayerPosY += 1;
+			}
+			if (GetAsyncKeyState(VK_LEFT) & 0x8001) {
+				n_PlayerPosX -= 1;
+			}
+			if (GetAsyncKeyState(VK_RIGHT) & 0x8001) {
+				n_PlayerPosX += 1;
+			}
 
+			if (m_nBackground[n_PlayerPosY][n_PlayerPosX] == E_BG_TILE::LAND &&
+				m_nBackground[n_PlayerPosY][n_PlayerPosX + 1] == E_BG_TILE::LAND) {
+				m_player->SetPlayerPos(n_PlayerPosX, n_PlayerPosY);
+				MovingPlayerIcon(cdPlayerPos, m_player->GetPlayerPos());
+			}
         }
     }
 }

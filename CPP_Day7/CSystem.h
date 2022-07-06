@@ -1,4 +1,4 @@
-#pragma once
+#pragma comment(lib, "Winmm.lib")
 #include <stdio.h>
 #include <conio.h>
 #include "Drawing.h"
@@ -30,7 +30,8 @@ public:
 protected:
     //플레이어객체
     Player* m_player;
-
+	//초당 프레임 수
+	int m_nFrame = 600;
 private:
 
 };

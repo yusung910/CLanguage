@@ -26,6 +26,10 @@ void Drawing::Locate(int x, int y) {
     SetConsoleCursorPosition(m_Handle, cdPos);
 }
 
+void Drawing::Locate(COORD pos) {
+	SetConsoleCursorPosition(m_Handle, pos);
+}
+
 void Drawing::HideConsoleCursor() {
     //커서 숨기기
     cursorInfo.dwSize = 1; //커서 굵기 (1 ~ 100)
@@ -159,3 +163,15 @@ void Drawing::PrintPlayerInfo(Player* player) {
     Locate(118, 44);
     cout << "소지금 : " << player->GetGold();
 }
+
+void Drawing::MovingPlayerIcon(COORD pos) {
+	Locate(pos);
+	cout << "◎";
+};
+
+void Drawing::MovingPlayerIcon(COORD prevPos, COORD nextPos) {
+	Locate(prevPos);
+	cout << "  ";
+	Locate(nextPos);
+	cout << "◎";
+};
