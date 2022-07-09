@@ -43,11 +43,12 @@ public:
 	//플레이어 이름 세팅
 	void SetName(String s);
 
-	//플레이어 위치 값 set, get
+	//플레이어 화면 위치 값 set, get
 	void SetPlayerPos(COORD pos);
 	void SetPlayerPos(int x, int y);
 
-	COORD GetPlayerPos();
+    COORD GetPlayerPos();
+	
 protected:
 
 	//초기 소지 골드
@@ -70,8 +71,10 @@ protected:
 
     //플레이어 스킬 이름
     String m_lPlayerSkillName[E_PLAYER_BASIC_SKILL::P_BASIC_SKILL_CNT];
-
+    //콘솔 화면에서 표시할 플레이어의 위치
 	COORD m_PlayerPos;
+    //맵 기준으로 표시된 플레이어의 위치
+    COORD m_PlayerPosInMap;
 private:
 };
 #endif

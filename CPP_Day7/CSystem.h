@@ -4,6 +4,7 @@
 #include "Drawing.h"
 #include "Player.h"
 #include "Skill.h"
+#include "Map.h"
 
 enum E_MAIN_MENU {
     E_NEW_START = 0,
@@ -31,7 +32,7 @@ protected:
     //플레이어객체
     Player* m_player;
 	//초당 프레임 수
-	int m_nFrame = 600;
+	int m_nFrame = 60;
 private:
 
 };

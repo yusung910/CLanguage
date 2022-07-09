@@ -63,6 +63,12 @@ void Drawing::PrintCtnt(int x, int y, const char* s) {
 
 void Drawing::PrintCtnt(int x, int y, int n) {
 	switch (n) {
+    case E_BG_TILE::CHARACTOR:
+        PrintCtnt(x, y, "◎");
+        break;
+    case E_BG_TILE::LAND:
+        PrintCtnt(x, y, " ");
+        break;
 	case E_BG_TILE::WALL_VERTICAL:
 		PrintCtnt(x, y, "│");
 		break;
@@ -149,29 +155,30 @@ void Drawing::DisplayClear() {
 
 void Drawing::PrintPlayerInfo(Player* player) {
     int* pBasicStat = player->GetBasicStat();
-    Locate(118, 39);
+    Locate(120, 38);
     cout << "이름 : ";
     player->DisplayName();
-    Locate(118, 40);
+    Locate(120, 39);
     cout << "레벨 : " << pBasicStat[E_CREATURE_BASIC_STAT::LEVEL];
-    Locate(118, 41);
+    Locate(120, 40);
     cout << "체력 : " << pBasicStat[E_CREATURE_BASIC_STAT::HP];
-    Locate(118, 42);
+    Locate(120, 41);
     cout << "마나 : " << pBasicStat[E_CREATURE_BASIC_STAT::MANA];
-    Locate(118, 43);
+    Locate(120, 42);
     cout << "경험치 : " << player->GetExp();
-    Locate(118, 44);
+    Locate(120, 43);
     cout << "소지금 : " << player->GetGold();
 }
 
-void Drawing::MovingPlayerIcon(COORD pos) {
-	Locate(pos);
-	cout << "◎";
-};
-
-void Drawing::MovingPlayerIcon(COORD prevPos, COORD nextPos) {
-	Locate(prevPos);
-	cout << "  ";
-	Locate(nextPos);
-	cout << "◎";
-};
+void Drawing::PrintCoord(COORD cd) {
+    PrintCtnt(120, 44, "x : ");
+    Locate(123, 44);
+    cout << "    ";
+    Locate(123, 44);
+    cout << cd.X;
+    PrintCtnt(120, 45, "y : ");
+    Locate(123, 45);
+    cout << "    ";
+    Locate(123, 45);
+    cout << cd.Y;
+}

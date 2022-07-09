@@ -177,44 +177,51 @@ void CSystem::InitBasicDisplayArea() {
 
 
 void CSystem::PlayGame() {
-
+    //맵 객체 생성
+    Map map;
     int doPlayFlag = 1;
-	//캐릭터 초기 위치 세팅
-	m_player->SetPlayerPos(35, 25);
-	COORD cdPlayerPos = m_player->GetPlayerPos();
+	//화면에 표시할 캐릭터 위치 세팅 112, 32
+    //300, 90
+    //화면 상 캐릭터의 위치
+	m_player->SetPlayerPos(56, 16);
 
-	//플레이어 아이콘 생성	
-	MovingPlayerIcon(cdPlayerPos);
+    COORD cdPlayerPos = m_player->GetPlayerPos();
+    COORD cdPlayerNextPos;
+
+    //초기 맵 세팅
+    map.SetMap(1);
 
     while (doPlayFlag) {
         unsigned long Timer = GetTickCount();
 
-		cdPlayerPos = m_player->GetPlayerPos();
-
+        cdPlayerPos = m_player->GetPlayerPos();
         if (GetTickCount() >= Timer + (1000 / m_nFrame)) {
+
             //초당 매번 캐릭터의 위치를 가져와야 함
             int n_PlayerPosX = cdPlayerPos.X;
             int n_PlayerPosY = cdPlayerPos.Y;
 
 			//사용자 입력 키
 			if (GetAsyncKeyState(VK_UP) & 0x8001) {
-				n_PlayerPosY -= 1;
+				n_PlayerPosY = (n_PlayerPosY <= 0) ? 0 : n_PlayerPosY - 1;
 			}
 			if (GetAsyncKeyState(VK_DOWN) & 0x8001) {
-				n_PlayerPosY += 1;
+				n_PlayerPosY = (n_PlayerPosY >= (map.GetMapSizeY())) ? map.GetMapSizeY() : n_PlayerPosY + 1;
 			}
 			if (GetAsyncKeyState(VK_LEFT) & 0x8001) {
-				n_PlayerPosX -= 1;
+                n_PlayerPosX = (n_PlayerPosX <= 0) ? 0 : n_PlayerPosX - 1;
 			}
 			if (GetAsyncKeyState(VK_RIGHT) & 0x8001) {
-				n_PlayerPosX += 1;
-			}
+                n_PlayerPosX = (n_PlayerPosX >= (map.GetMapSizeX())) ? map.GetMapSizeX() : n_PlayerPosX + 1;
+            }
+            
+            //캐릭터가 이동한 만큼 맵을 추가하여 그린다
+            m_player->SetPlayerPos(n_PlayerPosX, n_PlayerPosY);
 
-			if (m_nBackground[n_PlayerPosY][n_PlayerPosX] == E_BG_TILE::LAND &&
-				m_nBackground[n_PlayerPosY][n_PlayerPosX + 1] == E_BG_TILE::LAND) {
-				m_player->SetPlayerPos(n_PlayerPosX, n_PlayerPosY);
-				MovingPlayerIcon(cdPlayerPos, m_player->GetPlayerPos());
-			}
+            //캐릭터 위치의 좌표를 출력
+            PrintCoord(m_player->GetPlayerPos());
+
+            //map.InitMapData(m_player->GetPlayerPos(), );
         }
     }
 }

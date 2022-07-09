@@ -9,6 +9,7 @@ using namespace std;
 
 enum E_BG_TILE {
     LAND = 0,
+    CHARACTOR,
     WALL,
     WALL_VERTICAL,  
     WALL_HORIZONTAL,
@@ -22,6 +23,12 @@ enum E_BG_TILE {
 	WALL_TYPE_D,
 	WALL_TYPE_E,
 	BG_MAX_CNT,
+};
+
+enum E_BG_DOOR {
+    E_DOOR_DUNGEON = 0,
+    E_DOOR_VILLAGE,
+    E_DOOR_STORE
 };
 
 class Drawing : public Point, public String
@@ -54,25 +61,27 @@ public:
     //플레이어 정보 우측하단 출력
     void PrintPlayerInfo(Player* player);
 
+    void PrintCoord(COORD cd);
+
     //센터정렬 출력
     void PrintCtntCenter(int y, String s);
 	//구역별로 화면을 클리어하는 함수
 	void ClearArea(int n);
     void DisplayClear();
 
-	//플래이어 아이콘을 이동한다
-	void MovingPlayerIcon(COORD pos);
-	void MovingPlayerIcon(COORD prevPos, COORD nextPos);
 protected:
 	//배경 정보
 	int m_nBackground[50][150];
-	//화면 x
+	//화면 크기 x
 	int m_nDisplayX = 150;
-	//화면 y
+	//화면 크기 y
 	int m_nDisplayY = 50;
 
-	COORD cdArea1Start = {2,2};
+	COORD cdArea1Start = {2, 2};
 	COORD cdArea1end = {114, 34};
+
+    int cdArea1CenterX = (cdArea1end.X - cdArea1Start.X) / 2;
+    int cdArea1CenterY = (cdArea1end.Y - cdArea1Start.Y) / 2;
 
 	COORD cdArea2Start = { 117,3 };
 	COORD cdArea2end = { 148, 33 };
