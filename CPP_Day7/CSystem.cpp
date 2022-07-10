@@ -186,7 +186,6 @@ void CSystem::PlayGame() {
 	m_player->SetPlayerPos(56, 16);
 
     COORD cdPlayerPos = m_player->GetPlayerPos();
-    COORD cdPlayerNextPos;
 
     //초기 맵 세팅
     map.SetMap(1);
@@ -196,6 +195,8 @@ void CSystem::PlayGame() {
 
         cdPlayerPos = m_player->GetPlayerPos();
         if (GetTickCount() >= Timer + (1000 / m_nFrame)) {
+			//플레이어 아이콘의 이전 위치를 기록
+			m_player->SetPlayerPosPrev(cdPlayerPos);
 
             //초당 매번 캐릭터의 위치를 가져와야 함
             int n_PlayerPosX = cdPlayerPos.X;
@@ -221,7 +222,10 @@ void CSystem::PlayGame() {
             //캐릭터 위치의 좌표를 출력
             PrintCoord(m_player->GetPlayerPos());
 
-            //map.InitMapData(m_player->GetPlayerPos(), );
+			map.SetMap(E_BACKGROUND::VILLAGE);
+
+			//맵에 플레이어 위치를 기록하여 출력한다.
+            map.SetPlayerCharacterMap(m_player);
         }
     }
 }

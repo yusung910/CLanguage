@@ -48,6 +48,12 @@ public:
 	void SetPlayerPos(int x, int y);
 
     COORD GetPlayerPos();
+
+	//플레이어 아이콘이 이동하기 전 위치 값 set, get
+	void SetPlayerPosPrev(COORD pos);
+	void SetPlayerPosPrev(int x, int y);
+	
+	COORD GetPlayerPosPrev();
 	
 protected:
 
@@ -73,8 +79,9 @@ protected:
     String m_lPlayerSkillName[E_PLAYER_BASIC_SKILL::P_BASIC_SKILL_CNT];
     //콘솔 화면에서 표시할 플레이어의 위치
 	COORD m_PlayerPos;
-    //맵 기준으로 표시된 플레이어의 위치
-    COORD m_PlayerPosInMap;
+
+    //플레이어 아이콘이 이동하기 전 위치
+	COORD m_PlayerPrevPos;
 private:
 };
 #endif

@@ -7,6 +7,13 @@ enum E_BACKGROUND {
     DEONGUN,
 };
 
+enum E_BUILD_TYPE {
+	BUILD_INN = 1,
+	BUILD_STORE,
+	BUILD_DUNGEON,
+	BUILD_OBSTACLE,
+};
+
 class Map : public Drawing {
 public :
     //생성자
@@ -22,6 +29,15 @@ public :
 
     int GetMapSizeX();
     int GetMapSizeY();
+
+	//COORD 값을 매개변수로 받아 맵 2차원 배열에 세팅
+	void SetDataToMap(COORD pos, int n);
+	void SetDataToMap(int x, int y, int n);
+
+	//마을에 건물을 생성한다.
+	//매개변수로 E_BUILD_TYPE에 해당하는 정수 값을 받는다.
+	void SetBuild(COORD s, COORD e, int n);
+
 
 protected:
     //맵 사이즈

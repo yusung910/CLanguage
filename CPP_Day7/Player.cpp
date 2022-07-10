@@ -84,3 +84,16 @@ void Player::SetPlayerPos(int x, int y) {
 COORD Player::GetPlayerPos() {
 	return m_PlayerPos;
 }
+
+void Player::SetPlayerPosPrev(COORD pos){
+	m_PlayerPrevPos = pos;
+}
+
+void Player::SetPlayerPosPrev(int x, int y) {
+	COORD tmpPos = { x, y };
+	m_PlayerPrevPos = tmpPos;
+}
+
+COORD Player::GetPlayerPosPrev() {
+	return m_PlayerPrevPos;
+}

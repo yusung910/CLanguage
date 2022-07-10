@@ -13,7 +13,13 @@ Map::~Map() {
 }
 
 void Map::SetMap(int n) {
-    //각각 귀퉁이 맵 넣기
+    //지형에 맞는 맵을 넣는다.
+	if (n == E_BACKGROUND::VILLAGE) {
+		//inn 위치
+		COORD s = { 100, 25 };
+		COORD e = { 115, 30 };
+		SetBuild(s, e, E_BUILD_TYPE::BUILD_INN);
+	}
 }
 
 int Map::GetMapSizeX() {
@@ -32,6 +38,8 @@ void Map::SetPlayerCharacterMap(Player* player) {
     //게임 화면의 센터 좌표
     //int cdArea1CenterX, int cdArea1CenterY
     COORD cdPlayerPos = player->GetPlayerPos();
+	//캐릭터의 이전 위치
+	COORD cdPlayerPrevPos = player->GetPlayerPosPrev();
 
     int n_PlayerPosX = cdPlayerPos.X;
     int n_PlayerPosY = cdPlayerPos.Y;
@@ -68,7 +76,10 @@ void Map::SetPlayerCharacterMap(Player* player) {
     }
 
     //맵에 캐릭터까지 세팅한다.
-    //n_mMapSize[n_PlayerPosY][n_PlayerPosX] = 1;
+	if (n_mMapSize[n_PlayerPosY][n_PlayerPosX] == E_BG_TILE::LAND) {
+		n_mMapSize[n_PlayerPosY][n_PlayerPosX] = E_BG_TILE::CHARACTOR;
+		SetDataToMap(cdPlayerPrevPos, E_BG_TILE::LAND);
+	};
 
     PrintMapData();
 }
@@ -84,3 +95,30 @@ void Map::PrintMapData() {
         m_nDisplayStartX++;
     }
 }
+
+void Map::SetDataToMap(COORD pos, int n) {
+	int nMapX = pos.X;
+	int nMapY = pos.Y;
+	n_mMapSize[nMapY][nMapX] = n;
+}
+
+void Map::SetDataToMap(int x, int y, int n) {
+	n_mMapSize[y][x] = n;
+}
+
+void Map::SetBuild(COORD s, COORD e, int n) {
+	int n_StartX = s.X;
+	int n_StartY = s.Y;
+
+	int n_EndX = e.X;
+	int n_EndY = e.Y;
+
+	//LEFT_TOP
+	SetDataToMap(s, E_BG_TILE::WALL_LEFT_TOP);
+	//LEFT_BOTTOM
+	SetDataToMap(n_StartX, n_EndY, E_BG_TILE::WALL_LEFT_BOTTOM);
+	//RIGHT_TOP
+	SetDataToMap(n_EndX, n_StartY, E_BG_TILE::WALL_RIGHT_TOP);
+	//RIGHT_BOTTOM
+	SetDataToMap(e, E_BG_TILE::WALL_RIGHT_BOTTOM);
+};
