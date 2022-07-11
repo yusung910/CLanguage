@@ -3,10 +3,6 @@
 //생성자
 Player::Player() {
 	//플레이어 객체에 기본 스탯을 할당한다.
-	n_lPlayerBasicStat[E_CREATURE_BASIC_STAT::HP] = 100;
-	n_lPlayerBasicStat[E_CREATURE_BASIC_STAT::MANA] = 50;
-	n_lPlayerBasicStat[E_CREATURE_BASIC_STAT::ATTACK] = 3;
-	n_lPlayerBasicStat[E_CREATURE_BASIC_STAT::LEVEL] = 1;
 
 	//플레이어의 추가 스텟
 	n_lPlayerStat[E_PLAYER_STAT::MAX_HP] = 100;
@@ -45,7 +41,7 @@ void Player::SetName(String s) {
     n_sName = s;
 }
 int Player::Attack(int n_skill) {
-	return n_lPlayerBasicStat[E_CREATURE_BASIC_STAT::ATTACK];
+	return 0;
 }
 
 void Player::SetExp(int n) {
@@ -61,16 +57,6 @@ void Player::SetGold(int n) {
 int Player::GetGold() {
     return n_mGold;
 };
-
-void Player::SetBasicStat(int* nList) {
-    for (int i = 0; i < E_CREATURE_BASIC_STAT::STAT_CNT; i++) {
-        n_lPlayerBasicStat[i] = nList[i];
-    }
-}
-
-int* Player::GetBasicStat() {
-    return n_lPlayerBasicStat;
-}
 
 void Player::SetPlayerPos(COORD pos) {
 	m_PlayerPos = pos;

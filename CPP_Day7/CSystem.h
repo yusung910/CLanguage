@@ -3,8 +3,8 @@
 #include <conio.h>
 #include "Drawing.h"
 #include "Player.h"
-#include "Skill.h"
 #include "Map.h"
+#include "HashMap.h"
 
 enum E_MAIN_MENU {
     E_NEW_START = 0,

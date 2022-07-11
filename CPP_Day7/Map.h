@@ -38,12 +38,17 @@ public :
 	//매개변수로 E_BUILD_TYPE에 해당하는 정수 값을 받는다.
 	void SetBuild(COORD s, COORD e, int n);
 
+    //맵 정보가 저장된 2차원 배열을 set, get
+    int** GetMapArry();
+    void SetMapArry(int** arr);
 
 protected:
+
     //맵 사이즈
-    int n_mMapSizeX = 299;
-    int n_mMapSizeY = 99;
-    int n_mMapSize[100][300];
+    int n_mMapSizeX;
+    int n_mMapSizeY;
+    //맵 크기를 동적으로 할당받기 위한 2중 포인터
+    int** n_mMapSize;
 
     //게임 화면에 출력할 맵의 시작 좌표 값
     int n_PrintMapStartX = 0;

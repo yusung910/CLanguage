@@ -192,6 +192,8 @@ void CSystem::PlayGame() {
 
     while (doPlayFlag) {
         unsigned long Timer = GetTickCount();
+        //맵 정보
+        int** nMapArry = map.GetMapArry();
 
         cdPlayerPos = m_player->GetPlayerPos();
         if (GetTickCount() >= Timer + (1000 / m_nFrame)) {
@@ -215,17 +217,20 @@ void CSystem::PlayGame() {
 			if (GetAsyncKeyState(VK_RIGHT) & 0x8001) {
                 n_PlayerPosX = (n_PlayerPosX >= (map.GetMapSizeX())) ? map.GetMapSizeX() : n_PlayerPosX + 1;
             }
-            
-            //캐릭터가 이동한 만큼 맵을 추가하여 그린다
-            m_player->SetPlayerPos(n_PlayerPosX, n_PlayerPosY);
+            //맵을 세팅한다.
+            map.SetMap(E_BACKGROUND::VILLAGE);
 
-            //캐릭터 위치의 좌표를 출력
-            PrintCoord(m_player->GetPlayerPos());
+            if (nMapArry[n_PlayerPosY][n_PlayerPosX] != E_BG_TILE::WALL) {
+                //캐릭터가 이동한 만큼 맵을 추가하여 그린다
+                m_player->SetPlayerPos(n_PlayerPosX, n_PlayerPosY);
 
-			map.SetMap(E_BACKGROUND::VILLAGE);
+                //캐릭터 위치의 좌표를 출력
+                PrintCoord(m_player->GetPlayerPos());
 
-			//맵에 플레이어 위치를 기록하여 출력한다.
-            map.SetPlayerCharacterMap(m_player);
+                //맵에 플레이어 위치를 기록하여 출력한다.
+                map.SetPlayerCharacterMap(m_player);
+            }
+
         }
     }
 }

@@ -9,6 +9,10 @@ using namespace std;
 
 enum E_BG_TILE {
     LAND = 0,
+    E_DOOR_DUNGEON,
+    E_DOOR_VILLAGE,
+    E_DOOR_STORE,
+    E_DOOR_INN,
     CHARACTOR,
     WALL,
     WALL_VERTICAL,  
@@ -23,12 +27,6 @@ enum E_BG_TILE {
 	WALL_TYPE_D,
 	WALL_TYPE_E,
 	BG_MAX_CNT,
-};
-
-enum E_BG_DOOR {
-    E_DOOR_DUNGEON = 0,
-    E_DOOR_VILLAGE,
-    E_DOOR_STORE
 };
 
 class Drawing : public Point, public String
@@ -69,6 +67,9 @@ public:
 	void ClearArea(int n);
     void DisplayClear();
 
+    //coord 값을 비교하여 리턴
+    BOOL CompareCoord(COORD a, COORD b);
+
 protected:
 	//배경 정보
 	int m_nBackground[50][150];
@@ -94,6 +95,8 @@ protected:
 
     COORD cdArea5Start = { 0, 0 };
     COORD cdArea5end = { 150, 50 };
+
+
 
 private:
     HANDLE m_Handle;

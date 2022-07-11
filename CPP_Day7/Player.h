@@ -4,6 +4,7 @@
 #define _CREATURE_
 
 #include "Creature.h"
+
 enum E_PLAYER_STAT {
 	MAX_HP = 0,
 	MAX_MANA,
@@ -37,9 +38,6 @@ public:
     //소지금 get, set
     void SetGold(int n);
     int GetGold();
-    //기본스텟 get,set
-    void SetBasicStat(int* nList);
-    int* GetBasicStat();
 	//플레이어 이름 세팅
 	void SetName(String s);
 
@@ -63,9 +61,6 @@ protected:
 	//경험치
 	int n_mExp = 0;
 
-	//크리쳐 객체에서 상속받은 기본 스탯
-	int n_lPlayerBasicStat[E_CREATURE_BASIC_STAT::STAT_CNT];
-
 	//플레이어의 추가 스탯
 	int n_lPlayerStat[E_PLAYER_STAT::P_STAT_CNT];
 
@@ -77,6 +72,7 @@ protected:
 
     //플레이어 스킬 이름
     String m_lPlayerSkillName[E_PLAYER_BASIC_SKILL::P_BASIC_SKILL_CNT];
+
     //콘솔 화면에서 표시할 플레이어의 위치
 	COORD m_PlayerPos;
 
