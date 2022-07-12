@@ -3,6 +3,8 @@
 LRESULT CALLBACK WndProc (HWND, UINT, WPARAM, LPARAM) ;
 
 //// 메인 함수 : 윈도우 프로그램의 최초 진입점 ( Entry Point )
+//매개변수 목록
+//HINSTANCE hInstance:
 int WINAPI WinMain (HINSTANCE hInstance,		
 					HINSTANCE hPrevInstance,	
                     PSTR szCmdLine,				
