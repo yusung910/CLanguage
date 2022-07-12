@@ -111,7 +111,7 @@ void Map::PrintMapData() {
     for (int i = n_PrintMapStartX; i <= n_PrintMapEndX; i++) {
         int m_nDisplayStartY = 2;
         for (int j = n_PrintMapStartY; j <= n_PrintMapEndY; j++) {
-            PrintCtnt(m_nDisplayStartX, m_nDisplayStartY, n_mMapSize[j][i]);
+            PrintCtnt(m_nDisplayStartX, m_nDisplayStartY, n_mMapSize[j][i], true);
             m_nDisplayStartY++;
         }
         m_nDisplayStartX++;

@@ -20,6 +20,8 @@ public:
 
     //맵 데이터가 여러건 저장된 포인터를 받아서 객체에 할당한다.
     void Put(T2* v, T3* sv, int n_size);
+	void Put(T2* v, int n_size);
+	void Put(T3* sv, int n_size);
 
     //맵 데이터에 동적으로 배열을 늘린다
     void SetArryAdd();

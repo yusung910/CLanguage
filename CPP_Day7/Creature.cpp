@@ -13,9 +13,9 @@ Creature::Creature() {
         String("공격력")
     };
 
-    float fStatValueList[E_CREATURE_BASIC_STAT::STAT_CNT] = { 0, 0, 0, 0 };
+    int fStatValueList[E_CREATURE_BASIC_STAT::STAT_CNT] = { 0, 0, 0, 0 };
 
-    //hm_BasicStat.Put(sStatNameList, fStatValueList, E_CREATURE_BASIC_STAT::STAT_CNT);
+    hm_BasicStat.Put(sStatNameList, fStatValueList, E_CREATURE_BASIC_STAT::STAT_CNT);
 }
 
 //소멸자

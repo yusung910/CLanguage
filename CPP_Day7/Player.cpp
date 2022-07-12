@@ -3,7 +3,7 @@
 //생성자
 Player::Player() {
 	//플레이어 객체에 기본 스탯을 할당한다.
-
+	//n_PlayerBStat
 	//플레이어의 추가 스텟
 	n_lPlayerStat[E_PLAYER_STAT::MAX_HP] = 100;
 	n_lPlayerStat[E_PLAYER_STAT::MAX_MANA] = 50;

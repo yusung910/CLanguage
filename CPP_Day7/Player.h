@@ -61,6 +61,9 @@ protected:
 	//경험치
 	int n_mExp = 0;
 
+	//플레이어의 기본 스탯
+	int n_PlayerBStat[E_CREATURE_BASIC_STAT::STAT_CNT] = {100, 50, 5, 1};
+
 	//플레이어의 추가 스탯
 	int n_lPlayerStat[E_PLAYER_STAT::P_STAT_CNT];
 

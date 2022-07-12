@@ -19,6 +19,7 @@ template <typename T1, typename T2, typename T3>
 void HashMap<T1, T2, T3>::Put(T1 k, T2 v, T3 sv) {
     int tmpK = k;
     if (k > m_nSize) {
+		m_nSize++;
         SetArryAdd();
         tmpK = k - 1;
     }
@@ -32,6 +33,7 @@ template <typename T1, typename T2, typename T3>
 void HashMap<T1, T2, T3>::Put(T1 k, T3 sv) {
     int tmpK = k;
     if (k > m_nSize) {
+		m_nSize++;
         SetArryAdd();
         tmpK = k - 1;
     }
@@ -43,6 +45,7 @@ template <typename T1, typename T2, typename T3>
 void HashMap<T1, T2, T3>::Put(T1 k, T2 v) {
     int tmpK = k;
     if (k > m_nSize) {
+		m_nSize++;
         SetArryAdd();
         tmpK = k - 1;
     }
@@ -60,8 +63,6 @@ void HashMap<T1, T2, T3>::SetArryAdd() {
     ::memcpy(tmpKey, m_Key, (sizeof(T1) * m_nSize) + sizeof(T1));
     ::memcpy(tmpValue, m_Value, (sizeof(T2) * m_nSize) + sizeof(T2));
     ::memcpy(tmpSubValue, m_SubValue, (sizeof(T3) * m_nSize) + sizeof(T3));
-
-    m_nSize++;
 
     m_Key = new T1[(sizeof(T1) * m_nSize) + sizeof(T1)];
     m_Value = new T2[(sizeof(T2) * m_nSize) + sizeof(T2)];
@@ -99,7 +100,6 @@ void HashMap<T1, T2, T3>::Put(T2* v, T3* sv, int n_size) {
         delete[] m_SubValue;
     }
 
-
     m_Key = new T1[(n_size * sizeof(T1)) + sizeof(T1)];
     m_Value = new T2[(n_size * sizeof(T2)) + sizeof(T2)];
     m_SubValue = new T3[(n_size * sizeof(T3)) + sizeof(T3)];
@@ -111,6 +111,20 @@ void HashMap<T1, T2, T3>::Put(T2* v, T3* sv, int n_size) {
     }
 
     m_nSize = n_size;
+}
+
+template <typename T1, typename T2, typename T3>
+void HashMap<T1, T2, T3>::Put(T2* v, int n_size) {
+	//세팅되는 배열의 크기가 더 클 경우 동적 할당을 다시한다.
+	if (n_size > m_nSize) {
+		m_nSize = n_size;
+		SetArryAdd();
+	}
+}
+
+template <typename T1, typename T2, typename T3>
+void HashMap<T1, T2, T3>::Put(T3* v, int n_size) {
+
 }
 
 template <typename T1, typename T2, typename T3>
