@@ -147,6 +147,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
             nVscrollPos = HIWORD(wParam);
             //nVscrollPos = ((wParam & 0xFFFF0000) >> 16);
             break;
+		case SB_THUMBTRACK:
+			nVscrollPos = HIWORD(wParam);
+			break;
 
         default:
             break;
@@ -192,7 +195,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
             nHscrollPos = HIWORD(wParam);
             //nVscrollPos = ((wParam & 0xFFFF0000) >> 16);
             break;
-
+		case SB_THUMBTRACK:
+			nHscrollPos = HIWORD(wParam);
+			break;
         default:
             break;
         }
