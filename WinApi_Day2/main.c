@@ -85,7 +85,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         //nVscrollPos;
         //현재 화면에 출력된 문자 라인 수 : cyClient / cyChar
         //숨어있는 문자열 수 nVscrollPos
-        //nVscrollPos = () ?
         //현재 페이지에 출력된 문자 라인 : NUMLINES - nVscrollPos
         int outPutHeight = (NUMLINES - nVscrollPos) * cyChar;
         nVscrollPos = outPutHeight + cyChar < cyClient ? nVscrollPos - 1 : nVscrollPos;
@@ -224,6 +223,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         //// 무효 영역을 유효화하여 다시 WM_PAINT 메시지가 호출되지 않도록 한다
         hdc = BeginPaint(hwnd, &ps);
         {
+			static int n_TmpWidthA = 0;
+
             x = (widthCharAvg * nHscrollPos) * -1;
             for (i = 0; i < NUMLINES; i++)
             {
@@ -232,16 +233,19 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
                 //// 서식형으로 문자열을 만든다				
                 wsprintf(strBuff, "Scrollbar %2d, VSPos %2d, y %3d", i, nVscrollPos, y);
 
-                
                 TextOut(hdc, x, y, strBuff, strlen(strBuff));
+
+				//출력되는 문자열에서 가장 큰값을 찾기위해 임시로 저장하는 변수
+				
+				GetTextExtentPoint32(hdc, strBuff, strlen(strBuff), &n_TmpWidthA);
+				n_maxCharWidth = (n_maxCharWidth > n_TmpWidthA) ? n_maxCharWidth : n_TmpWidthA;
             }
-            GetTextExtentPoint32(hdc, strBuff, strlen(strBuff), &n_maxCharWidth);
+
         }
+
         //// DC 핸들 해제
         EndPaint(hwnd, &ps);
         return 0;
-
-
     case WM_DESTROY:
         PostQuitMessage(WM_QUIT);
         return 0;
