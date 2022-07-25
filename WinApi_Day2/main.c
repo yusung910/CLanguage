@@ -82,7 +82,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         int n_maxHeight = cyChar * NUMLINES;
         n_maxVscroll = (n_maxHeight - cyClient) <  0 ? 0 : ((n_maxHeight - cyClient) / cyChar) + 1;
 
-        //nVscrollPos;
+        nVscrollPos = (n_maxHeight < cyClient )? 0 : nVscrollPos;
         //현재 화면에 출력된 문자 라인 수 : cyClient / cyChar
         //숨어있는 문자열 수 nVscrollPos
         //현재 페이지에 출력된 문자 라인 : NUMLINES - nVscrollPos
@@ -105,6 +105,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
         //숨겨진 문자 길이
         int n_hideWidth = nHscrollPos * widthCharAvg;
         nHscrollPos = (nHscrollPos > 0 && widthClient >= (n_maxCharWidth - n_hideWidth)) ? nHscrollPos - 1 : nHscrollPos;
+
+        nHscrollPos = (n_maxCharWidth < widthClient) ? 0 : nHscrollPos;
+
         //수평 스크롤
         SetScrollRange(hwnd,			//	윈도우 핸들 or 콘트롤 핸들 ( SB_CTL )
             SB_HORZ,		            //	수직
