@@ -121,7 +121,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
             FALSE);		    // redraw 여부
 
         return 0;
-
     case WM_VSCROLL:
         //// wParam의 하위 2바이트 : 눌린버튼
         ////          상위 2바이트 : thumb의 위치
