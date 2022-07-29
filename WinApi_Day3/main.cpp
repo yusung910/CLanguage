@@ -1,4 +1,5 @@
-
+#include <stdlib.h> // rand() 함수
+#include <time.h>   // time() 함수
 #include <windows.h>
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -9,7 +10,7 @@ void __Rectangle(HDC hdc, int x1, int y1, int x2, int y2, COLORREF crPen, COLORR
 void RandRect(HDC hdc, int nClientWitdh, int nClientHeight);
 void RandDraw(HDC hdc, int nClientWitdh, int nClientHeight);
 
-void CopyPixelQuater(HDC hdc);
+void CopyPixelQuater(HDC hdc, int nClientWitdh, int nClientHeight);
 
 //// WinMain 함수 : 윈도즈 프로그램의 최초 진입점 ( Entry Point )
 int WINAPI WinMain(HINSTANCE hInstance,
@@ -40,7 +41,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	hWnd = CreateWindow(szAppName,
 		szAppName,
 		WS_OVERLAPPEDWINDOW,
-		100, 100, 800, 800,
+		100, 100, 850, 850,
 		NULL, NULL, hInstance, NULL);
 
 	if (!hWnd) return FALSE;
@@ -61,7 +62,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
         else // 메시지가 없으면
         {
             RandDraw(GetDC(hWnd), 800, 800);
-            //__Line(GetDC(hWnd), 20, 20, 100, 100, RGB(121,152,122));
             Sleep(100);
         }
 	}
@@ -153,12 +153,14 @@ void RandRect(HDC hdc, int nClientWitdh, int nClientHeight) {
 
 
 void RandDraw(HDC hdc, int nClientWitdh, int nClientHeight) {
+    //랜덤 난수 세팅
+    srand((unsigned)time(NULL));
     //랜덤의 범위는 그려질 도형, 브러쉬, 펜, 폰트, 전경색, 배경색, 크기, 좌표
     HPEN newPen, oldPen;
     HBRUSH newBrush, oldBrush;
     COLORREF colorVal = RGB(rand() % 256, rand() % 256, rand() % 256);
 
-    int n_randCase = rand() % 10;
+    int n_randCase = rand() % 5;
 
     int x1 = rand() % (nClientWitdh / 2);
     int y1 = rand() % (nClientHeight / 2);
@@ -221,27 +223,29 @@ void RandDraw(HDC hdc, int nClientWitdh, int nClientHeight) {
         break;
     }
 
-    CopyPixelQuater(hdc);
+    CopyPixelQuater(hdc, nClientWitdh, nClientHeight);
 }
 
-void CopyPixelQuater(HDC hdc) {
+void CopyPixelQuater(HDC hdc, int nClientWitdh, int nClientHeight) {
     //2사분면에 복사 붙여 넣기
-    for (int i = 0; i < 400; i++) {
-        for (int j = 0; j < 400; j++) {
-            SetPixel(hdc, i+400, j, GetPixel(hdc, i, j));
+    int x = nClientWitdh / 2;
+    int y = nClientHeight / 2;
+    for (int i = 0; i < x; i++) {
+        for (int j = 0; j < y; j++) {
+            SetPixel(hdc, i+x, j, GetPixel(hdc, i, j));
         }
     }
     //3사분면 좌우 반전 복사 붙여넣기
-    for (int i = 0; i < 400; i++) {
-        for (int j = 0; j < 400; j++) {
-            SetPixel(hdc, (400 - i), j + 400, GetPixel(hdc, i, j));
+    for (int i = 0; i < x; i++) {
+        for (int j = 0; j < y; j++) {
+            SetPixel(hdc, (y - i), j + y, GetPixel(hdc, i, j));
         }
     }
 
     //4사분면 상하 반전 복사 붙여넣기
-    for (int i = 0; i < 400; i++) {
-        for (int j = 0; j < 400; j++) {
-            SetPixel(hdc, i + 400, (800 - j), GetPixel(hdc, i, j));
+    for (int i = 0; i < x; i++) {
+        for (int j = 0; j < y; j++) {
+            SetPixel(hdc, i + (x + 2), ((nClientHeight - 2) - j), GetPixel(hdc, i, j));
         }
     }
 }
