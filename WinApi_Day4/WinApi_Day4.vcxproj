@@ -22,11 +22,13 @@
     <ClCompile Include="DrawRect.c" />
     <ClCompile Include="InitDisplay.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="SetScroll.c" />
     <ClCompile Include="__debug.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DrawRect.h" />
     <ClInclude Include="InitDisplay.h" />
+    <ClInclude Include="SetScroll.h" />
     <ClInclude Include="__debug.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -100,7 +102,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
