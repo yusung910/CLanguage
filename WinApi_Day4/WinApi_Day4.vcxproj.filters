@@ -18,5 +18,25 @@
     <ClCompile Include="main.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="__debug.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawRect.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="InitDisplay.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="__debug.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawRect.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="InitDisplay.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
