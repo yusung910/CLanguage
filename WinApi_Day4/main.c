@@ -1,12 +1,16 @@
 #include <windows.h>
-
 #include "__debug.h"
-#include "SetScroll.h"
-#include "DrawRect.h"
 #include "InitDisplay.h"
-#include "SetTool.h";
+#include "SetScroll.h"
+#include "SetTool.h"
+#include "Draw.h"
+#include "GetToolPos.h"
 
 HINSTANCE g_hInst;
+
+int nPRed = 0, nPGreen = 0, nPBlue = 0, nBrRed = 0, nBrGreen = 0, nBrBlue = 0, nPenBorder = 1;
+
+int n_CurrentTool = 0;
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
@@ -61,16 +65,19 @@ int WINAPI WinMain(HINSTANCE hInstance,
 }
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
-    WPARAM wParam, LPARAM lParam)
+                         WPARAM wParam, LPARAM lParam)
 {
  //   HDC			hdc;
 	//PAINTSTRUCT ps;
 
 	static char string[256];
 	static int	nLen = 0;
+    static int n_barSize = 255;
 
 	static BOOL bDrawing = FALSE;
+    static BOOL bScrollClick = FALSE;
 	static short int  x1, y1, x2, y2, clientX, clientY;
+    static short int N_TOOL = 0, N_PEN = 7, N_BRUSH = 10;
 
     //스크롤바 맥스 변수
     int n_HscrollMax = 0;
@@ -84,7 +91,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
         //스크롤바 생성
         SetScroll(hWnd, g_hInst);
         break;
+
 	case WM_PAINT:
+        clientX = LOWORD(lParam);
+        clientY = HIWORD(lParam);
+        //그림판 화면 초기화
+
+        InitDisplay(hWnd, clientX, clientY, n_barSize);
+        SetTool(hWnd, N_TOOL, N_PEN, N_BRUSH, n_CurrentTool, RGB(nPRed, nPGreen, nPBlue), RGB(nBrRed, nBrGreen, nBrBlue), nPenBorder);
 		break;
 
 	case WM_SIZE:
@@ -92,10 +106,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
         clientY = HIWORD(lParam);
         //그림판 화면 초기화
 		
-        InitDisplay(hWnd, clientX, clientY);
+        InitDisplay(hWnd, clientX, clientY, n_barSize);
+        SetTool(hWnd, N_TOOL, N_PEN, N_BRUSH, n_CurrentTool, RGB(nPRed, nPGreen, nPBlue), RGB(nBrRed, nBrGreen, nBrBlue), nPenBorder);
 		break;
 
     case WM_HSCROLL:
+        bScrollClick = TRUE;
         if ((HWND)lParam == pRed) TempPos = nPRed;
         if ((HWND)lParam == pGreen) TempPos = nPGreen;
         if ((HWND)lParam == pBlue) TempPos = nPBlue;
@@ -111,6 +127,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
         else {
             n_HscrollMax = 255;
         }
+
+        SetTool(hWnd, N_TOOL, N_PEN, N_BRUSH, n_CurrentTool, RGB(nPRed, nPGreen, nPBlue), RGB(nBrRed, nBrGreen, nBrBlue), nPenBorder);
 
         switch (LOWORD(wParam)) {
         case SB_LINELEFT:
@@ -143,45 +161,60 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
 	case WM_LBUTTONDOWN:
 		x1 = x2 = (short) LOWORD(lParam);
 		y1 = y2 = (short) HIWORD(lParam);
-		if (y2 > N_SIZEBAR_HEIGHT) {
+		if (y2 > n_barSize) {
 			SetCapture(hWnd);
 			SetCursor(LoadCursor(NULL, IDC_CROSS));
 			bDrawing = TRUE;
 		}
 		else { 
 			//툴 버튼을 클릭할 경우 이벤트 발생
-			SetTool(x1, y1);
+            //스크롤을 클릭하지 않을 경우에만 실행
+            if (!bScrollClick) {
+                n_CurrentTool = GetToolPos(x1, y1);
+
+                if (n_CurrentTool <= 4) {
+                    N_TOOL = n_CurrentTool;
+                }
+                else if (n_CurrentTool > 4 && n_CurrentTool <= 9) {
+                    N_PEN = n_CurrentTool;
+                }
+                else if (n_CurrentTool > 9 && n_CurrentTool <= 16) {
+                    N_BRUSH = n_CurrentTool;
+                }
+
+                SetTool(hWnd, N_TOOL, N_PEN, N_BRUSH, n_CurrentTool, RGB(nPRed, nPGreen, nPBlue), RGB(nBrRed, nBrGreen, nBrBlue), nPenBorder);
+            }
 		}
 		break;
 
 	case WM_MOUSEMOVE:
+        bScrollClick = FALSE;
 		if (bDrawing)
 		{
 			SetCursor(LoadCursor(NULL, IDC_CROSS));
+            Draw(hWnd, N_TOOL, N_PEN, N_BRUSH, x1, y1, x2, y2, nPenBorder, RGB(nPRed, nPGreen, nPBlue), RGB(nBrRed, nBrGreen, nBrBlue), FALSE);
 			//// 이전에 그린 선을 지운다(반전색으로 그린다)
 			//   단, 최초에는 좌표가 동일하므로 그리지 않는다
-			DrawRect(hWnd, x1, y1, x2, y2, FALSE);
 			x2 = (short) LOWORD(lParam);
-			y2 = ((short) HIWORD(lParam) < N_SIZEBAR_HEIGHT) ? N_SIZEBAR_HEIGHT : (short)HIWORD(lParam);
-			//// 새로운 좌표에 선을 그린다
-			DrawRect(hWnd, x1, y1, x2, y2, FALSE);
+			y2 = ((short) HIWORD(lParam) < n_barSize) ? n_barSize : (short)HIWORD(lParam);
+            Draw(hWnd, N_TOOL, N_PEN, N_BRUSH, x1, y1, x2, y2, nPenBorder, RGB(nPRed, nPGreen, nPBlue), RGB(nBrRed, nBrGreen, nBrBlue), FALSE);
 		}
 
-		if (SetTool((short)LOWORD(lParam), (short)HIWORD(lParam))) {
+		if (GetToolPos((short)LOWORD(lParam), (short)HIWORD(lParam)) > -1) {
 			SetCursor(LoadCursor(NULL, IDC_HAND));
 		}
 		break;
 
 	case WM_LBUTTONUP:
-		//if (bDrawing)	// ???
-	{
-		//// 이전에 그린 선을 지운다
-		DrawRect(hWnd, x1, y1, x2, y2, FALSE);
-		bDrawing = FALSE;
-		ReleaseCapture();
-		//// 사각영역을 채운다
-		DrawRect(hWnd, x1, y1, x2, y2, TRUE);
-	}
+		if (bDrawing)
+	    {
+		    //// 이전에 그린 선을 지운다
+            Draw(hWnd, N_TOOL, N_PEN, N_BRUSH, x1, y1, x2, y2, nPenBorder, RGB(nPRed, nPGreen, nPBlue), RGB(nBrRed, nBrGreen, nBrBlue), FALSE);
+		    bDrawing = FALSE;
+		    ReleaseCapture();
+		    //// 사각영역을 채운다
+            Draw(hWnd, N_TOOL, N_PEN, N_BRUSH, x1, y1, x2, y2, nPenBorder, RGB(nPRed, nPGreen, nPBlue), RGB(nBrRed, nBrGreen, nBrBlue), TRUE);
+	    }
 	break;
 
 	case WM_KEYDOWN:

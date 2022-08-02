@@ -1,6 +1,6 @@
 #include "InitDisplay.h"
 
-void InitDisplay(HWND hWnd, int clientX, int clientY) {
+void InitDisplay(HWND hWnd, int clientX, int clientY, int n_barSize) {
     
 
     HDC hdc;
@@ -18,9 +18,9 @@ void InitDisplay(HWND hWnd, int clientX, int clientY) {
     oldPen = SelectObject(hdc, newPen);
 
     // LineTo, PolyLineTo 등의 함수가 선의 시작 좌표로 사용한다
-    MoveToEx(hdc, 0, N_SIZEBAR_HEIGHT, NULL);	// 이전 좌표를 돌려받기 위한 POINT구조체의 포인터
+    MoveToEx(hdc, 0, n_barSize, NULL);	// 이전 좌표를 돌려받기 위한 POINT구조체의 포인터
     // 현재 위치에서 끝점까지 선을 긋는다. 이때 끝점은 선에서 제외된다
-    LineTo(hdc, clientX, N_SIZEBAR_HEIGHT);
+    LineTo(hdc, clientX, n_barSize);
 
     //선택할 수 있는 메뉴 출력
     //펜 선택 버튼
@@ -77,6 +77,9 @@ void InitDisplay(HWND hWnd, int clientX, int clientY) {
 	//화면지우기
 	Rectangle(hdc, 1325, 180, 1380, 235);
 
+    //문자열 디자인 영역
+    Rectangle(hdc, 340, 30, 490, 160);
+
     newPen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
     oldPen = SelectObject(hdc, newPen);
 
@@ -88,6 +91,12 @@ void InitDisplay(HWND hWnd, int clientX, int clientY) {
 
 	//전채지우개 타이틀 출력
 	TextOut(hdc, 1329, 200, "초기화", 6);
+
+    //텍스트 출력 스타일 타이틀 출력
+    TextOut(hdc, 345, 25, "텍스트 스타일", 13);
+    TextOut(hdc, 350, 50, "기본 문자 배경", 14);
+    TextOut(hdc, 350, 90, "투명 문자 배경", 14);
+    TextOut(hdc, 350, 130, "불투명 문자 배경", 16);
 
     //펜 RGB 타이틀 출력
     TextOut(hdc, 780, 23, "펜 RGB", 6);
@@ -108,7 +117,7 @@ void InitDisplay(HWND hWnd, int clientX, int clientY) {
     SetTextColor(hdc, RGB(0, 0, 255));
     TextOut(hdc, 1090, 132, "B", 1);
 
-    //펜 두께 스크롤 타이틀 출력 Rectangle(hdc, 770, 180, 1050, 215);
+    //펜 두께 스크롤 타이틀 출력
     SetTextColor(hdc, RGB(0, 0, 0));
     TextOut(hdc, 780, 170, "펜 두께", 7);
 
@@ -163,8 +172,6 @@ void InitDisplay(HWND hWnd, int clientX, int clientY) {
     //브러시 유형 아이콘 그리기
     newPen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
     oldPen = SelectObject(hdc, newPen);
-
-
 
     SelectObject(hdc, GetStockObject(BLACK_BRUSH));
     Ellipse(hdc, 35, 185, 80, 230);

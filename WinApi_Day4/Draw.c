@@ -1,30 +1,21 @@
-#include "SetTool.h"
-#include "SetScroll.h"
-//툴 버튼을 클릭할 경우
-//해당 툴을 사용할 준비와 미리보기를 생성한다.
-void SetTool(HWND hWnd, int N_TOOL, int N_PEN, int N_BRUSH, int n_tool, COLORREF pColor, COLORREF brColor, int n_pBorder) {
+#include "Draw.h"
+#include "__debug.h"
+void Draw(HWND hWnd, int N_TOOL, int N_PEN, int N_BRUSH, int x1, int y1, int x2, int y2, int n_pBorder, COLORREF pColor, COLORREF brColor, BOOL bFill)
+{
+	int nStockBrush = NULL_BRUSH;
 
-    HDC hdc;
-    PAINTSTRUCT ps;
+	HDC hdc = GetDC(hWnd);
     HPEN newPen, oldPen;
     HBRUSH newBrush, oldBrush;
 
-    hdc = GetDC(hWnd);
+	if (bFill)
+		nStockBrush = BLACK_BRUSH;
+	else
+		SetROP2(hdc, R2_NOT);
 
-    //미리보기 영역 500, 30, 750, 235
-    //미리보기 영역 클리어
-    newPen = CreatePen(PS_SOLID, 1, RGB(200, 200, 200));
-    oldPen = SelectObject(hdc, newPen);
+    newPen = CreatePen(PS_DASH, n_pBorder, pColor);
 
-    //문자열 디자인 영역
-    SelectObject(hdc, GetStockObject(WHITE_BRUSH));
-    Rectangle(hdc, 500, 30, 750, 235);
 
-    newPen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
-    oldPen = SelectObject(hdc, newPen);
-
-    //미리보기 타이틀 출력
-    TextOut(hdc, 520, 23, "미리보기", 8);
     //펜 설정
     switch (N_PEN) {
     case 5:
@@ -72,44 +63,40 @@ void SetTool(HWND hWnd, int N_TOOL, int N_PEN, int N_BRUSH, int n_tool, COLORREF
         break;
     }
 
-    //미리보기
     oldBrush = (HBRUSH)SelectObject(hdc, newBrush);
 
     switch (N_TOOL) {
     case 0:
         //펜
-        MoveToEx(hdc, 550, 80, NULL);
-
-        LineTo(hdc, 560, 150);
-        LineTo(hdc, 590, 170);
-        LineTo(hdc, 670, 180);
-        LineTo(hdc, 690, 200);
-
+        MoveToEx(hdc, x2, y2, NULL);
+        LineTo(hdc, x2, y2);
+        //TRACE2("X: %d, Y:%d\n", x1, y1);
+        TRACE2("X: %d, Y:%d\n", x2, y2);
         break;
     case 1:
         //직선
-        MoveToEx(hdc, 510, 40, NULL);
-        LineTo(hdc, 740, 225);
+        MoveToEx(hdc, x1, y1, NULL);
+        LineTo(hdc, x2, y2);
         break;
     case 2:
         //원
-        Ellipse(hdc, 550, 90, 690, 175);
+        Ellipse(hdc, x1, y1, x2, y2);
         break;
     case 3:
         //사각형
-        Rectangle(hdc, 550, 90, 690, 175);
+        Rectangle(hdc, x1, y1, x2, y2);
         break;
     case 4:
         //타원사각형
-        RoundRect(hdc, 550, 90, 690, 175, 20, 20);
+        RoundRect(hdc, x1, y1, x2, y2, 20, 20);
         break;
     }
 
     SelectObject(hdc, oldPen);
+    SelectObject(hdc, oldBrush);
+
+    DeleteObject(newBrush);
     DeleteObject(newPen);
 
-    SelectObject(hdc, oldBrush);
-    DeleteObject(newBrush);
-
-    EndPaint(hWnd, &ps);
+	ReleaseDC(hWnd, hdc);
 }

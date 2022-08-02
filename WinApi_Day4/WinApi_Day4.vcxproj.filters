@@ -21,13 +21,16 @@
     <ClCompile Include="__debug.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="DrawRect.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="InitDisplay.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="SetScroll.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GetToolPos.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Draw.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="SetTool.c">
@@ -38,13 +41,16 @@
     <ClInclude Include="__debug.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="DrawRect.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="InitDisplay.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="SetScroll.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GetToolPos.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Draw.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="SetTool.h">
