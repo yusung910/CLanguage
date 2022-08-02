@@ -1,7 +1,7 @@
 #include "InitDisplay.h"
 
 void InitDisplay(HWND hWnd, int clientX, int clientY) {
-    int n_sideBarSize = 255;
+    
 
     HDC hdc;
     PAINTSTRUCT ps;
@@ -18,9 +18,9 @@ void InitDisplay(HWND hWnd, int clientX, int clientY) {
     oldPen = SelectObject(hdc, newPen);
 
     // LineTo, PolyLineTo 등의 함수가 선의 시작 좌표로 사용한다
-    MoveToEx(hdc, 0, n_sideBarSize, NULL);	// 이전 좌표를 돌려받기 위한 POINT구조체의 포인터
+    MoveToEx(hdc, 0, N_SIZEBAR_HEIGHT, NULL);	// 이전 좌표를 돌려받기 위한 POINT구조체의 포인터
     // 현재 위치에서 끝점까지 선을 긋는다. 이때 끝점은 선에서 제외된다
-    LineTo(hdc, clientX, n_sideBarSize);
+    LineTo(hdc, clientX, N_SIZEBAR_HEIGHT);
 
     //선택할 수 있는 메뉴 출력
     //펜 선택 버튼
@@ -69,14 +69,25 @@ void InitDisplay(HWND hWnd, int clientX, int clientY) {
     //브러시 RGB 영역 그리기
     Rectangle(hdc, 1080, 30, 1380, 165);
 
-    //펜 두께 스크롤 영역 그리기 780, 190, 256, 20
+    //펜 두께 스크롤 영역 그리기
     Rectangle(hdc, 770, 180, 1050, 215);
+
+	//지우개
+	Rectangle(hdc, 1260, 180, 1315, 235);
+	//화면지우기
+	Rectangle(hdc, 1325, 180, 1380, 235);
 
     newPen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
     oldPen = SelectObject(hdc, newPen);
 
     //미리보기 타이틀 출력
     TextOut(hdc, 520, 23, "미리보기", 8);
+
+	//지우개 타이틀 출력
+	TextOut(hdc, 1264, 200, "지우개", 6);
+
+	//전채지우개 타이틀 출력
+	TextOut(hdc, 1329, 200, "초기화", 6);
 
     //펜 RGB 타이틀 출력
     TextOut(hdc, 780, 23, "펜 RGB", 6);

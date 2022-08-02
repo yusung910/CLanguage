@@ -22,12 +22,14 @@
     <ClCompile Include="DrawRect.c" />
     <ClCompile Include="InitDisplay.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="SetTool.c" />
     <ClCompile Include="SetScroll.c" />
     <ClCompile Include="__debug.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DrawRect.h" />
     <ClInclude Include="InitDisplay.h" />
+    <ClInclude Include="SetTool.h" />
     <ClInclude Include="SetScroll.h" />
     <ClInclude Include="__debug.h" />
   </ItemGroup>

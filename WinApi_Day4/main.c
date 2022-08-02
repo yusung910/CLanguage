@@ -4,6 +4,7 @@
 #include "SetScroll.h"
 #include "DrawRect.h"
 #include "InitDisplay.h"
+#include "SetTool.h";
 
 HINSTANCE g_hInst;
 
@@ -69,7 +70,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
 	static int	nLen = 0;
 
 	static BOOL bDrawing = FALSE;
-	static int  x1, y1, x2, y2, clientX, clientY;
+	static short int  x1, y1, x2, y2, clientX, clientY;
 
     //스크롤바 맥스 변수
     int n_HscrollMax = 0;
@@ -90,6 +91,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
         clientX = LOWORD(lParam);
         clientY = HIWORD(lParam);
         //그림판 화면 초기화
+		
         InitDisplay(hWnd, clientX, clientY);
 		break;
 
@@ -138,28 +140,35 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
         if ((HWND)lParam == penBorder) nPenBorder = TempPos;
 
         SetScrollPos((HWND)lParam, SB_CTL, TempPos, TRUE);
-        InvalidateRect(hWnd, NULL, FALSE);
-
 	case WM_LBUTTONDOWN:
-		x1 = x2 = LOWORD(lParam);
-		y1 = y2 = HIWORD(lParam);
-        if (255 < y2) {
-            SetCursor(LoadCursor(NULL, IDC_CROSS));
-            bDrawing = TRUE;
-        }
+		x1 = x2 = (short) LOWORD(lParam);
+		y1 = y2 = (short) HIWORD(lParam);
+		if (y2 > N_SIZEBAR_HEIGHT) {
+			SetCapture(hWnd);
+			SetCursor(LoadCursor(NULL, IDC_CROSS));
+			bDrawing = TRUE;
+		}
+		else { 
+			//툴 버튼을 클릭할 경우 이벤트 발생
+			SetTool(x1, y1);
+		}
 		break;
 
 	case WM_MOUSEMOVE:
-		if (bDrawing && y2 > 255)
+		if (bDrawing)
 		{
 			SetCursor(LoadCursor(NULL, IDC_CROSS));
 			//// 이전에 그린 선을 지운다(반전색으로 그린다)
 			//   단, 최초에는 좌표가 동일하므로 그리지 않는다
 			DrawRect(hWnd, x1, y1, x2, y2, FALSE);
-			x2 = LOWORD(lParam);
-			y2 = HIWORD(lParam);
+			x2 = (short) LOWORD(lParam);
+			y2 = ((short) HIWORD(lParam) < N_SIZEBAR_HEIGHT) ? N_SIZEBAR_HEIGHT : (short)HIWORD(lParam);
 			//// 새로운 좌표에 선을 그린다
 			DrawRect(hWnd, x1, y1, x2, y2, FALSE);
+		}
+
+		if (SetTool((short)LOWORD(lParam), (short)HIWORD(lParam))) {
+			SetCursor(LoadCursor(NULL, IDC_HAND));
 		}
 		break;
 
@@ -169,7 +178,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
 		//// 이전에 그린 선을 지운다
 		DrawRect(hWnd, x1, y1, x2, y2, FALSE);
 		bDrawing = FALSE;
-
+		ReleaseCapture();
 		//// 사각영역을 채운다
 		DrawRect(hWnd, x1, y1, x2, y2, TRUE);
 	}
