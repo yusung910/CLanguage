@@ -194,7 +194,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
 					SelectObject(hdc, GetStockObject(WHITE_BRUSH));
 					SelectObject(hdc, GetStockObject(WHITE_PEN));
 
-					Rectangle(hdc, 0, 256, clientX, clientY);
+					Rectangle(hdc, 0, n_barSize + 1, clientX, clientY);
 
 				}
 				else if (n_CurrentTool > 18 && n_CurrentTool <= 21) {
