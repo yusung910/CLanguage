@@ -77,7 +77,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
 	static BOOL bDrawing = FALSE;
     static BOOL bScrollClick = FALSE;
 	static short int  x1, y1, x2, y2, clientX, clientY;
-    static short int N_TOOL = 0, N_PEN = 7, N_BRUSH = 10;
+    static short int N_TOOL = 0, N_PEN = 7, N_BRUSH = 10, N_TEXT = 18;
 
     //스크롤바 맥스 변수
     int n_HscrollMax = 0;
@@ -196,6 +196,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
 
 					Rectangle(hdc, 0, 256, clientX, clientY);
 
+				}
+				else if (n_CurrentTool > 18 && n_CurrentTool <= 21) {
+					//텍스트 입력
+					N_TEXT = n_CurrentTool;
 				}
 
                 SetTool(hWnd, N_TOOL, N_PEN, N_BRUSH, n_CurrentTool, RGB(nPRed, nPGreen, nPBlue), RGB(nBrRed, nBrGreen, nBrBlue), nPenBorder);

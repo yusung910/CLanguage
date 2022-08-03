@@ -88,8 +88,8 @@ int GetToolPos(int x, int y) {
         n_tool = 20;
     }
     else if (x > 350 && x < 470 && y > 120 && y < 150) {
-        //투명문자배경
-        n_tool = 20;
+        //불투명문자배경
+        n_tool = 21;
     }
 
 	return n_tool;
