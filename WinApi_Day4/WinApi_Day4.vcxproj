@@ -23,7 +23,6 @@
     <ClCompile Include="InitDisplay.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="GetToolPos.c" />
-    <ClCompile Include="SetScroll.c" />
     <ClCompile Include="SetTool.c" />
     <ClCompile Include="__debug.c" />
   </ItemGroup>
@@ -31,7 +30,6 @@
     <ClInclude Include="Draw.h" />
     <ClInclude Include="InitDisplay.h" />
     <ClInclude Include="GetToolPos.h" />
-    <ClInclude Include="SetScroll.h" />
     <ClInclude Include="SetTool.h" />
     <ClInclude Include="__debug.h" />
   </ItemGroup>

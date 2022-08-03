@@ -15,7 +15,6 @@ void Draw(HWND hWnd, int N_TOOL, int N_PEN, int N_BRUSH, int x1, int y1, int x2,
 
     newPen = CreatePen(PS_DASH, n_pBorder, pColor);
 
-
     //Ææ ¼³Á¤
     switch (N_PEN) {
     case 5:
@@ -86,10 +85,10 @@ void Draw(HWND hWnd, int N_TOOL, int N_PEN, int N_BRUSH, int x1, int y1, int x2,
     }
 
     SelectObject(hdc, oldPen);
-    SelectObject(hdc, oldBrush);
-
-    DeleteObject(newBrush);
     DeleteObject(newPen);
+
+    SelectObject(hdc, oldBrush);
+    DeleteObject(newBrush);
 
 	ReleaseDC(hWnd, hdc);
 }

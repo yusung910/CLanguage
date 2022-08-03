@@ -1,5 +1,4 @@
 #include "SetTool.h"
-#include "SetScroll.h"
 //툴 버튼을 클릭할 경우
 //해당 툴을 사용할 준비와 미리보기를 생성한다.
 void SetTool(HWND hWnd, int N_TOOL, int N_PEN, int N_BRUSH, int n_tool, COLORREF pColor, COLORREF brColor, int n_pBorder) {
