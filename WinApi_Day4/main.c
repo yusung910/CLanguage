@@ -67,7 +67,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
                          WPARAM wParam, LPARAM lParam)
 {
- //   HDC			hdc;
+    HDC			hdc;
 	//PAINTSTRUCT ps;
 
 	static char string[256];
@@ -180,7 +180,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
                 }
                 else if (n_CurrentTool > 9 && n_CurrentTool <= 16) {
                     N_BRUSH = n_CurrentTool;
-                }
+				}
+				else if (n_CurrentTool == 17) {
+					//지우개
+					N_PEN = n_CurrentTool;
+					N_TOOL = 0;
+					N_BRUSH = 10;
+				}
+				else if (n_CurrentTool == 18){
+					//전체지우개
+					//사각형
+					hdc = GetDC(hWnd);
+					SelectObject(hdc, GetStockObject(WHITE_BRUSH));
+					SelectObject(hdc, GetStockObject(WHITE_PEN));
+
+					Rectangle(hdc, 0, 256, clientX, clientY);
+
+				}
 
                 SetTool(hWnd, N_TOOL, N_PEN, N_BRUSH, n_CurrentTool, RGB(nPRed, nPGreen, nPBlue), RGB(nBrRed, nBrGreen, nBrBlue), nPenBorder);
             }
@@ -191,13 +207,55 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
         bScrollClick = FALSE;
 		if (bDrawing)
 		{
-			SetCursor(LoadCursor(NULL, IDC_CROSS));
-            Draw(hWnd, N_TOOL, N_PEN, N_BRUSH, x1, y1, x2, y2, nPenBorder, RGB(nPRed, nPGreen, nPBlue), RGB(nBrRed, nBrGreen, nBrBlue), FALSE);
-			//// 이전에 그린 선을 지운다(반전색으로 그린다)
-			//   단, 최초에는 좌표가 동일하므로 그리지 않는다
-			x2 = (short) LOWORD(lParam);
-			y2 = ((short) HIWORD(lParam) < n_barSize) ? n_barSize : (short)HIWORD(lParam);
-            Draw(hWnd, N_TOOL, N_PEN, N_BRUSH, x1, y1, x2, y2, nPenBorder, RGB(nPRed, nPGreen, nPBlue), RGB(nBrRed, nBrGreen, nBrBlue), FALSE);
+			if (N_TOOL == 0) {
+				hdc = GetDC(hWnd);
+				HPEN newPen, oldPen;
+
+				newPen = CreatePen(PS_DASH, nPenBorder, RGB(nPRed, nPGreen, nPBlue));
+
+				//펜 설정
+				switch (N_PEN) {
+				case 5:
+					newPen = CreatePen(PS_DASH, nPenBorder, RGB(nPRed, nPGreen, nPBlue));
+					break;
+				case 6:
+					newPen = CreatePen(PS_DOT, nPenBorder, RGB(nPRed, nPGreen, nPBlue));
+					break;
+				case 7:
+					newPen = CreatePen(PS_SOLID, nPenBorder, RGB(nPRed, nPGreen, nPBlue));
+					break;
+				case 8:
+					newPen = CreatePen(PS_DASHDOT, nPenBorder, RGB(nPRed, nPGreen, nPBlue));
+					break;
+				case 9:
+					newPen = CreatePen(PS_DASHDOTDOT, nPenBorder, RGB(nPRed, nPGreen, nPBlue));
+					break;
+				case 17:
+					newPen = CreatePen(PS_DASH, nPenBorder, RGB(255, 255, 255));
+
+				}
+
+				oldPen = SelectObject(hdc, newPen);
+
+				MoveToEx(hdc, x1, y1, NULL);
+				x1 = (short)LOWORD(lParam);
+				y1 = ((short)HIWORD(lParam) < n_barSize) ? n_barSize : (short)HIWORD(lParam);
+				LineTo(hdc, x1, y1);
+
+				SelectObject(hdc, oldPen);
+				DeleteObject(newPen);
+
+				ReleaseDC(hWnd, hdc);
+			}
+			else {
+				SetCursor(LoadCursor(NULL, IDC_CROSS));
+				Draw(hWnd, N_TOOL, N_PEN, N_BRUSH, x1, y1, x2, y2, nPenBorder, RGB(nPRed, nPGreen, nPBlue), RGB(nBrRed, nBrGreen, nBrBlue), FALSE);
+				//// 이전에 그린 선을 지운다(반전색으로 그린다)
+				//   단, 최초에는 좌표가 동일하므로 그리지 않는다
+				x2 = (short)LOWORD(lParam);
+				y2 = ((short)HIWORD(lParam) < n_barSize) ? n_barSize : (short)HIWORD(lParam);
+				Draw(hWnd, N_TOOL, N_PEN, N_BRUSH, x1, y1, x2, y2, nPenBorder, RGB(nPRed, nPGreen, nPBlue), RGB(nBrRed, nBrGreen, nBrBlue), FALSE);
+			}
 		}
 
 		if (GetToolPos((short)LOWORD(lParam), (short)HIWORD(lParam)) > -1) {
@@ -208,12 +266,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
 	case WM_LBUTTONUP:
 		if (bDrawing)
 	    {
-		    //// 이전에 그린 선을 지운다
-            Draw(hWnd, N_TOOL, N_PEN, N_BRUSH, x1, y1, x2, y2, nPenBorder, RGB(nPRed, nPGreen, nPBlue), RGB(nBrRed, nBrGreen, nBrBlue), FALSE);
-		    bDrawing = FALSE;
-		    ReleaseCapture();
-		    //// 사각영역을 채운다
-            Draw(hWnd, N_TOOL, N_PEN, N_BRUSH, x1, y1, x2, y2, nPenBorder, RGB(nPRed, nPGreen, nPBlue), RGB(nBrRed, nBrGreen, nBrBlue), TRUE);
+			if (N_TOOL == 0) {
+				bDrawing = FALSE;
+				ReleaseCapture();
+			}
+			else {
+				//// 이전에 그린 선을 지운다
+				Draw(hWnd, N_TOOL, N_PEN, N_BRUSH, x1, y1, x2, y2, nPenBorder, RGB(nPRed, nPGreen, nPBlue), RGB(nBrRed, nBrGreen, nBrBlue), FALSE);
+				bDrawing = FALSE;
+				ReleaseCapture();
+				//// 사각영역을 채운다
+				Draw(hWnd, N_TOOL, N_PEN, N_BRUSH, x1, y1, x2, y2, nPenBorder, RGB(nPRed, nPGreen, nPBlue), RGB(nBrRed, nBrGreen, nBrBlue), TRUE);
+			}
+
+			UpdateWindow(hWnd);	
 	    }
 	break;
 

@@ -66,13 +66,6 @@ void Draw(HWND hWnd, int N_TOOL, int N_PEN, int N_BRUSH, int x1, int y1, int x2,
     oldBrush = (HBRUSH)SelectObject(hdc, newBrush);
 
     switch (N_TOOL) {
-    case 0:
-        //Ææ
-        MoveToEx(hdc, x2, y2, NULL);
-        LineTo(hdc, x2, y2);
-        //TRACE2("X: %d, Y:%d\n", x1, y1);
-        TRACE2("X: %d, Y:%d\n", x2, y2);
-        break;
     case 1:
         //Á÷¼±
         MoveToEx(hdc, x1, y1, NULL);
