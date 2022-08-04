@@ -1,5 +1,6 @@
 
 #include <windows.h>
+#include "InitMenu.h"
 #include "__debug.h"
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -33,7 +34,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	hWnd = CreateWindow(szAppName,
 		szAppName,
 		WS_OVERLAPPEDWINDOW,
-		100, 100, 250, 200,
+        100, 100, 1420, 1000,
 		NULL, NULL, hInstance, NULL);
 
 	if (!hWnd) return FALSE;
@@ -56,11 +57,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
 {
 	HDC			hdc;
 	PAINTSTRUCT ps;
+    InitMenu im;
 	static char string[256];
 	static int	nLen = 0;
 
 	switch (message)
 	{
+    case WM_MOUSEMOVE:
+        im.GetMouseToolFlag(lParam);
+        break;
+
+    case WM_LBUTTONDOWN:
+        im.GetMouseToolFlag(lParam);
+        //TRACE2("X: %d, Y: %d", (short)LOWORD(lParam), (short)HIWORD(lParam));
+        break;
+    case WM_LBUTTONUP:
+        im.GetMouseToolFlag(lParam);
+        break;
 	case WM_KEYDOWN:
 		//// ( winuser.h )
 		//// wParam : virtual-key code
@@ -75,9 +88,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
 		break;
 
 	case WM_PAINT:
-		hdc = BeginPaint(hWnd, &ps);
-		TextOut(hdc, 10, 10, string, nLen);
-		EndPaint(hWnd, &ps);
+        im.SetClientSize(hWnd);
+
+        im.DrawTool(hWnd);
+
+		//hdc = BeginPaint(hWnd, &ps);
+		//TextOut(hdc, 10, 10, string, nLen);
+		//EndPaint(hWnd, &ps);
 		break;
 
 	case WM_DESTROY:

@@ -21,9 +21,15 @@
     <ClCompile Include="__debug.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="InitMenu.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__debug.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="InitMenu.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
