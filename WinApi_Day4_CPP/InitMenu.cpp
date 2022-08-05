@@ -164,7 +164,6 @@ BOOL InitMenu::GetMouseToolFlag(LPARAM lParam) {
         GetPosFlag(nLineToolBoundaryList, ((sizeof(nLineToolBoundaryList)) / 4) / 4) ||
         GetPosFlag(nBrushToolBoundaryList, ((sizeof(nBrushToolBoundaryList)) / 4) / 4) ||
         GetPosFlag(nTextToolBtnPosList, ((sizeof(nTextToolBtnPosList)) / 4) / 4)) {
-        SetCursor(LoadCursor(NULL, IDC_HAND));
         retBool = TRUE;
     }
 

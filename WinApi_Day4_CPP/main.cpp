@@ -1,6 +1,7 @@
 
 #include <windows.h>
 #include "InitMenu.h"
+#include "Draw.h"
 #include "__debug.h"
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -57,22 +58,37 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
 {
 	HDC			hdc;
 	PAINTSTRUCT ps;
+
     InitMenu im;
+	Draw draw;
+
 	static char string[256];
 	static int	nLen = 0;
+	static BOOL bCursorFlag = false;
 
 	switch (message)
 	{
     case WM_MOUSEMOVE:
-        im.GetMouseToolFlag(lParam);
+		bCursorFlag = im.GetMouseToolFlag(lParam);
+		if (bCursorFlag) {
+			SetCursor(LoadCursor(NULL, IDC_HAND));
+		}
         break;
 
     case WM_LBUTTONDOWN:
+		if (bCursorFlag) {
+			//커서 모양 변경
+			SetCursor(LoadCursor(NULL, IDC_HAND));
+		}
         im.GetMouseToolFlag(lParam);
+
         //TRACE2("X: %d, Y: %d", (short)LOWORD(lParam), (short)HIWORD(lParam));
         break;
     case WM_LBUTTONUP:
-        im.GetMouseToolFlag(lParam);
+		if (bCursorFlag) {
+			//커서 모양 변경
+			SetCursor(LoadCursor(NULL, IDC_HAND));
+		}
         break;
 	case WM_KEYDOWN:
 		//// ( winuser.h )
