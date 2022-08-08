@@ -18,9 +18,15 @@
     <ClCompile Include="WinApi_Day5.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -30,7 +36,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\..\..\OneDrive\바탕 화면\cloud1_res.bmp">
+    <Image Include="sonic.bmp">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>
