@@ -52,11 +52,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
     {
     case WM_PAINT:
 		img = Image(hWnd, g_hInst);
+		//이미지 블렌드
 		//img.PutImageBlend(Alpha);
 		img.PutSprite(RGB(147, 187, 236));
-            //// 스프라이트
-
- //// 메모리DC에 대해 최초 비트맵 오브젝트로 선택
+        // 스프라이트
 		img.DeleteImage();
 
         
