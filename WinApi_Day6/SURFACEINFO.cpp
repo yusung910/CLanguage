@@ -32,11 +32,11 @@ void SURFACEINFO::LoadSurface(HDC dcScreen) {
     nHeight = bit.bmHeight;
 }
 //// 积己等 钎搁 秦力
-void SURFACEINFO::ReleaseSurface(SURFACEINFO* psInfo)
+void SURFACEINFO::ReleaseSurface()
 {
-	SelectObject(psInfo->dcSurface, psInfo->hOldBmp);
-	DeleteDC(psInfo->dcSurface);
-	DeleteObject(psInfo->hBmp);
+	SelectObject(dcSurface, hOldBmp);
+	DeleteDC(dcSurface);
+	DeleteObject(hBmp);
 }
 
 int SURFACEINFO::GetWidth() {
@@ -49,6 +49,19 @@ int SURFACEINFO::GetHeight() {
 HDC SURFACEINFO::GetDcSurface(){
 	return dcSurface;
 }
+
 COLORREF SURFACEINFO::GetCrColorKey() {
 	return crColorKey;
+};
+
+void SURFACEINFO::SetCrColorKey(COLORREF color) {
+    crColorKey = color;
+};
+
+HBITMAP SURFACEINFO::GetOldBmpH() {
+    return hOldBmp;
+}
+
+HBITMAP SURFACEINFO::GetBmpH() {
+    return hBmp;
 };

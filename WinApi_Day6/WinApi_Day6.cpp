@@ -9,13 +9,8 @@ HINSTANCE g_hInst;
 HWND hWndMain;
 
 Init init;
-SURFACEINFO g_sfBack = init.GetSfBack();
-SURFACEINFO g_sfBG = init.GetSfBg();
-Monster g_objCar[2];
 
-POINTS g_ptMouse;				// 마우스 좌표 
 
-int g_nFrame = 0;					// 화면 갱신 카운트
 int g_nMonIdx = 0;				// 
 
 LPSTR lpszClass = "[ MemoryDC Buffering (Double Buffering) ]";
@@ -46,7 +41,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
     RegisterClass(&WndClass);
 
     hWnd = CreateWindow(lpszClass, lpszClass, WS_SYSMENU | WS_CAPTION, //WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, CW_USEDEFAULT, 640, 480,
+        CW_USEDEFAULT, CW_USEDEFAULT, 1360, 862,
         NULL, (HMENU)NULL, hInstance, NULL);
     ShowWindow(hWnd, nCmdShow);
     hWndMain = hWnd;
@@ -71,10 +66,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         ReleaseDC(hWnd, dcScreen);
 
         ////
-		g_objCar[0].nAni = 0;
-		g_objCar[1].nAni = 1;
-
-        ////
         ::Sleep(100);
 
         //// 타이머 생성		
@@ -90,25 +81,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         ::OutputDebugString("WM_SETFOCUS");
         return 0;
 
-    case WM_MOUSEMOVE: g_ptMouse = MAKEPOINTS(lParam);
+    case WM_MOUSEMOVE:
         return 0;
 
 
     case WM_TIMER:
         if (wParam == ID_TM_ANIMATION)
         {
-            //// 애니메이션 인덱스
-            g_objCar[0].nAni++;
-            g_objCar[1].nAni++;
-            if (g_objCar[0].nAni >= 7) g_objCar[0].nAni = 0;
-            if (g_objCar[1].nAni >= 7) g_objCar[1].nAni = 0;
+            init.SetAniInt();
         }
         return 0;
 
     case WM_DESTROY:
         KillTimer(hWnd, ID_TM_MAINLOOP);
         KillTimer(hWnd, ID_TM_ANIMATION);
-        __DestroyAll();
+        init.DestroyAll();
         PostQuitMessage(0);
         return 0;
     }
@@ -116,41 +103,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
     return(DefWindowProc(hWnd, iMessage, wParam, lParam));
 }
 
-static int nBgY = 1;
+static int nBgX = 1;
 void CALLBACK MainLoopProc(HWND hWnd, UINT message, UINT iTimerID, DWORD dwTime)
 {
-	char  strBuff[24];
-	HDC   dcScreen;
-	BOOL  bRval;
-	Image img;
-
-
 	//// 연산부
-	nBgY -= 2;
-	if (nBgY < -480) nBgY = 0;
+	nBgX -= 2;
+	if (nBgX < -1380) nBgX = 0;
+    init.SetBackground(hWnd, nBgX);
 
-	//// 출력부
-	dcScreen = GetDC(hWnd);
-	{
-		//// 배경
-		img.PutImage(g_sfBack.GetDcSurface(), 0, nBgY, &g_sfBG);
-		img.PutImage(g_sfBack.GetDcSurface(), 0, nBgY + 480, &g_sfBG);
-
-		//__PutImageBlend(g_sfBack.dcSurface, 0, 0, &g_sfBG, 128);
-
-		//// 오브젝트 및 기타 인터페이스창
-		bRval = img.PutSprite(g_sfBack.GetDcSurface(), 100, 100, &(g_objCar[0].g_sfCar[g_objCar[0].nAni]));
-		if (!bRval)	::OutputDebugString("__PutSprite - fail");
-
-		bRval = img.PutSprite(g_sfBack.GetDcSurface(), g_ptMouse.x, g_ptMouse.y, &(g_objCar[1].g_sfCar[g_objCar[1].nAni]));
-		if (!bRval) ::OutputDebugString("__PutSprite - fail");
-
-		////				
-		::wsprintf(strBuff, "Frame %d", ++g_nFrame);
-		::TextOut(g_sfBack.GetDcSurface(), 10, 10, strBuff, strlen(strBuff));
-
-		//// 출력 완료
-		img.CompleteBlt(dcScreen, g_sfBack, &g_sfBack);
-	}
-	ReleaseDC(hWnd, dcScreen);
 }

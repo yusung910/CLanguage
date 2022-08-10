@@ -8,11 +8,15 @@ public:
     void CreateBackBuffer(HDC dcScreen, int nW, int nH, int nBPP);
     void LoadSurface(HDC dcScreen);
     void SetHBmp(HBITMAP bmp);
-	void ReleaseSurface(SURFACEINFO* psInfo);
+	void ReleaseSurface();
 	int GetWidth();
 	int GetHeight();
 	HDC GetDcSurface();
 	COLORREF GetCrColorKey();
+    void SetCrColorKey(COLORREF color);
+
+    HBITMAP GetOldBmpH();
+    HBITMAP GetBmpH();
 protected:
     HDC			dcSurface;		// 비트맵이 적재되있는 표면 DC
     HBITMAP		hBmp;			// 비트맵 핸들

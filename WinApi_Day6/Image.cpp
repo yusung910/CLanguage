@@ -49,3 +49,10 @@ BOOL Image::CompleteBlt(HDC dcScreen, SURFACEINFO g_sfBack, SURFACEINFO* psInfo)
 	BitBlt(dcScreen, 0, 0, g_sfBack.GetWidth(), g_sfBack.GetHeight(), psInfo->GetDcSurface(), 0, 0, SRCCOPY);
 	return TRUE;
 }
+
+
+void Image::ReleaseSurface(SURFACEINFO* psInfo){
+    SelectObject(psInfo->GetDcSurface(), psInfo->GetOldBmpH());
+    DeleteDC(psInfo->GetDcSurface());
+    DeleteObject(psInfo->GetBmpH());
+}
