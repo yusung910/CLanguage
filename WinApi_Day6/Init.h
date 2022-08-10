@@ -6,9 +6,10 @@
 class Init : public ConvertBitMap {
 public:
     Init();
-    Init(HDC dcScreen);
-
     ~Init();
+	void Begin(HDC dcScreen);
+	SURFACEINFO GetSfBack();
+	SURFACEINFO GetSfBg();
 private:
     char strName[24];
     SURFACEINFO g_sfBack;			// 버퍼 표면

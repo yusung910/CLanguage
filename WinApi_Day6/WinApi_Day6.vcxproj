@@ -43,7 +43,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -105,10 +105,10 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
+      <ConformanceMode>false</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -153,13 +153,17 @@
   <ItemGroup>
     <ClCompile Include="ConvertBitMap.cpp" />
     <ClCompile Include="Init.cpp" />
+    <ClCompile Include="Monster.cpp" />
     <ClCompile Include="SURFACEINFO.cpp" />
+    <ClCompile Include="Image.cpp" />
     <ClCompile Include="WinApi_Day6.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConvertBitMap.h" />
     <ClInclude Include="Init.h" />
+    <ClInclude Include="Monster.h" />
     <ClInclude Include="SURFACEINFO.h" />
+    <ClInclude Include="Image.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

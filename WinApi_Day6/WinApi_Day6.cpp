@@ -1,12 +1,28 @@
-﻿// WinApi_Day6.cpp : 이 파일에는 'main' 함수가 포함됩니다. 거기서 프로그램 실행이 시작되고 종료됩니다.
-//
-#include <windows.h>
+﻿#include <windows.h>
+#include "Monster.h"
+#include "Image.h"
+#include "Init.h"
+LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
+VOID CALLBACK MainLoopProc(HWND, UINT, UINT, DWORD);
 
 HINSTANCE g_hInst;
 HWND hWndMain;
+
+Init init;
+SURFACEINFO g_sfBack = init.GetSfBack();
+SURFACEINFO g_sfBG = init.GetSfBg();
+Monster g_objCar[2];
+
+POINTS g_ptMouse;				// 마우스 좌표 
+
+int g_nFrame = 0;					// 화면 갱신 카운트
+int g_nMonIdx = 0;				// 
+
 LPSTR lpszClass = "[ MemoryDC Buffering (Double Buffering) ]";
 
-LRESULT CALLBACK WndProc(HWND,UINT,WPARAM,LPARAM);
+#define ID_TM_MAINLOOP	1
+#define ID_TM_ANIMATION 2
+
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
     , LPSTR lpszCmdParam, int nCmdShow)
@@ -45,18 +61,18 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
     HDC dcScreen;
-
+	
     switch (iMessage)
     {
     case WM_CREATE:
         //// 표면 생성 및 기타
         dcScreen = GetDC(hWnd);
-        __Init(dcScreen);
+		init.Begin(dcScreen);
         ReleaseDC(hWnd, dcScreen);
 
         ////
-        g_objCar[0].nAni = 0;
-        g_objCar[1].nAni = 1;
+		g_objCar[0].nAni = 0;
+		g_objCar[1].nAni = 1;
 
         ////
         ::Sleep(100);
@@ -98,4 +114,43 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
     }
 
     return(DefWindowProc(hWnd, iMessage, wParam, lParam));
+}
+
+static int nBgY = 1;
+void CALLBACK MainLoopProc(HWND hWnd, UINT message, UINT iTimerID, DWORD dwTime)
+{
+	char  strBuff[24];
+	HDC   dcScreen;
+	BOOL  bRval;
+	Image img;
+
+
+	//// 연산부
+	nBgY -= 2;
+	if (nBgY < -480) nBgY = 0;
+
+	//// 출력부
+	dcScreen = GetDC(hWnd);
+	{
+		//// 배경
+		img.PutImage(g_sfBack.GetDcSurface(), 0, nBgY, &g_sfBG);
+		img.PutImage(g_sfBack.GetDcSurface(), 0, nBgY + 480, &g_sfBG);
+
+		//__PutImageBlend(g_sfBack.dcSurface, 0, 0, &g_sfBG, 128);
+
+		//// 오브젝트 및 기타 인터페이스창
+		bRval = img.PutSprite(g_sfBack.GetDcSurface(), 100, 100, &(g_objCar[0].g_sfCar[g_objCar[0].nAni]));
+		if (!bRval)	::OutputDebugString("__PutSprite - fail");
+
+		bRval = img.PutSprite(g_sfBack.GetDcSurface(), g_ptMouse.x, g_ptMouse.y, &(g_objCar[1].g_sfCar[g_objCar[1].nAni]));
+		if (!bRval) ::OutputDebugString("__PutSprite - fail");
+
+		////				
+		::wsprintf(strBuff, "Frame %d", ++g_nFrame);
+		::TextOut(g_sfBack.GetDcSurface(), 10, 10, strBuff, strlen(strBuff));
+
+		//// 출력 완료
+		img.CompleteBlt(dcScreen, g_sfBack, &g_sfBack);
+	}
+	ReleaseDC(hWnd, dcScreen);
 }
