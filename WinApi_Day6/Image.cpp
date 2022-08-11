@@ -43,18 +43,6 @@ BOOL Image::PutSprite(HDC dcDst, int x, int y, SURFACEINFO* psInfo)
 		psInfo->GetCrColorKey());
 }
 
-BOOL Image::PutMirror(HDC dcDst, int x, int y, SURFACEINFO* psInfo) {
-	TransparentBlt(dcDst,
-		x, y, psInfo->GetWidth(), psInfo->GetHeight(),
-		psInfo->GetDcSurface(),
-		0, 0, psInfo->GetWidth(), psInfo->GetHeight(),
-		psInfo->GetCrColorKey());
-
-	return 	StretchBlt(dcDst,
-		x, y, -(psInfo->GetWidth()), psInfo->GetHeight(),
-		psInfo->GetDcSurface(), 0, 0, psInfo->GetWidth(), psInfo->GetHeight(), SRCCOPY);
-}
-
 //// dcScreen에 표면을 복사 ( 후면표면 -> 화면DC )
 BOOL Image::CompleteBlt(HDC dcScreen, SURFACEINFO g_sfBack, SURFACEINFO* psInfo)
 {

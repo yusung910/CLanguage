@@ -4,27 +4,36 @@
 #include "Init.h"
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 VOID CALLBACK MainLoopProc(HWND, UINT, UINT, DWORD);
-
+VOID CALLBACK CharRunAni(HWND, UINT, UINT, DWORD);
+VOID CALLBACK CharJumpAni(HWND, UINT, UINT, DWORD);
+void CharAniProc(HWND);
 HINSTANCE g_hInst;
 HWND hWndMain;
 
 Init init;
+
 BOOL bChrMirror = FALSE;
+BOOL bCharAni = FALSE;
+BOOL bJumpAni = FALSE;
 
 int g_nMonIdx = 0;				// 
 int x = 10;
 int y = 600;
+int n_mapFloor = 600;
+int n_maxJump = n_mapFloor - 100;
+
 LPSTR lpszClass = "[ MemoryDC Buffering (Double Buffering) ]";
 
 #define ID_TM_MAINLOOP	1
 #define ID_TM_ANIMATION 2
+#define ID_TM_JUMP_ANIMATION 3
 
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
     , LPSTR lpszCmdParam, int nCmdShow)
 {
     HWND hWnd;
-    MSG Message;
+    MSG msg;
     WNDCLASS WndClass;
     g_hInst = hInstance;
 
@@ -46,18 +55,25 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance
         NULL, (HMENU)NULL, hInstance, NULL);
     ShowWindow(hWnd, nCmdShow);
     hWndMain = hWnd;
-
-    while (GetMessage(&Message, 0, 0, 0)) {
-        TranslateMessage(&Message);
-        DispatchMessage(&Message);
+    while (TRUE) {
+        if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+        {
+            if (msg.message == WM_QUIT) break;
+            DispatchMessage(&msg);
+        }
+        else
+        {
+            Sleep(10);
+            CharAniProc(hWnd);
+        }
     }
-    return Message.wParam;
+    return msg.wParam;
 }
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
     HDC dcScreen;
-	
+    
     switch (iMessage)
     {
     case WM_CREATE:
@@ -74,27 +90,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         // 정밀도 NT : 10ms ( 100 fps )
         //        98 : 55ms (  18 fps )
         SetTimer(hWnd, ID_TM_MAINLOOP, 16, MainLoopProc);
-        SetTimer(hWnd, ID_TM_ANIMATION, 160, NULL);
-
+        SetTimer(hWnd, ID_TM_ANIMATION, 100, CharRunAni);
+        SetTimer(hWnd, ID_TM_JUMP_ANIMATION, 10, CharJumpAni);
+        
         return 0;
-
-	case WM_KEYDOWN:
-		switch (wParam)
-		{
-		case VK_LEFT:
-		case VK_NUMPAD4:
-			bChrMirror = TRUE;
-			x -= 2;
-			init.SetAniInt();
-			break;
-		case VK_RIGHT:
-		case VK_NUMPAD6:
-			bChrMirror = FALSE;
-			x += 2;
-			init.SetAniInt();
-			break;
-		}
-		
     case WM_SETFOCUS:
         ::OutputDebugString("WM_SETFOCUS");
         return 0;
@@ -103,16 +102,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         return 0;
 
 
-    case WM_TIMER:
-        if (wParam == ID_TM_ANIMATION)
-        {
-            //init.SetAniInt();
-        }
-        return 0;
-
     case WM_DESTROY:
         KillTimer(hWnd, ID_TM_MAINLOOP);
         KillTimer(hWnd, ID_TM_ANIMATION);
+        KillTimer(hWnd, ID_TM_JUMP_ANIMATION);
         init.DestroyAll();
         PostQuitMessage(0);
         return 0;
@@ -136,4 +129,54 @@ void CALLBACK MainLoopProc(HWND hWnd, UINT message, UINT iTimerID, DWORD dwTime)
 	init.MoveChar(dcScreen, x, y, bChrMirror);
 
 	init.ImgOutComplete(hWnd, dcScreen);
+}
+
+void CALLBACK CharRunAni(HWND hWnd, UINT message, UINT iTimerID, DWORD dwTime) {
+    if (bCharAni) {
+        init.SetAniInt();
+    }
+    else {
+        init.SetAniInt(0);
+    }
+}
+
+int n_flag = -1;
+void CALLBACK CharJumpAni(HWND hWnd, UINT message, UINT iTimerID, DWORD dwTime) {
+    // n_mapFloor: 600
+    // n_maxJump : 550
+    if(bJumpAni){
+        y = (n_flag * 10) + y;
+        if (y == n_maxJump) {
+            n_flag = 1;
+        }
+
+        if (y == n_mapFloor) {
+            n_flag = -1;
+        }
+    }
+    else {
+        y = n_mapFloor;
+        n_flag = -1;
+    }
+    
+}
+
+void CharAniProc(HWND hWnd) {
+
+    bCharAni = FALSE;
+    bJumpAni = FALSE;
+    if (GetKeyState(VK_LEFT) & 0x80)
+    {
+        bCharAni = TRUE;
+        x -= 2;
+    }
+    if (GetKeyState(VK_RIGHT) & 0x80) {
+        bCharAni = TRUE;
+        x += 2;
+    }
+    if (GetKeyState(VK_SPACE) & 0x80) {
+        bJumpAni = TRUE;
+    }
+        
+    
 }

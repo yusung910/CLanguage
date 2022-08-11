@@ -13,6 +13,7 @@ public:
 	SURFACEINFO GetSfBg();
 
     void SetAniInt();
+    void SetAniInt(int n);
     void SetBackground(HDC dcScreen, int nBgX, int nChrX, int nChrY);
 	void MoveChar(HDC dcScreen, int nChrX, int nChrY, BOOL bMirror);
 	void ImgOutComplete(HWND hWnd, HDC dcScreen);

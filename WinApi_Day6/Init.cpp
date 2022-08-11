@@ -54,7 +54,10 @@ void Init::SetAniInt() {
     if (g_objCar[0].nAni >= 5) g_objCar[0].nAni = 1;
     if (g_objCar[1].nAni >= 5) g_objCar[1].nAni = 1;
 };
-
+void Init::SetAniInt(int n) {
+    g_objCar[0].nAni = n;
+    g_objCar[1].nAni = n;
+}
 void Init::SetBackground(HDC dcScreen, int nBgX, int nChrX, int nChrY) {
     char  strBuff[24];
 
@@ -70,17 +73,11 @@ void Init::SetBackground(HDC dcScreen, int nBgX, int nChrX, int nChrY) {
 
 void Init::MoveChar(HDC dcScreen, int nChrX, int nChrY, BOOL bMirror) {
 	//// 오브젝트 및 기타 인터페이스창
-	if (bMirror) {
-		bRval = img.PutMirror(g_sfBack.GetDcSurface(), nChrX, nChrY, &(g_objCar[0].g_sfCar[g_objCar[0].nAni]));
-	}
-	else {
-		bRval = img.PutSprite(g_sfBack.GetDcSurface(), nChrX, nChrY, &(g_objCar[0].g_sfCar[g_objCar[0].nAni]));
-	}
-	
+	bRval = img.PutSprite(g_sfBack.GetDcSurface(), nChrX, nChrY, &(g_objCar[0].g_sfCar[g_objCar[0].nAni]));
 	if (!bRval)	::OutputDebugString("__PutSprite - fail");
-
-
 }
+
+
 
 void Init::ImgOutComplete(HWND hWnd, HDC dcScreen) {
 	//// 출력 완료
