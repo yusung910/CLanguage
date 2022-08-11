@@ -13,8 +13,11 @@ public:
 	SURFACEINFO GetSfBg();
 
     void SetAniInt();
-    void SetBackground(HWND hWnd, int nBgX);
+    void SetBackground(HDC dcScreen, int nBgX, int nChrX, int nChrY);
+	void MoveChar(HDC dcScreen, int nChrX, int nChrY, BOOL bMirror);
+	void ImgOutComplete(HWND hWnd, HDC dcScreen);
     void DestroyAll();
+
 
 private:
     char strName[24];

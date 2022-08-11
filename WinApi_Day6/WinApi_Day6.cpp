@@ -9,10 +9,11 @@ HINSTANCE g_hInst;
 HWND hWndMain;
 
 Init init;
-
+BOOL bChrMirror = FALSE;
 
 int g_nMonIdx = 0;				// 
-
+int x = 10;
+int y = 600;
 LPSTR lpszClass = "[ MemoryDC Buffering (Double Buffering) ]";
 
 #define ID_TM_MAINLOOP	1
@@ -77,6 +78,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 
         return 0;
 
+	case WM_KEYDOWN:
+		switch (wParam)
+		{
+		case VK_LEFT:
+		case VK_NUMPAD4:
+			bChrMirror = TRUE;
+			x -= 2;
+			init.SetAniInt();
+			break;
+		case VK_RIGHT:
+		case VK_NUMPAD6:
+			bChrMirror = FALSE;
+			x += 2;
+			init.SetAniInt();
+			break;
+		}
+		
     case WM_SETFOCUS:
         ::OutputDebugString("WM_SETFOCUS");
         return 0;
@@ -88,7 +106,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
     case WM_TIMER:
         if (wParam == ID_TM_ANIMATION)
         {
-            init.SetAniInt();
+            //init.SetAniInt();
         }
         return 0;
 
@@ -106,9 +124,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 static int nBgX = 1;
 void CALLBACK MainLoopProc(HWND hWnd, UINT message, UINT iTimerID, DWORD dwTime)
 {
+	HDC dcScreen;
+	//// 출력부
+	dcScreen = GetDC(hWnd);
+
 	//// 연산부
 	nBgX -= 2;
 	if (nBgX < -1380) nBgX = 0;
-    init.SetBackground(hWnd, nBgX);
 
+	init.SetBackground(dcScreen, nBgX, x, y);
+	init.MoveChar(dcScreen, x, y, bChrMirror);
+
+	init.ImgOutComplete(hWnd, dcScreen);
 }

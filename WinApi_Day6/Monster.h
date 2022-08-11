@@ -4,7 +4,7 @@
 
 class Monster{
 public:
-	SURFACEINFO	g_sfCar[8];
+	SURFACEINFO	g_sfCar[6];
 	int	nAni;
 	int	nLife;
 	int	nStepX;
