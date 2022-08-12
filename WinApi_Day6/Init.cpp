@@ -1,5 +1,4 @@
 #include "Init.h"
-
 Init::Init() {
     //생성자
 };
@@ -58,17 +57,33 @@ void Init::SetAniInt(int n) {
     g_objCar[0].nAni = n;
     g_objCar[1].nAni = n;
 }
-void Init::SetBackground(HDC dcScreen, int nBgX, int nChrX, int nChrY) {
-    char  strBuff[24];
+void Init::SetCharPos(int nX, int nY) {
+	x = x + nX;
+	y = y + nY;
+}
+void Init::MoveBg(HWND hWnd, int nLeftFlag) {
+	HDC dcScreen;
+	char strBuff[24];
+	
+	//// 출력부
+	dcScreen = GetDC(hWnd);
 
-    //// 배경
-    img.PutImage(g_sfBack.GetDcSurface(), nBgX, 0, &g_sfBG);
-    img.PutImage(g_sfBack.GetDcSurface(), nBgX + 1380, 0, &g_sfBG);
+	//// 연산부
+	int n_bgX = (1380 / 2) - x;
+	//if (abs(n_bgX) == (1380 / 2) || abs(n_bgX) == 0) x = (1380 / 2) - x;
+	//// 배경
+	//-1380 , 0, 1380
+	img.PutImage(g_sfBack.GetDcSurface(), n_bgX, 0, &g_sfBG);
+	//img.PutImage(g_sfBack.GetDcSurface(), n_bgX + 1380, 0, &g_sfBG);
 
-    //__PutImageBlend(g_sfBack.dcSurface, 0, 0, &g_sfBG, 128);
-    ////				
-    ::wsprintf(strBuff, "Frame %d", ++g_nFrame);
-    ::TextOut(g_sfBack.GetDcSurface(), 10, 10, strBuff, strlen(strBuff));
+	//__PutImageBlend(g_sfBack.dcSurface, 0, 0, &g_sfBG, 128);
+	////				
+	::wsprintf(strBuff, "Frame %d", ++g_nFrame);
+	::TextOut(g_sfBack.GetDcSurface(), 10, 10, strBuff, strlen(strBuff));
+
+	MoveChar(dcScreen, (1380 / 2), y, bChrMirror);
+
+	ImgOutComplete(hWnd, dcScreen);
 }
 
 void Init::MoveChar(HDC dcScreen, int nChrX, int nChrY, BOOL bMirror) {
