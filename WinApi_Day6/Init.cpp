@@ -21,6 +21,8 @@ void Init::Begin(HDC dcScreen) {
 	g_sfBG.SetHBmp(MakeDDBFromDIB(dcScreen, "m1.bmp"));
 	g_sfBG.LoadSurface(dcScreen);
 
+    nCharX = g_sfBG.GetWidth() / 2;
+    nCharY = 600;
 	//
 	for (i = 0; i < 6; i++)
 	{
@@ -57,31 +59,43 @@ void Init::SetAniInt(int n) {
     g_objCar[0].nAni = n;
     g_objCar[1].nAni = n;
 }
-void Init::SetCharPos(int nX, int nY) {
-	x = x + nX;
-	y = y + nY;
+void Init::SetBgPos(int nX, int nY) {
+	nBgX = nBgX + nX;
+	nBgY = nBgY + nY;
 }
-void Init::MoveBg(HWND hWnd, int nLeftFlag) {
+void Init::MoveBg(HWND hWnd) {
 	HDC dcScreen;
+    SURFACEINFO* gSfBg = &g_sfBG;
 	char strBuff[24];
-	
+    int nBgWidth = gSfBg->GetWidth();
 	//// 출력부
 	dcScreen = GetDC(hWnd);
 
+    int nNextBgX = nBgX + nBgWidth;
+
+    if (nNextBgX < 0) nBgX = 0;
+
+    if (nBgX > 0) nNextBgX = nBgX - nBgWidth;
+
+    if (nBgX == nBgWidth) nBgX = 0;
+
+
+
+    TRACE2("nNextBgX : %d, nBgX : %d\n", nNextBgX, nBgX);
 	//// 연산부
-	int n_bgX = (1380 / 2) - x;
 	//if (abs(n_bgX) == (1380 / 2) || abs(n_bgX) == 0) x = (1380 / 2) - x;
 	//// 배경
 	//-1380 , 0, 1380
-	img.PutImage(g_sfBack.GetDcSurface(), n_bgX, 0, &g_sfBG);
-	//img.PutImage(g_sfBack.GetDcSurface(), n_bgX + 1380, 0, &g_sfBG);
+	img.PutImage(g_sfBack.GetDcSurface(), nBgX, nBgY, gSfBg);
+    
+	img.PutImage(g_sfBack.GetDcSurface(), nNextBgX, 0, &g_sfBG);
 
 	//__PutImageBlend(g_sfBack.dcSurface, 0, 0, &g_sfBG, 128);
 	////				
 	::wsprintf(strBuff, "Frame %d", ++g_nFrame);
 	::TextOut(g_sfBack.GetDcSurface(), 10, 10, strBuff, strlen(strBuff));
 
-	MoveChar(dcScreen, (1380 / 2), y, bChrMirror);
+	MoveChar(dcScreen, nCharX, nCharY, bChrMirror);
 
 	ImgOutComplete(hWnd, dcScreen);
 }
@@ -109,3 +123,9 @@ SURFACEINFO Init::GetSfBg() {
 	return g_sfBG;
 };
 
+void Init::SetCharPosY(int n) {
+    nCharY = n;
+};
+int Init::GetCharPosY() {
+    return nCharY;
+};

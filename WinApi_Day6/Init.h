@@ -4,6 +4,8 @@
 #include "ConvertBitMap.h"
 #include "Monster.h"
 #include "Image.h"
+#include "__debug.h"
+
 class Init : public ConvertBitMap {
 public:
     Init();
@@ -14,11 +16,13 @@ public:
 
     void SetAniInt();
     void SetAniInt(int n);
-	void MoveBg(HWND hWnd, int nLeftFlag);
+	void MoveBg(HWND hWnd);
 	void MoveChar(HDC dcScreen, int nChrX, int nChrY, BOOL bMirror);
 	void ImgOutComplete(HWND hWnd, HDC dcScreen);
     void DestroyAll();
-	void SetCharPos(int nX, int nY);
+	void SetBgPos(int nX, int nY);
+    void SetCharPosY(int n);
+    int GetCharPosY();
 
 private:
     char strName[24];
@@ -30,8 +34,11 @@ private:
 	BOOL bChrMirror = FALSE;
     int g_nFrame = 0;					// 화면 갱신 카운트
 
-	int x = 1380 / 2;
-	int y = 600;
+	int nBgX = 0;
+	int nBgY = 0;
+
+    int nCharX = 0;
+    int nCharY = 0;
 protected:
 
 };

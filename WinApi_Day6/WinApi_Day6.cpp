@@ -4,6 +4,7 @@
 #include "Init.h"
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 VOID CALLBACK CharRunAni(HWND, UINT, UINT, DWORD);
+VOID CALLBACK CharJumpAni(HWND, UINT, UINT, DWORD);
 void CharAniProc(HWND);
 HINSTANCE g_hInst;
 HWND hWndMain;
@@ -87,7 +88,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
         // 정밀도 NT : 10ms ( 100 fps )
         //        98 : 55ms (  18 fps )
         SetTimer(hWnd, ID_TM_ANIMATION, 100, CharRunAni);
-        
+        SetTimer(hWnd, ID_TM_JUMP_ANIMATION, 10, CharJumpAni);
+        //
         return 0;
     case WM_SETFOCUS:
         ::OutputDebugString("WM_SETFOCUS");
@@ -118,26 +120,29 @@ void CALLBACK CharRunAni(HWND hWnd, UINT message, UINT iTimerID, DWORD dwTime) {
 }
 
 int n_flag = -1;
+int nCharY = 0;
 void CALLBACK CharJumpAni(HWND hWnd, UINT message, UINT iTimerID, DWORD dwTime) {
     // n_mapFloor: 600
     // n_maxJump : 550
-    //if(bJumpAni){
-    //    y = (n_flag * 10) + y;
-    //    if (y == n_maxJump) {
-    //        n_flag = 1;
-    //    }
+    nCharY = init.GetCharPosY();
+    if(bJumpAni){
+        nCharY = (n_flag * 10) + nCharY;
+        if (nCharY == n_maxJump) {
+            n_flag = 1;
+        }
 
-    //    if (y == n_mapFloor) {
-    //        n_flag = -1;
-    //    }
-    //}
-    //else {
-    //    y = (y < n_mapFloor) ? y + 10 : y ;
-    //    n_flag = -1;
-    //}
+        if (nCharY == n_mapFloor) {
+            n_flag = -1;
+        }
+    }
+    else {
+        nCharY = (nCharY < n_mapFloor) ? nCharY + 10 : nCharY;
+        n_flag = -1;
+    }
+
+    init.SetCharPosY(nCharY);
     
 }
-int nLeftFlag = 1;
 void CharAniProc(HWND hWnd) {
 	
     bCharAni = FALSE;
@@ -146,17 +151,15 @@ void CharAniProc(HWND hWnd) {
     {
         bCharAni = TRUE;
 		
-		init.SetCharPos(-5, 0);
-		nLeftFlag = -1;
+		init.SetBgPos(5, 0);
     }
     if (GetKeyState(VK_RIGHT) & 0x80) {
         bCharAni = TRUE;
-		init.SetCharPos(5, 0);
-		nLeftFlag = 1;
+		init.SetBgPos(-5, 0);
     }
     if (GetKeyState(VK_SPACE) & 0x80) {
         bJumpAni = TRUE;
     }
 
-	init.MoveBg(hWnd, nLeftFlag);
+	init.MoveBg(hWnd);
 }
