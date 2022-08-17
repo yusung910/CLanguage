@@ -1,4 +1,5 @@
 ﻿#include <d3d9.h>
+#include <d3dx9.h>
 
 /*------------------------------------------------------------------------------
  * 전역변수
@@ -6,13 +7,19 @@
  */
 LPDIRECT3D9             g_pD3D = NULL;
 LPDIRECT3DDEVICE9       g_pd3dDevice = NULL;
+LPDIRECT3DVERTEXBUFFER9 g_pVB = NULL;
+struct CUSTOMVERTEX
+{
+	FLOAT x, y, z;
+};
 
 /*------------------------------------------------------------------------------
  * Direct3D 초기화 : 자세히 살펴봐야 할 가장 중요한 함수.
  *------------------------------------------------------------------------------
  */
-HRESULT InitD3D(HWND hWnd)
+HRESULT InitVB(HWND hWnd)
 {
+
 	// 디바이스를 생성하기위한 D3D객체 생성
 	if (NULL == (g_pD3D = Direct3DCreate9(D3D_SDK_VERSION)))
 		return E_FAIL;
@@ -36,6 +43,35 @@ HRESULT InitD3D(HWND hWnd)
 	{
 		return E_FAIL;
 	}
+	//VERTEX BUFFER 생성
+	g_pd3dDevice->CreateVertexBuffer(
+		6 * 12,
+		0,
+		D3DFVF_XYZ,
+		D3DPOOL_DEFAULT,
+		&g_pVB,
+		NULL);
+
+	CUSTOMVERTEX vertices[] =
+	{
+		  { -0.4f, 0.8f, 0.0f },
+		  { 0.0f, -0.8f, 0.0f },
+		  { -0.8f, -0.8f, 0.0f },
+		  { 0.4f, 0.8f, 0.2f },
+		  { 0.8f, -0.8f, 0.2f },
+		  { 0.0f,-0.8f, 0.2f },
+	};
+
+	
+	VOID* pVertices;
+	//생성된 VERTEX BUFFER를 LOCK()하여 내용을 넣는다.
+	g_pVB->Lock(0, sizeof(vertices), (void**)&pVertices, 0);
+	//BUFFER(pVertices)에 값들을 저장한다.
+	memcpy(pVertices, vertices, sizeof(vertices));
+
+	//메모리 잠금 해제
+	g_pVB->Unlock();
+
 	// 디바이스 상태정보를 처리할경우 여기에서 한다.
 	return S_OK;
 }
@@ -68,12 +104,22 @@ VOID Render()
 	if (NULL == g_pd3dDevice)
 		return;
 
-	g_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 255), 1.0f, 0);
+	g_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
 
 	if (SUCCEEDED(g_pd3dDevice->BeginScene()))
 	{
 		// 실제 렌더링 명령들이 나열될 곳
 		// TODO :     
+		D3DXMATRIX tempTM;
+		D3DXMatrixIdentity(&tempTM);
+		g_pd3dDevice->SetTransform(D3DTS_WORLD, &tempTM);
+		g_pd3dDevice->SetTransform(D3DTS_VIEW, &tempTM);
+		g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &tempTM);
+
+		g_pd3dDevice->SetStreamSource(0, g_pVB, 0, 12);
+		g_pd3dDevice->SetFVF(D3DFVF_XYZ);
+		g_pd3dDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 4);
+
 
 		g_pd3dDevice->EndScene();
 	}
@@ -116,11 +162,11 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 					  "D3D Day2", NULL };
 	RegisterClassEx(&wc);
 	// 윈도우 생성
-	HWND hWnd = CreateWindow("D3D Tutorial", "D3D Tutorial 01: CreateDevice",
+	HWND hWnd = CreateWindow("D3D Day2", "D3D Day2: CreateDevice",
 		WS_OVERLAPPEDWINDOW, 100, 100, 300, 300,
 		GetDesktopWindow(), NULL, wc.hInstance, NULL);
 	// Direct3D 초기화
-	if (SUCCEEDED(InitD3D(hWnd)))
+	if (SUCCEEDED(InitVB(hWnd)))
 	{
 		// 윈도우 출력
 		ShowWindow(hWnd, SW_SHOWDEFAULT);
