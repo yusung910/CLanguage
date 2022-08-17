@@ -60,8 +60,8 @@ HRESULT InitVB() {
     CUSTOMVERTEX vertices[] =
     {
         {-0.5f, 0.0f, 0.5f, 0xffff0000, }, // x, y, z, color
-        {0.0f, 0.5f, 0.5f, 0xff00ff00, },
-        {0.5f, 0.0f, 0.5f, 0xff00ffff, },
+        {-0.4f, 0.3f, 0.5f, 0xff00ff00, },
+        {0.0f, 0.0f, 0.5f, 0xff00ffff, },
         //{ 0.4f, 0.0f, 0.2f },
         //{ 0.8f, 0.0f, 0.2f },
         //{ 0.0f, 0.0f, 0.2f },
