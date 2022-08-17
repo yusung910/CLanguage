@@ -11,6 +11,7 @@ LPDIRECT3DVERTEXBUFFER9 g_pVB = NULL;
 struct CUSTOMVERTEX
 {
 	FLOAT x, y, z;
+	DWORD color;
 };
 
 /*------------------------------------------------------------------------------
@@ -19,6 +20,15 @@ struct CUSTOMVERTEX
  */
 HRESULT InitVB(HWND hWnd)
 {
+	CUSTOMVERTEX vertices[] =
+	{
+		  { -0.5f, 0.0f, 0.0f, 0xff121212},
+		  { 0.0f, 0.5f, 0.0f, 0xff121212},
+		  { 0.5f, 0.0f, 0.0f, 0xff121212},
+		  //{ 0.4f, 0.0f, 0.2f },
+		  //{ 0.8f, 0.0f, 0.2f },
+		  //{ 0.0f, 0.0f, 0.2f },
+	};
 
 	// 디바이스를 생성하기위한 D3D객체 생성
 	if (NULL == (g_pD3D = Direct3DCreate9(D3D_SDK_VERSION)))
@@ -45,22 +55,17 @@ HRESULT InitVB(HWND hWnd)
 	}
 	//VERTEX BUFFER 생성
 	g_pd3dDevice->CreateVertexBuffer(
-		6 * 12,
+		3 * sizeof(vertices),
 		0,
 		D3DFVF_XYZ,
 		D3DPOOL_DEFAULT,
 		&g_pVB,
 		NULL);
 
-	CUSTOMVERTEX vertices[] =
-	{
-		  { -0.4f, 0.8f, 0.0f },
-		  { 0.0f, -0.8f, 0.0f },
-		  { -0.8f, -0.8f, 0.0f },
-		  { 0.4f, 0.8f, 0.2f },
-		  { 0.8f, -0.8f, 0.2f },
-		  { 0.0f,-0.8f, 0.2f },
-	};
+	
+
+
+
 
 	
 	VOID* pVertices;
@@ -116,9 +121,12 @@ VOID Render()
 		g_pd3dDevice->SetTransform(D3DTS_VIEW, &tempTM);
 		g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &tempTM);
 
+		g_pd3dDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+
 		g_pd3dDevice->SetStreamSource(0, g_pVB, 0, 12);
 		g_pd3dDevice->SetFVF(D3DFVF_XYZ);
-		g_pd3dDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 4);
+		
+		g_pd3dDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 1);
 
 
 		g_pd3dDevice->EndScene();
