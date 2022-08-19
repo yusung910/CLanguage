@@ -70,7 +70,7 @@ HRESULT InitVB() {
 
 	//VERTEX BUFFER 생성
 	if (g_pd3dDevice->CreateVertexBuffer(
-		3 * sizeof(vertices),
+		6 * sizeof(vertices),
 		0,
 		D3DFVF_XYZ | D3DFVF_DIFFUSE,
 		D3DPOOL_DEFAULT,
