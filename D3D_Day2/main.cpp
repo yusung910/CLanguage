@@ -60,11 +60,12 @@ HRESULT InitVB() {
     CUSTOMVERTEX vertices[] =
     {
         {-0.5f, 0.0f, 0.5f, 0xffff0000, }, // x, y, z, color
-        {-0.4f, 0.3f, 0.5f, 0xff00ff00, },
+        {-0.5f, 0.5f, 0.5f, 0xff00ff00, },
         {0.0f, 0.0f, 0.5f, 0xff00ffff, },
-        //{ 0.4f, 0.0f, 0.2f },
-        //{ 0.8f, 0.0f, 0.2f },
-        //{ 0.0f, 0.0f, 0.2f },
+
+        {-0.5f, 0.5f, 0.5f, 0xfff0000  },
+        {0.0f, 0.5f, 0.5f, 0xff00ff00 },
+        {0.0f, 0.0f, 0.5f, 0xff0000ff },
     };
 
     //VERTEX BUFFER 생성
@@ -141,7 +142,7 @@ VOID Render()
 
 		g_pd3dDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-		g_pd3dDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 1);
+		g_pd3dDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2);
 
 
 		g_pd3dDevice->EndScene();
