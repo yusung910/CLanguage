@@ -8,11 +8,32 @@
 LPDIRECT3D9             g_pD3D = NULL;
 LPDIRECT3DDEVICE9       g_pd3dDevice = NULL;
 LPDIRECT3DVERTEXBUFFER9 g_pVB = NULL;
+LPDIRECT3DINDEXBUFFER9  g_pIB = NULL;
 
 struct CUSTOMVERTEX
 {
 	FLOAT x, y, z;
 	DWORD color;
+};
+
+//VERTEX
+CUSTOMVERTEX g_vertices[] =
+{
+    {-0.5f, 0.0f, 0.5f, 0xffff0000, },
+
+    {-0.2f, 0.5f, 0.5f, 0xff00ff00, },
+
+    {0.2f, 0.5f, 0.5f, 0xf0000ff  },
+
+    {0.5f, 0.0f, 0.5f, 0xff00ff00 },
+
+    {0.2f, -0.5f, 0.5f, 0xffff0000 },
+
+    {-0.2f, -0.5f, 0.5f, 0xff00ff00 },
+};
+
+WORD g_iNumberOfIndex[] = {
+    0, 1, 2, 3, 4, 5
 };
 
 /*------------------------------------------------------------------------------
@@ -56,21 +77,11 @@ HRESULT InitD3D(HWND hWnd)
 *-------------------------------------------------------------------------------
 */
 HRESULT InitVB() {
-	//VERTEX
-	CUSTOMVERTEX vertices[] =
-	{
-		{-0.5f, 0.0f, 0.5f, 0xffff0000, }, // x, y, z, color
-		{-0.5f, 0.5f, 0.5f, 0xff00ff00, },
-		{0.0f, 0.0f, 0.5f, 0xff00ffff, },
 
-		{-0.5f, 0.5f, 0.5f, 0xfff0000  },
-		{0.0f, 0.5f, 0.5f, 0xff00ff00 },
-		{0.0f, 0.0f, 0.5f, 0xff0000ff },
-	};
 
 	//VERTEX BUFFER 생성
 	if (g_pd3dDevice->CreateVertexBuffer(
-		6 * sizeof(vertices),
+		6 * sizeof(g_vertices),
 		0,
 		D3DFVF_XYZ | D3DFVF_DIFFUSE,
 		D3DPOOL_DEFAULT,
@@ -83,16 +94,41 @@ HRESULT InitVB() {
 
 	VOID* pVertices;
 	//생성된 VERTEX BUFFER를 LOCK()하여 내용을 넣는다.
-	if (FAILED(g_pVB->Lock(0, sizeof(vertices), (void**)&pVertices, 0)))
+	if (FAILED(g_pVB->Lock(0, sizeof(g_vertices), (void**)&pVertices, 0)))
 	{
 		return E_FAIL;
 	}
 
 	//BUFFER(pVertices)에 값들을 저장한다.
-	memcpy(pVertices, vertices, sizeof(vertices));
+	memcpy(pVertices, g_vertices, sizeof(g_vertices));
 
 	//메모리 잠금 해제
 	g_pVB->Unlock();
+}
+
+//Index Buffer 초기화
+HRESULT InitIB() {
+
+    g_pd3dDevice->CreateIndexBuffer(
+        sizeof(g_iNumberOfIndex),
+        0,
+        D3DFMT_INDEX16,
+        D3DPOOL_DEFAULT,
+        &g_pIB,
+        NULL);
+
+    VOID *pIndices;
+
+    if(g_pIB->Lock(0, sizeof(g_iNumberOfIndex), (void**)&pIndices, 0))
+    {
+        return E_FAIL;
+    }
+
+    //BUFFER(pVertices)에 값들을 저장한다.
+    memcpy(pIndices, g_iNumberOfIndex, sizeof(g_iNumberOfIndex));
+
+    g_pIB->Unlock();
+
 }
 
 /*------------------------------------------------------------------------------
@@ -108,6 +144,8 @@ VOID Cleanup()
 		g_pD3D->Release();
 	if (g_pVB != NULL)
 		g_pVB->Release();
+    if (g_pIB != NULL)
+        g_pIB->Release();
 }
 
 /*
@@ -142,8 +180,8 @@ VOID Render()
 
 		g_pd3dDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-		g_pd3dDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2);
-
+        g_pd3dDevice->SetIndices(g_pIB);
+        g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLEFAN, 0, 0, 6, 0, 6);
 
 		g_pd3dDevice->EndScene();
 	}
@@ -194,16 +232,18 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 	{
 		if (SUCCEEDED(InitVB()))
 		{
-			// 윈도우 출력
-			ShowWindow(hWnd, SW_SHOWDEFAULT);
-			UpdateWindow(hWnd);
-			// 메시지 루프
-			MSG msg;
-			while (GetMessage(&msg, NULL, 0, 0))
-			{
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
-			}
+            if(SUCCEEDED(InitIB())){
+			    // 윈도우 출력
+			    ShowWindow(hWnd, SW_SHOWDEFAULT);
+			    UpdateWindow(hWnd);
+			    // 메시지 루프
+			    MSG msg;
+			    while (GetMessage(&msg, NULL, 0, 0))
+			    {
+				    TranslateMessage(&msg);
+				    DispatchMessage(&msg);
+			    }
+            }
 		}
 	}
 	// 등록된 클래스 소거
