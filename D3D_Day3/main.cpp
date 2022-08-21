@@ -19,17 +19,17 @@ struct CUSTOMVERTEX
 //VERTEX
 CUSTOMVERTEX g_vertices[] =
 {
-    {-0.5f, 0.0f, 0.5f, 0xffff0000, },
+    {-0.5f, 0.0f, 0.5f, 0x00ff0000, },
 
-    {-0.2f, 0.5f, 0.5f, 0xff00ff00, },
+    {-0.2f, 0.5f, 0.5f, 0x0000ff00, },
 
-    {0.2f, 0.5f, 0.5f, 0xf0000ff  },
+    {0.2f, 0.5f, 0.5f, 0x000000ff  },
 
-    {0.5f, 0.0f, 0.5f, 0xff00ff00 },
+    {0.5f, 0.0f, 0.5f, 0x0000ff00 },
 
-    {0.2f, -0.5f, 0.5f, 0xffff0000 },
+    {0.2f, -0.5f, 0.5f, 0x00ff0000 },
 
-    {-0.2f, -0.5f, 0.5f, 0xff00ff00 },
+    {-0.2f, -0.5f, 0.5f, 0x0000ff00 },
 };
 
 WORD g_iNumberOfIndex[] = {
@@ -178,10 +178,17 @@ VOID Render()
 		g_pd3dDevice->SetStreamSource(0, g_pVB, 0, sizeof(CUSTOMVERTEX));
 		g_pd3dDevice->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE);
 
-		g_pd3dDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
         g_pd3dDevice->SetIndices(g_pIB);
         g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLEFAN, 0, 0, 6, 0, 6);
+
+        //g_pd3dDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+        g_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+        g_pd3dDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+        g_pd3dDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+
 
 		g_pd3dDevice->EndScene();
 	}
