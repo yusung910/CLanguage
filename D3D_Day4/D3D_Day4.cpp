@@ -19,21 +19,26 @@ struct CUSTOMVERTEX
 //VERTEX
 CUSTOMVERTEX g_vertices[] =
 {
-	{-0.5f, 0.0f, 0.5f, 0x55ff0000, },
+	{-0.8f, 0.0f, 0.1f, 0xFFFF0000, },
+	{-0.5f, 0.8f, 0.1f, 0xFFFF0000, },
+	{0.0f, -0.8f, 0.1f, 0xFFFF0000  },
 
-	{-0.2f, 0.5f, 0.5f, 0x5500ff00, },
 
-	{0.2f, 0.5f, 0.5f, 0x550000ff  },
+    {-0.3f, -0.4f, 0.2f, 0xFF00FF00  },
+    {0.3f, 0.4f, 0.2f, 0xFF00FF00  },
+    {0.3f, -0.4f, 0.2f, 0xFF00FF00  },
 
-	{0.5f, 0.0f, 0.5f, 0x5500ff00 },
 
-	{0.2f, -0.5f, 0.5f, 0x55ff0000 },
+    {-0.7f, 0.1f, 0.3f, 0xFF00FFFF  },
+    {0.5f, 0.7f, 0.3f, 0xFF00FFFF  },
+    {0.5f, -0.7f, 0.3f, 0xFF00FFFF  },
 
-	{-0.2f, -0.5f, 0.5f, 0x5500ff00 },
 };
 
 WORD g_iNumberOfIndex[] = {
-	0, 1, 2, 3, 4, 5
+	0, 1, 2,
+    3, 4, 5,
+    6, 7, 8,
 };
 
 /*------------------------------------------------------------------------------
@@ -47,9 +52,19 @@ HRESULT InitD3D(HWND hWnd)
 		return E_FAIL;
 	D3DPRESENT_PARAMETERS d3dpp;
 	ZeroMemory(&d3dpp, sizeof(d3dpp));
-	d3dpp.Windowed = TRUE;
-	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
+    d3dpp.Windowed = TRUE;
+    d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
+    d3dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
+    d3dpp.BackBufferWidth = 1024;
+    d3dpp.BackBufferHeight = 768;
+    d3dpp.BackBufferCount = 2;
+
+    d3dpp.Flags = D3DPRESENTFLAG_VIDEO;
+
+
+    d3dpp.EnableAutoDepthStencil = TRUE;
+    d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
+
 	/* 디바이스를 다음과 같은 설정으로 생성한다.
 		 1. 디폴트 비디오카드를 사용(대부분은 비디오카드가 1개 이다.)
 		 2. HAL디바이스를 생성한다.(HW가속장치를 사용하겠다는 의미)
@@ -163,7 +178,7 @@ VOID Render()
 	if (NULL == g_pd3dDevice)
 		return;
 
-	g_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(123, 212, 223), 1.0f, 0);
+	g_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET| D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(123, 212, 223), 1.0f, 0);
 
 	if (SUCCEEDED(g_pd3dDevice->BeginScene()))
 	{
@@ -186,7 +201,7 @@ VOID Render()
 		g_pd3dDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		g_pd3dDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-		g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLEFAN, 0, 0, 6, 0, 6);
+		g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 9, 0, 6);
 
 		g_pd3dDevice->EndScene();
 	}
