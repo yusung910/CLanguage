@@ -19,26 +19,13 @@ struct CUSTOMVERTEX
 //VERTEX
 CUSTOMVERTEX g_vertices[] =
 {
-	{-0.8f, 0.0f, 0.1f, 0xFFFF0000, },
-	{-0.5f, 0.8f, 0.1f, 0xFFFF0000, },
-	{0.0f, -0.8f, 0.1f, 0xFFFF0000  },
-
-
-	{-0.3f, -0.4f, 0.2f, 0xFF00FF00  },
-	{0.3f, 0.4f, 0.2f, 0xFF00FF00  },
-	{0.3f, -0.4f, 0.2f, 0xFF00FF00  },
-
-
-	{-0.7f, 0.1f, 0.3f, 0xFF00FFFF  },
-	{0.5f, 0.7f, 0.3f, 0xFF00FFFF  },
-	{0.5f, -0.7f, 0.3f, 0xFF00FFFF  },
-
+	{-0.8f, 0.5f, 0.1f, 0xFFFF0000, },
+	{0.5f, 0.8f, 0.1f, 0xFFFF0000, },
+	{0.5f, -0.8f, 0.1f, 0xFFFF0000  },
 };
 
 WORD g_iNumberOfIndex[] = {
 	0, 1, 2,
-	3, 4, 5,
-	6, 7, 8,
 };
 
 /*------------------------------------------------------------------------------
@@ -201,7 +188,8 @@ VOID Render()
 		g_pd3dDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		g_pd3dDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-		g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 9, 0, 6);
+		g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 5, 0, 6);
+
 
 		g_pd3dDevice->EndScene();
 	}
