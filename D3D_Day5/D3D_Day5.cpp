@@ -1,6 +1,8 @@
 ﻿#include <d3d9.h>
 #include <d3dx9.h>
 
+#define D3DFVF_CUSTOMVERTEX ( D3DFVF_XYZ | D3DFVF_TEX1 )
+
 /*------------------------------------------------------------------------------
  * 전역변수
  *------------------------------------------------------------------------------
@@ -9,19 +11,21 @@ LPDIRECT3D9             g_pD3D = NULL;
 LPDIRECT3DDEVICE9       g_pd3dDevice = NULL;
 LPDIRECT3DVERTEXBUFFER9 g_pVB = NULL;
 LPDIRECT3DINDEXBUFFER9  g_pIB = NULL;
+LPDIRECT3DTEXTURE9 g_ppTexture = NULL;
+
 
 struct CUSTOMVERTEX
 {
 	FLOAT x, y, z;
-	DWORD color;
+	FLOAT tu, tv;
 };
 
 //VERTEX
 CUSTOMVERTEX g_vertices[] =
 {
-	{-0.8f, 0.5f, 0.1f, 0xFFFF0000, },
-	{0.5f, 0.8f, 0.1f, 0xFFFF0000, },
-	{0.5f, -0.8f, 0.1f, 0xFFFF0000  },
+	{-0.8f, 0.5f, 0.1f, -0.8f, 0.5f, },
+	{0.5f, 0.8f, 0.1f, 0.5f, 0.8f, },
+	{0.5f, -0.8f, 0.1f, 0.5f, -0.8f  },
 };
 
 WORD g_iNumberOfIndex[] = {
@@ -85,7 +89,7 @@ HRESULT InitVB() {
 	if (g_pd3dDevice->CreateVertexBuffer(
 		6 * sizeof(g_vertices),
 		0,
-		D3DFVF_XYZ | D3DFVF_DIFFUSE,
+        D3DFVF_CUSTOMVERTEX,
 		D3DPOOL_DEFAULT,
 		&g_pVB,
 		NULL))
@@ -133,6 +137,13 @@ HRESULT InitIB() {
 
 }
 
+HRESULT InitTexture() {
+    if (FAILED(D3DXCreateTextureFromFile(g_pd3dDevice, "cloud.bmp", &g_ppTexture))) {
+        return E_FAIL;
+    }
+    
+}
+
 /*------------------------------------------------------------------------------
  * 초기화된 객체들을 소거한다.
  *------------------------------------------------------------------------------
@@ -148,6 +159,8 @@ VOID Cleanup()
 		g_pVB->Release();
 	if (g_pIB != NULL)
 		g_pIB->Release();
+    if (g_ppTexture != NULL)
+        g_ppTexture->Release();
 }
 
 /*
@@ -177,8 +190,9 @@ VOID Render()
 		g_pd3dDevice->SetTransform(D3DTS_VIEW, &tempTM);
 		g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &tempTM);
 
+        g_pd3dDevice->SetTexture(0, g_ppTexture);
 		g_pd3dDevice->SetStreamSource(0, g_pVB, 0, sizeof(CUSTOMVERTEX));
-		g_pd3dDevice->SetFVF(D3DFVF_XYZ | D3DFVF_DIFFUSE);
+		g_pd3dDevice->SetFVF(D3DFVF_CUSTOMVERTEX);
 
 
 		g_pd3dDevice->SetIndices(g_pIB);
@@ -229,10 +243,10 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 	// 윈도우 클래스 등록
 	WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, MsgProc, 0L, 0L,
 					  GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
-					  "D3D Day4", NULL };
+					  "D3D Day5", NULL };
 	RegisterClassEx(&wc);
 	// 윈도우 생성
-	HWND hWnd = CreateWindow("D3D Day4", "D3D Day4: Z-index",
+	HWND hWnd = CreateWindow("D3D Day5", "D3D Day5: Texture",
 		WS_OVERLAPPEDWINDOW, 100, 100, 300, 300,
 		GetDesktopWindow(), NULL, wc.hInstance, NULL);
 	// Direct3D 초기화
@@ -240,17 +254,21 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 	{
 		if (SUCCEEDED(InitVB()))
 		{
-			if (SUCCEEDED(InitIB())) {
-				// 윈도우 출력
-				ShowWindow(hWnd, SW_SHOWDEFAULT);
-				UpdateWindow(hWnd);
-				// 메시지 루프
-				MSG msg;
-				while (GetMessage(&msg, NULL, 0, 0))
-				{
-					TranslateMessage(&msg);
-					DispatchMessage(&msg);
-				}
+			if (SUCCEEDED(InitIB()))
+            {
+                if (SUCCEEDED(InitTexture()))
+                {
+				    // 윈도우 출력
+				    ShowWindow(hWnd, SW_SHOWDEFAULT);
+				    UpdateWindow(hWnd);
+				    // 메시지 루프
+				    MSG msg;
+				    while (GetMessage(&msg, NULL, 0, 0))
+				    {
+					    TranslateMessage(&msg);
+					    DispatchMessage(&msg);
+				    }
+                }
 			}
 		}
 	}
