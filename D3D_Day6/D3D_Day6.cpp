@@ -1,7 +1,7 @@
 ﻿#include <d3d9.h>
 #include <d3dx9.h>
 
-#define D3DFVF_CUSTOMVERTEX ( D3DFVF_XYZ | D3DFVF_TEX1 )
+#define D3DFVF_CUSTOMVERTEX ( D3DFVF_XYZ )
 
 /*------------------------------------------------------------------------------
  * 전역변수
@@ -11,7 +11,6 @@ LPDIRECT3D9             g_pD3D = NULL;
 LPDIRECT3DDEVICE9       g_pd3dDevice = NULL;
 LPDIRECT3DVERTEXBUFFER9 g_pVB = NULL;
 LPDIRECT3DINDEXBUFFER9  g_pIB = NULL;
-LPDIRECT3DTEXTURE9 g_ppTexture = NULL;
 
 
 struct CUSTOMVERTEX
@@ -152,8 +151,6 @@ VOID Cleanup()
 		g_pVB->Release();
 	if (g_pIB != NULL)
 		g_pIB->Release();
-	if (g_ppTexture != NULL)
-		g_ppTexture->Release();
 }
 
 /*
@@ -183,17 +180,14 @@ VOID Render()
 		g_pd3dDevice->SetTransform(D3DTS_VIEW, &tempTM);
 		g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &tempTM);
 
-		g_pd3dDevice->SetTexture(0, g_ppTexture);
+
+		D3DXMATRIX tempProjection;
+		D3DXMatrixPerspectiveFovLH(&tempProjection, 1.0f, 100 / 100, 10.0f, 10000.0f);
+		g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &tempProjection);
+
+
 		g_pd3dDevice->SetStreamSource(0, g_pVB, 0, sizeof(CUSTOMVERTEX));
 		g_pd3dDevice->SetFVF(D3DFVF_CUSTOMVERTEX);
-
-
-		g_pd3dDevice->SetIndices(g_pIB);
-		g_pd3dDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-
-		g_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-		g_pd3dDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-		g_pd3dDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
 		g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 5, 0, 6);
 
