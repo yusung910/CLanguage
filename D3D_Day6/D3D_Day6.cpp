@@ -22,9 +22,9 @@ struct CUSTOMVERTEX
 //VERTEX
 CUSTOMVERTEX g_vertices[] =
 {
-	{-0.8f, 0.5f, 0.1f, -0.8f, 0.5f, },
-	{0.5f, 0.8f, 0.1f, 0.5f, 0.8f, },
-	{0.5f, -0.8f, 0.1f, 0.5f, -0.8f  },
+	{-0.8f, 0.5f, 0.1f, },
+	{0.5f, 0.8f, 0.1f, },
+	{0.5f, -0.8f, 0.1f,  },
 };
 
 WORD g_iNumberOfIndex[] = {
@@ -168,7 +168,7 @@ VOID Render()
 	if (NULL == g_pd3dDevice)
 		return;
 
-	g_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, D3DCOLOR_XRGB(123, 212, 223), 1.0f, 0);
+	g_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(123, 212, 223), 1.0f, 0);
 
 	if (SUCCEEDED(g_pd3dDevice->BeginScene()))
 	{
@@ -189,7 +189,7 @@ VOID Render()
 		g_pd3dDevice->SetStreamSource(0, g_pVB, 0, sizeof(CUSTOMVERTEX));
 		g_pd3dDevice->SetFVF(D3DFVF_CUSTOMVERTEX);
 
-		g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 5, 0, 6);
+		g_pd3dDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2);
 
 
 		g_pd3dDevice->EndScene();
