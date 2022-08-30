@@ -21,16 +21,16 @@ struct CUSTOMVERTEX
 //VERTEX
 CUSTOMVERTEX g_vertices[] =
 {
-    { -1,  1,  1 , 0xffff0000 },                  // 0
-    {  1,  1,  1 , 0xff00ff00 },                  // 1
-    {  1,  1, -1 , 0xff0000ff },                  // 2
-    { -1,  1, -1 , 0xffffff00 },                   // 3
+    { -0.5F,  0.5F,  11.0F , 0xffff0000 },                  // 0
+    {  0.5F,  0.5F,  11.0F , 0xff00ff00 },                  // 1
+	{  0.5F, -0.5F,  11.0F , 0xffff00ff },                  // 5
+	{ -0.5F, -0.5F,  11.0F , 0xff00ffff },                  // 4
+	
 
-
-    { -1, -1,  1 , 0xff00ffff },                   // 4
-    {  1, -1,  1 , 0xffff00ff },                   // 5
-    {  1, -1, -1 , 0xff000000 },                  // 6
-    { -1, -1, -1 , 0xffffffff },                   // 7
+    {  0.5F,  0.5F, 12.0F , 0xff0000ff },                  // 2
+    { -0.5F,  0.5F, 12.0F , 0xffffff00 },                  // 3
+    {  0.5F, -0.5F, 12.0F , 0xff000000 },                  // 6
+    { -0.5F, -0.5F, 12.0F , 0xffffffff },                  // 7
 
 };
 
@@ -192,44 +192,26 @@ VOID Render()
     {
         // 실제 렌더링 명령들이 나열될 곳
         // TODO :     
-
-        g_pd3dDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-
-        g_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
-        g_pd3dDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-        g_pd3dDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-
         D3DXMATRIX tempTM;
         D3DXMatrixIdentity(&tempTM);
         g_pd3dDevice->SetTransform(D3DTS_WORLD, &tempTM);
         g_pd3dDevice->SetTransform(D3DTS_VIEW, &tempTM);
-        g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &tempTM);
-
-        /// 뷰행렬을 설정
-
-        D3DXVECTOR3 vEyePt(0.0f, 3.0f, -5.0f);
-
-        D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);
-
-        D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
-
-        D3DXMATRIX matView;
-
-        D3DXMatrixLookAtLH(&matView, &vEyePt, &vLookatPt, &vUpVec);
-
-        g_pd3dDevice->SetTransform(D3DTS_VIEW, &matView);
+        //g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &tempTM);
 
         D3DXMATRIX tempProjection;
-        D3DXMatrixPerspectiveFovLH(&tempProjection, D3DX_PI/4, 1.0f, 1.0f, 100.0f);
+        D3DXMatrixPerspectiveFovLH(&tempProjection, D3DX_PI / 4, 1.3f, 10.0f, 10000.0f);
         g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &tempProjection);
+
+		g_pd3dDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+		g_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+		g_pd3dDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+		g_pd3dDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
         g_pd3dDevice->SetStreamSource(0, g_pVB, 0, sizeof(CUSTOMVERTEX));
         g_pd3dDevice->SetFVF(CUSTOM_D3DFVF);
 
         g_pd3dDevice->SetIndices(g_pIB);
         g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
-
-        
 
         g_pd3dDevice->EndScene();
     }
@@ -273,7 +255,7 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
     RegisterClassEx(&wc);
     // 윈도우 생성
     HWND hWnd = CreateWindow("D3D Day6", "D3D Day6: Projection Transform",
-        WS_OVERLAPPEDWINDOW, 100, 100, 300, 300,
+        WS_OVERLAPPEDWINDOW, 100, 100, 1024, 786,
         GetDesktopWindow(), NULL, wc.hInstance, NULL);
     // Direct3D 초기화
     if (SUCCEEDED(InitD3D(hWnd)))
