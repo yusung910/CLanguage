@@ -21,10 +21,10 @@ struct CUSTOMVERTEX
 //VERTEX
 CUSTOMVERTEX g_vertices[] =
 {
-    { -0.5F,  0.5F,  11.0F , 0xffff0000 },                  // 0
-    {  0.5F,  0.5F,  11.0F , 0xff00ff00 },                  // 1
-	{  0.5F, -0.5F,  11.0F , 0xffff00ff },                  // 5
-	{ -0.5F, -0.5F,  11.0F , 0xff00ffff },                  // 4
+    { -0.3F,  0.8F,  11.0F , 0xffff0000 },                  // 0
+    {  0.8F,  0.8F,  11.0F , 0xff00ff00 },                  // 1
+	{  0.8F, -0.3F,  11.0F , 0xffff00ff },                  // 5
+	{ -0.3F, -0.3F,  11.0F , 0xff00ffff },                  // 4
 	
 
     {  0.5F,  0.5F, 12.0F , 0xff0000ff },                  // 2
