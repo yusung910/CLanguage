@@ -1,6 +1,6 @@
 ﻿#include <d3d9.h>
 #include <d3dx9.h>
-
+#include "Init.h"
 /*------------------------------------------------------------------------------
  * 전역변수
  *------------------------------------------------------------------------------
@@ -9,7 +9,7 @@ LPDIRECT3D9             g_pD3D = NULL;
 LPDIRECT3DDEVICE9       g_pd3dDevice = NULL;
 LPDIRECT3DVERTEXBUFFER9 g_pVB = NULL;
 LPDIRECT3DINDEXBUFFER9  g_pIB = NULL;
-
+Init g_init;
 #define CUSTOM_D3DFVF (D3DFVF_XYZ | D3DFVF_DIFFUSE)
 
 struct CUSTOMVERTEX
@@ -212,20 +212,12 @@ VOID Render()
 		g_pd3dDevice->SetFVF(CUSTOM_D3DFVF);
 		//----------------------------------------------------------------------------
 
-		//----------------------------------------------------------------------------
-		//transform world
-		//----------------------------------------------------------------------------
-		for (int i = 0; i < 5;i++) {
-			D3DXMATRIX* tempTM = new D3DXMATRIX;
-			D3DXMatrixIdentity(tempTM);
-			g_pd3dDevice->SetTransform(D3DTS_VIEW, tempTM);
-			D3DXMatrixTranslation(tempTM, -1.5f+i, 0.5f+i, 1.0f);
-			g_pd3dDevice->SetTransform(D3DTS_WORLD, tempTM);
-			g_pd3dDevice->SetIndices(g_pIB);
-			g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
-		}
-		//----------------------------------------------------------------------------
+        //----------------------------------------------------------------------------
+        //transform world
+        //----------------------------------------------------------------------------
 
+        g_init.SetObject();
+        //----------------------------------------------------------------------------
 		g_pd3dDevice->EndScene();
 	}
 
@@ -247,8 +239,11 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		PostQuitMessage(0);
 		return 0;
 	case WM_PAINT:
-		Render();
-		ValidateRect(hWnd, NULL);
+
+        g_init.SetInitGlobal(g_pd3dDevice, g_pIB);
+        Render();
+
+        ValidateRect(hWnd, NULL);
 		return 0;
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
@@ -281,15 +276,23 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 				UpdateWindow(hWnd);
 				// 메시지 루프
 				MSG msg;
-				while (GetMessage(&msg, NULL, 0, 0))
-				{
-					TranslateMessage(&msg);
-					DispatchMessage(&msg);
-				}
+                while (TRUE) {
+                    if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+                    {
+                        if (msg.message == WM_QUIT) break;
+                        DispatchMessage(&msg);
+                    }
+                    else
+                    {
+                        Sleep(10);
+                        g_init.SetPos();
+                        Render();
+                    }
+                }
 			}
 		}
 	}
 	// 등록된 클래스 소거
-	UnregisterClass("D3D Tutorial", wc.hInstance);
+	UnregisterClass("D3D Day7", wc.hInstance);
 	return 0;
 }
