@@ -191,24 +191,48 @@ VOID Render()
 	if (SUCCEEDED(g_pd3dDevice->BeginScene()))
 	{
 		// 실제 렌더링 명령들이 나열될 곳
-		// TODO :     
-		D3DXMATRIX tempTM;
-		D3DXMatrixIdentity(&tempTM);
-		g_pd3dDevice->SetTransform(D3DTS_WORLD, &tempTM);
-		g_pd3dDevice->SetTransform(D3DTS_VIEW, &tempTM);
 
-		D3DXMATRIX tempProjection;
-		D3DXMatrixPerspectiveFovLH(&tempProjection, D3DX_PI / 4, 1.3f, 10.0f, 10000.0f);
-		g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &tempProjection);
-
+		//----------------------------------------------------------------------------
+		//render
+		//----------------------------------------------------------------------------
 		g_pd3dDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 		g_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 		g_pd3dDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		g_pd3dDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+		//----------------------------------------------------------------------------
+
+
+		D3DXMATRIX tempTM1, tempTM2, tempTM3;
+		D3DXMatrixIdentity(&tempTM1);
+
+
+
+		//----------------------------------------------------------------------------
+		//transform projection
+		//----------------------------------------------------------------------------
+		D3DXMATRIX tempProjection;
+		D3DXMatrixPerspectiveFovLH(&tempProjection, D3DX_PI / 4, 1.3f, 10.0f, 10000.0f);
+		g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &tempProjection);
+		//----------------------------------------------------------------------------
+		
+
+		g_pd3dDevice->SetTransform(D3DTS_VIEW, &tempTM1);
 
 		g_pd3dDevice->SetStreamSource(0, g_pVB, 0, sizeof(CUSTOMVERTEX));
 		g_pd3dDevice->SetFVF(CUSTOM_D3DFVF);
 
+		D3DXMatrixTranslation(&tempTM1, -1.5f, 0.5f, 1.0f);
+		g_pd3dDevice->SetTransform(D3DTS_WORLD, &tempTM1);
+		g_pd3dDevice->SetIndices(g_pIB);
+		g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
+		
+		D3DXMatrixTranslation(&tempTM2, -1.5f, -1.5f, 3.0f);
+		g_pd3dDevice->SetTransform(D3DTS_WORLD, &tempTM2);
+		g_pd3dDevice->SetIndices(g_pIB);
+		g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
+
+		D3DXMatrixTranslation(&tempTM3, 1.8f, -1.5f, 4.0f);
+		g_pd3dDevice->SetTransform(D3DTS_WORLD, &tempTM3);
 		g_pd3dDevice->SetIndices(g_pIB);
 		g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
 
