@@ -19,14 +19,9 @@ void Init::SetInitGlobal(LPDIRECT3DDEVICE9 device, LPDIRECT3DINDEXBUFFER9 ib) {
     g_pIB = ib;
 }
 
-void Init::SetObject() {
+void Init::SetObjectInit() {
     for (int i = 0; i < n_TmCnt; i++) {
-        D3DXMatrixIdentity(&tempTM[i]);
-        g_pd3dDevice->SetTransform(D3DTS_VIEW, &tempTM[i]);
-        D3DXMatrixTranslation(&tempTM[i], f_TmMovePosList[i][0], f_TmMovePosList[i][1], 1.0f);
-        g_pd3dDevice->SetTransform(D3DTS_WORLD, &tempTM[i]);
-        g_pd3dDevice->SetIndices(g_pIB);
-        g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
+		SetObject(tempTM[i], f_TmMovePosList[i][0], f_TmMovePosList[i][1]);
     }
 }
 
@@ -45,10 +40,14 @@ void Init::SetPos() {
         f_TmMovePosList[0][1] -= 0.1f;
     }
 
-    D3DXMatrixIdentity(&tempTM[0]);
-    g_pd3dDevice->SetTransform(D3DTS_VIEW, &tempTM[0]);
-    D3DXMatrixTranslation(&tempTM[0], f_TmMovePosList[0][0], f_TmMovePosList[0][1], 1.0f);
-    g_pd3dDevice->SetTransform(D3DTS_WORLD, &tempTM[0]);
-    g_pd3dDevice->SetIndices(g_pIB);
-    g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
+	SetObject(tempTM[0], f_TmMovePosList[0][0], f_TmMovePosList[0][1]);
 };
+
+void Init::SetObject(D3DXMATRIX obj, float x, float y) {
+	D3DXMatrixIdentity(&obj);
+	g_pd3dDevice->SetTransform(D3DTS_VIEW, &obj);
+	D3DXMatrixTranslation(&obj, x, y, 1.0f);
+	g_pd3dDevice->SetTransform(D3DTS_WORLD, &obj);
+	g_pd3dDevice->SetIndices(g_pIB);
+	g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
+}

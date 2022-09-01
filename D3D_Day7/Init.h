@@ -10,7 +10,8 @@ public:
     Init();
     ~Init();
     void SetInitGlobal(LPDIRECT3DDEVICE9 g_pd3dDevice, LPDIRECT3DINDEXBUFFER9  g_pIB);
-    void SetObject();
+    void SetObjectInit();
+	void SetObject(D3DXMATRIX obj, float x, float y);
     void SetPos();
 
 protected:
