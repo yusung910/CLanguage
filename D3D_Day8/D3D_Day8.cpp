@@ -9,28 +9,29 @@ LPDIRECT3D9             g_pD3D = NULL;
 LPDIRECT3DDEVICE9       g_pd3dDevice = NULL;
 LPDIRECT3DVERTEXBUFFER9 g_pVB = NULL;
 LPDIRECT3DINDEXBUFFER9  g_pIB = NULL;
+LPDIRECT3DTEXTURE9		g_ppTexture = NULL;
 
-#define CUSTOM_D3DFVF (D3DFVF_XYZ | D3DFVF_DIFFUSE)
+#define CUSTOM_D3DFVF (D3DFVF_XYZ | D3DFVF_TEX1)
 
 struct CUSTOMVERTEX
 {
 	FLOAT x, y, z;
-	DWORD color;
+	FLOAT tu, tv, tz;
 };
 
 //VERTEX
 CUSTOMVERTEX g_vertices[] =
 {
-	{ -0.5F,  0.5F,  11.0F , 0xffff0000 },                  // 0
-	{  0.5F,  0.5F,  11.0F , 0xff00ff00 },                  // 1
-	{  0.5F, -0.5F,  11.0F , 0xffff00ff },                  // 5
-	{ -0.5F, -0.5F,  11.0F , 0xff00ffff },                  // 4
+	{ -0.5F,  0.5F,  11.0F, -0.5F, 0.5F, 11.0F },                  // 0
+	{  0.5F,  0.5F,  11.0F, 0.5F, 0.5F, 11.0F },                  // 1
+	{  0.5F, -0.5F,  11.0F, 0.5F, -0.5F, 11.0F },                  // 5
+	{ -0.5F, -0.5F,  11.0F, 1.0F, 1.0F, 11.0F },                  // 4
 
 
-	{ -0.4F,  0.6F, 12.0F , 0xffffff00 },                  // 3
-	{  0.6F,  0.6F, 12.0F , 0xff0000ff },                  // 2
-	{  0.6F, -0.4F, 12.0F , 0xff000000 },                  // 6
-	{ -0.4F, -0.4F, 12.0F , 0xffffffff },                  // 7
+	{ -0.5F,  0.5F, 12.0F },                  // 3
+	{  0.5F,  0.5F, 12.0F },                  // 2
+	{  0.5F, -0.5F, 12.0F },                  // 6
+	{ -0.5F, -0.5F, 12.0F },                  // 7
 
 };
 
@@ -154,6 +155,14 @@ HRESULT InitIB() {
 
 }
 
+//texture 초기화
+HRESULT InitTexture() {
+	if (FAILED(D3DXCreateTextureFromFile(g_pd3dDevice, "plane.bmp", &g_ppTexture))) {
+		return E_FAIL;
+	}
+
+}
+
 /*------------------------------------------------------------------------------
  * 초기화된 객체들을 소거한다.
  *------------------------------------------------------------------------------
@@ -169,6 +178,8 @@ VOID Cleanup()
 		g_pVB->Release();
 	if (g_pIB != NULL)
 		g_pIB->Release();
+	if (g_ppTexture != NULL)
+		g_ppTexture->Release();
 }
 
 /*
@@ -207,6 +218,7 @@ VOID Render()
 		g_pd3dDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		g_pd3dDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
+		g_pd3dDevice->SetTexture(0, g_ppTexture);
 		g_pd3dDevice->SetStreamSource(0, g_pVB, 0, sizeof(CUSTOMVERTEX));
 		g_pd3dDevice->SetFVF(CUSTOM_D3DFVF);
 
@@ -263,15 +275,18 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 		if (SUCCEEDED(InitVB()))
 		{
 			if (SUCCEEDED(InitIB())) {
-				// 윈도우 출력
-				ShowWindow(hWnd, SW_SHOWDEFAULT);
-				UpdateWindow(hWnd);
-				// 메시지 루프
-				MSG msg;
-				while (GetMessage(&msg, NULL, 0, 0))
-				{
-					TranslateMessage(&msg);
-					DispatchMessage(&msg);
+
+				if (SUCCEEDED(InitTexture())) {
+					// 윈도우 출력
+					ShowWindow(hWnd, SW_SHOWDEFAULT);
+					UpdateWindow(hWnd);
+					// 메시지 루프
+					MSG msg;
+					while (GetMessage(&msg, NULL, 0, 0))
+					{
+						TranslateMessage(&msg);
+						DispatchMessage(&msg);
+					}
 				}
 			}
 		}
