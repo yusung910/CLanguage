@@ -1,5 +1,6 @@
 ﻿#include <d3d9.h>
 #include <d3dx9.h>
+#include "Init.h"
 
 /*------------------------------------------------------------------------------
  * 전역변수
@@ -10,6 +11,7 @@ LPDIRECT3DDEVICE9       g_pd3dDevice = NULL;
 LPDIRECT3DVERTEXBUFFER9 g_pVB = NULL;
 LPDIRECT3DINDEXBUFFER9  g_pIB = NULL;
 LPDIRECT3DTEXTURE9		g_ppTexture = NULL;
+Init                    g_init;
 
 #define CUSTOM_D3DFVF (D3DFVF_XYZ | D3DFVF_TEX1)
 
@@ -22,16 +24,16 @@ struct CUSTOMVERTEX
 //VERTEX
 CUSTOMVERTEX g_vertices[] =
 {
-	{ -0.5F,  0.5F,  11.0F, -0.5F, 0.5F, 11.0F },                  // 0
-	{  0.5F,  0.5F,  11.0F, 0.5F, 0.5F, 11.0F },                  // 1
-	{  0.5F, -0.5F,  11.0F, 0.5F, -0.5F, 11.0F },                  // 5
-	{ -0.5F, -0.5F,  11.0F, 1.0F, 1.0F, 11.0F },                  // 4
+	{ -0.5F,  0.5F, 5.0F, 0.0F, 0.0F, 11.0F },                  // 0
+	{  0.5F,  0.5F, 5.0F, 1.0F, 0.0F, 11.0F },                  // 1
+	{  0.5F, -0.5F, 5.0F, 1.0F, 1.0F, 11.0F },                  // 5
+	{ -0.5F, -0.5F, 5.0F, 0.0F, 1.0F, 11.0F },                  // 4
 
 
-	{ -0.5F,  0.5F, 12.0F },                  // 3
-	{  0.5F,  0.5F, 12.0F },                  // 2
-	{  0.5F, -0.5F, 12.0F },                  // 6
-	{ -0.5F, -0.5F, 12.0F },                  // 7
+	{ -0.5F,  0.5F, 6.0F },                  // 3
+	{  0.5F,  0.5F, 6.0F },                  // 2
+	{  0.5F, -0.5F, 6.0F },                  // 6
+	{ -0.5F, -0.5F, 6.0F },                  // 7
 
 };
 
@@ -207,10 +209,9 @@ VOID Render()
 		D3DXMatrixIdentity(&tempTM);
 		g_pd3dDevice->SetTransform(D3DTS_WORLD, &tempTM);
 		g_pd3dDevice->SetTransform(D3DTS_VIEW, &tempTM);
-		//g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &tempTM);
 
 		D3DXMATRIX tempProjection;
-		D3DXMatrixPerspectiveFovLH(&tempProjection, D3DX_PI / 4, 1.3f, 10.0f, 10000.0f);
+		D3DXMatrixPerspectiveFovLH(&tempProjection, D3DX_PI / 4, 1.3f, 1.0f, 1000.0f);
 		g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &tempProjection);
 
 		g_pd3dDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
@@ -222,8 +223,12 @@ VOID Render()
 		g_pd3dDevice->SetStreamSource(0, g_pVB, 0, sizeof(CUSTOMVERTEX));
 		g_pd3dDevice->SetFVF(CUSTOM_D3DFVF);
 
+        g_init.SetObj();
+
 		g_pd3dDevice->SetIndices(g_pIB);
 		g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
+
+
 
 		g_pd3dDevice->EndScene();
 	}
@@ -246,7 +251,8 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		PostQuitMessage(0);
 		return 0;
 	case WM_PAINT:
-		Render();
+		//Render();
+        g_init.SetInitGlobal(g_pd3dDevice, g_pIB);
 		ValidateRect(hWnd, NULL);
 		return 0;
 	}
@@ -282,11 +288,19 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
 					UpdateWindow(hWnd);
 					// 메시지 루프
 					MSG msg;
-					while (GetMessage(&msg, NULL, 0, 0))
-					{
-						TranslateMessage(&msg);
-						DispatchMessage(&msg);
-					}
+                    while (TRUE) {
+                        if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+                        {
+                            if (msg.message == WM_QUIT) break;
+                            DispatchMessage(&msg);
+                        }
+                        else
+                        {
+                            Sleep(10);
+                            g_init.SetPos();
+                            Render();
+                        }
+                    }
 				}
 			}
 		}
