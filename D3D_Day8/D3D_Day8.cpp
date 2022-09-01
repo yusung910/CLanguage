@@ -225,11 +225,6 @@ VOID Render()
 
         g_init.SetObj();
 
-		g_pd3dDevice->SetIndices(g_pIB);
-		g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
-
-
-
 		g_pd3dDevice->EndScene();
 	}
 

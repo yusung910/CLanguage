@@ -59,7 +59,7 @@ void Init::SetObj() {
     D3DXMatrixRotationYawPitchRoll(&tempTM2, D3DXToRadian(n_x), D3DXToRadian(n_y), D3DXToRadian(n_z));
     //D3DXMatrixTranslation(&tempTM3, f_ObjectPos[0], f_ObjectPos[1], 1.0f);
 
-    D3DXMatrixMultiply(&tempTM4, &tempTM2, &tempTM1);
+    D3DXMatrixMultiply(&tempTM4, &tempTM1, &tempTM2);
     //D3DXMatrixMultiply(&tempTM4, &tempTM1, &tempTM3);
 
     g_pd3dDevice->SetTransform(D3DTS_WORLD, &tempTM4);
