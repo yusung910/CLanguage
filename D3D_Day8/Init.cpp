@@ -50,18 +50,18 @@ void Init::SetPos() {
         n_z -= n_RSpeed;
     }
 
+
+	g_vector3 = D3DXVECTOR3(f_ObjectPos[0], f_ObjectPos[1], 1.0f);
 };
 
 void Init::SetObj() {
     D3DXMatrixIdentity(&tempTM1);
 
     D3DXMatrixTranslation(&tempTM1, f_ObjectPos[0], f_ObjectPos[1], 1.0f);
-    D3DXMatrixRotationYawPitchRoll(&tempTM2, D3DXToRadian(n_x), D3DXToRadian(n_y), D3DXToRadian(n_z));
-    //D3DXMatrixTranslation(&tempTM3, f_ObjectPos[0], f_ObjectPos[1], 1.0f);
+	
+	D3DXMatrixRotationYawPitchRoll(&tempTM2, D3DXToRadian(n_x), D3DXToRadian(n_y), D3DXToRadian(n_z));
 
     D3DXMatrixMultiply(&tempTM4, &tempTM1, &tempTM2);
-    //D3DXMatrixMultiply(&tempTM4, &tempTM1, &tempTM3);
-
     g_pd3dDevice->SetTransform(D3DTS_WORLD, &tempTM4);
     g_pd3dDevice->SetIndices(g_pIB);
     g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
