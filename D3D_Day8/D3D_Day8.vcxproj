@@ -156,6 +156,7 @@
   <ItemGroup>
     <ClCompile Include="D3D_Day8.cpp" />
     <ClCompile Include="Init.cpp" />
+    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Init.h" />

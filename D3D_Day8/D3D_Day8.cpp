@@ -205,25 +205,24 @@ VOID Render()
 	{
 		// 실제 렌더링 명령들이 나열될 곳
 		// TODO :     
-		D3DXMATRIX tempTM;
-		D3DXMatrixIdentity(&tempTM);
-		g_pd3dDevice->SetTransform(D3DTS_WORLD, &tempTM);
-		g_pd3dDevice->SetTransform(D3DTS_VIEW, &tempTM);
 
-		D3DXMATRIX tempProjection;
-		D3DXMatrixPerspectiveFovLH(&tempProjection, D3DX_PI / 4, 1.3f, 1.0f, 1000.0f);
-		g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &tempProjection);
+        D3DXMATRIX tempProjection;
+        D3DXMatrixPerspectiveFovLH(&tempProjection, D3DX_PI / 4, 1.3f, 1.0f, 1000.0f);
+        g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &tempProjection);
+
+        g_init.SetObj();
 
 		g_pd3dDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 		g_pd3dDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 		g_pd3dDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		g_pd3dDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
-		g_pd3dDevice->SetTexture(0, g_ppTexture);
-		g_pd3dDevice->SetStreamSource(0, g_pVB, 0, sizeof(CUSTOMVERTEX));
-		g_pd3dDevice->SetFVF(CUSTOM_D3DFVF);
+        g_pd3dDevice->SetTexture(0, g_ppTexture);
+        g_pd3dDevice->SetStreamSource(0, g_pVB, 0, sizeof(CUSTOMVERTEX));
+        g_pd3dDevice->SetFVF(CUSTOM_D3DFVF);
 
-        g_init.SetObj();
+        g_pd3dDevice->SetIndices(g_pIB);
+        g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
 
 		g_pd3dDevice->EndScene();
 	}
@@ -246,8 +245,8 @@ LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		PostQuitMessage(0);
 		return 0;
 	case WM_PAINT:
-		//Render();
         g_init.SetInitGlobal(g_pd3dDevice, g_pIB);
+		Render();
 		ValidateRect(hWnd, NULL);
 		return 0;
 	}
