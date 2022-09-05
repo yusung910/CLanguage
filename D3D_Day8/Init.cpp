@@ -59,37 +59,15 @@ void Init::SetPos() {
 };
 
 void Init::SetObj() {
-
-    //
-    D3DXMatrixIdentity(&tmWorld);
+	D3DXMatrixIdentity(&tmWorld);
     //g_pd3dDevice->GetTransform(D3DTS_WORLD, &tmWorld);
-    //D3DXMatrixRotationX(&tmRotX, D3DXToRadian ( n_x ));
-    D3DXMatrixRotationYawPitchRoll(&tmRotX, D3DXToRadian(n_x), 0.0f, 0.0f);
-    D3DXMatrixTranslation(&tmTrans, 0.0f, 0.0f, 0.0f);
+	D3DXMatrixTranslation(&tmTrans, 0.0f, -1.0f, 0.0f );
+	D3DXMatrixRotationX(&tmRotX, D3DXToRadian(n_x));
+	//D3DXMatrixTranslation(&tmWorld, 0.0f, 0.0f, 0.0f);
 
-    
+	//D3DXMatrixMultiply(&tmWorld, &tmWorld, &tmTrans);
+	//D3DXMatrixMultiply(&tmWorld, &tmRotX, &tmWorld);
 
-    tmWorld = tmTrans * tmRotX;
-
-    D3DXMatrixTranspose(&tmWorld, &tmWorld);
-
-    
-    //D3DXMatrixMultiply(&tmWorld, &tmTrans, &tmWorld);
-    //D3DXMatrixMultiply(&tmWorld, &tmRotX, &tmWorld);
-
-    g_pd3dDevice->SetTransform(D3DTS_WORLD, &tmWorld);
-
-    //D3DXMatrixInverse(&tmTrans, NULL, &tmTrans);
-    //D3DXMatrixInverse(&tmInvTrans, 0, &tmTrans);
-    //D3DXMatrixMultiply(&tmWorld, &tmTrans, &tmWorld);
-    //D3DXMatrixMultiply(&tmWorld, &tmRotX, &tmWorld);
-    //D3DXMatrixMultiply(&tmWorld, &tmTrans, &tmWorld);
-    //tmWorld = tmTrans * tmRotX;
-
-    //tmWorld = tmInvTrans * tmRotX * tmTrans;
-    //tmWorld = tmWorld * tmInvTrans;
-    //D3DXMatrixMultiply(&tmWorld, &tmWorld, &tmScale);
-    //D3DXMatrixMultiply(&tmWorld, &tmWorld, &tmTrans);
-    //
+	g_pd3dDevice->SetTransform(D3DTS_WORLD, &(tmWorld * tmTrans * tmRotX));
     
 }
