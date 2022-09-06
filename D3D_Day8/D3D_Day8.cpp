@@ -11,7 +11,7 @@ LPDIRECT3DINDEXBUFFER9  g_pIB = NULL;
 LPDIRECT3DTEXTURE9		g_ppTexture = NULL;
 
 FLOAT g_fXmove = 0.0f, g_fZmove = 0.0f;				//이동값 전역 변수
-FLOAT g_fRX = 0.0f, g_fRY = 5.0f, g_fRZ = 0.0f;	//회전값 전역 변수
+FLOAT g_fRX = 0.0f, g_fRY = 0.0f, g_fRZ = 0.0f;	//회전값 전역 변수
 FLOAT g_fX = 0.0f, g_fY = 0.0f, g_fZ = 0.0f;	//좌표값 전역 변수
 
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ | D3DFVF_TEX1)
@@ -193,7 +193,8 @@ void KeyControl()
 
     if (::GetKeyState('W') & 0x80) g_fRY -= 0.1f;	//숫자 패드 1 : Y축을 기준으로 -회전
     if (::GetKeyState('S') & 0x80) g_fRY += 0.1f;	//숫자 패드 3 : Y축을 기준으로 +회전
-    if (::GetKeyState('Q') & 0x80) g_fRX -= 0.1f;	//숫자 패드 5 : X축을 기준으로 -회전
+    if (::GetKeyState('Q') & 0x80)
+        g_fRX -= 0.1f;	//숫자 패드 5 : X축을 기준으로 -회전
     if (::GetKeyState('A') & 0x80) g_fRX += 0.1f;	//숫자 패드 2 : X축을 기준으로 +회전
     if (::GetKeyState('E') & 0x80) g_fRZ += 0.1f;	//숫자 패드 4 : Z축을 기준으로 +회전
     if (::GetKeyState('D') & 0x80) g_fRZ -= 0.1f;	//숫자 패드 6 : Z축을 기준으로 -회전
