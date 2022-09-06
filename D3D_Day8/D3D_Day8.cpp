@@ -20,7 +20,7 @@ struct CUSTOMVERTEX
 {
 	FLOAT x, y, z;
 	FLOAT tu, tv;
-
+	D3DXVECTOR3 normal;
 };
 struct MYINDEX
 {
@@ -83,8 +83,6 @@ HRESULT InitVB() {
         {  0.5F,  0.5F, -0.5F, 1.0F, 0.0F },                  // 1
         { -0.5F, -0.5F, -0.5F, 0.0F, 1.0F },                  // 2
         {  0.5F, -0.5F, -0.5F, 1.0F, 1.0F },                  // 3
-        
-
 
         { -0.5F,  0.5F, 0.5F, 1.0F, 0.0F },                  // 4
         {  0.5F,  0.5F, 0.5F, 0.0F, 0.0F },                  // 5
@@ -99,7 +97,7 @@ HRESULT InitVB() {
 
 	//VERTEX BUFFER 생성
 	if (g_pd3dDevice->CreateVertexBuffer(
-		8 * sizeof(vertices),
+		sizeof(vertices),
 		0,
         D3DFVF_CUSTOMVERTEX,
 		D3DPOOL_DEFAULT,
