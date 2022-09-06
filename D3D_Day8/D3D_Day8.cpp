@@ -14,12 +14,13 @@ FLOAT g_fXmove = 0.0f, g_fZmove = 0.0f;				//이동값 전역 변수
 FLOAT g_fRX = 0.0f, g_fRY = 0.0f, g_fRZ = 0.0f;	//회전값 전역 변수
 FLOAT g_fX = 0.0f, g_fY = 0.0f, g_fZ = 0.0f;	//좌표값 전역 변수
 
-#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ | D3DFVF_TEX1)
+#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_NORMAL)
 
 struct CUSTOMVERTEX
 {
 	FLOAT x, y, z;
 	FLOAT tu, tv;
+	D3DXVECTOR3 normal;
 };
 struct MYINDEX
 {
@@ -82,20 +83,21 @@ HRESULT InitVB() {
         {  0.5F,  0.5F, -0.5F, 1.0F, 0.0F },                  // 1
         { -0.5F, -0.5F, -0.5F, 0.0F, 1.0F },                  // 2
         {  0.5F, -0.5F, -0.5F, 1.0F, 1.0F },                  // 3
-        
-
 
         { -0.5F,  0.5F, 0.5F, 1.0F, 0.0F },                  // 4
         {  0.5F,  0.5F, 0.5F, 0.0F, 0.0F },                  // 5
         { -0.5F, -0.5F, 0.5F, 1.0F, 1.0F },                  // 6
         {  0.5F, -0.5F, 0.5F, 0.0F, 1.0F },                  // 7
         
-
+		{ -10.0F, 0.0F, 10.0F, 0.0F, 0.0F },				 // 8
+		{ 10.0F, 0.0F, 10.0F, 0.0F, 0.0F },					 // 9
+		{ -10.0F, 0.0F, -10.0F, 0.0F, 0.0F },				 // 10
+		{ 10.0F, 0.0F, -10.0F, 0.0F, 0.0F },				 // 11
     };
 
 	//VERTEX BUFFER 생성
 	if (g_pd3dDevice->CreateVertexBuffer(
-		8 * sizeof(vertices),
+		sizeof(vertices),
 		0,
         D3DFVF_CUSTOMVERTEX,
 		D3DPOOL_DEFAULT,
@@ -130,6 +132,8 @@ HRESULT InitIB() {
         { 4, 0, 6 },{ 6, 0, 2 },
         { 4, 5, 0 },{ 0, 5, 1 },
         { 2, 3, 6 },{ 6, 3, 7 },
+
+		{ 8, 9, 10 },{ 8, 10, 11 },
     };
 	g_pd3dDevice->CreateIndexBuffer(
 		sizeof(iNumberOfIndex),
@@ -265,7 +269,7 @@ VOID Render()
 
         g_pd3dDevice->SetTransform(D3DTS_WORLD, &tempTM);
         g_pd3dDevice->SetIndices(g_pIB);
-        g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
+        g_pd3dDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 12, 0, 14);
 
         g_pd3dDevice->EndScene();
 	}
