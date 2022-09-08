@@ -156,12 +156,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="D3D_Day8.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Init.cpp" />
+    <ClCompile Include="Render.cpp" />
+    <ClCompile Include="SetupD3D.cpp" />
     <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Init.h" />
+    <ClInclude Include="Render.h" />
+    <ClInclude Include="SetupD3D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
