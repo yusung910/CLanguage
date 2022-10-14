@@ -1,6 +1,8 @@
 #pragma once
+#include "d3d9.h"
+#include "d3dx9.h"
 #include <d3dx9math.h>
-#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ | D3DFVF_TEX1 | D3DFVF_NORMAL)
+#define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ | D3DFVF_TEX1)
 
 struct CUSTOMVERTEX
 {

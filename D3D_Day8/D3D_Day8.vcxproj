@@ -160,10 +160,11 @@
     <ClCompile Include="Init.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="SetupD3D.cpp" />
-    <ClCompile Include="test.cpp" />
+    <ClCompile Include="CreateVB.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Init.h" />
+    <ClInclude Include="CreateVB.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="SetupD3D.h" />
   </ItemGroup>

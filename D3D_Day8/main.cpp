@@ -1,12 +1,11 @@
 ﻿#include <d3dx9math.h>
 #include "SetupD3D.h"
-#include "Render.h"
-/*------------------------------------------------------------------------------
+/*
+ *------------------------------------------------------------------------------
  * 전역변수
  *------------------------------------------------------------------------------
  */
 SetupD3D setupD3D;
-
 
 /*
  *------------------------------------------------------------------------------
@@ -56,8 +55,6 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
                     UpdateWindow(hWnd);
                     /// 메시지 루프
                     MSG msg;
-                    //render;
-                    Render render;
                     ZeroMemory(&msg, sizeof(msg));
                     while (msg.message != WM_QUIT)
                     {
@@ -69,8 +66,8 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, LPSTR, INT)
                         }
                         else
                         {
-                            render.KeyControl();	//키보드 입력 처리
-                            render.MainRender();		//렌더 처리
+                            setupD3D.KeyControl();	//키보드 입력 처리
+                            setupD3D.MainRender();		//렌더 처리
                         }
                     }
                 }
